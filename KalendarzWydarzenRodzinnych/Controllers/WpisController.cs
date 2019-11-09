@@ -14,10 +14,11 @@ namespace KalendarzWydarzenRodzinnych.Controllers
 {
     public class WpisController : Controller
     {
+        private KWR dbo = new KWR();
         // GET: Wpis
         public ActionResult List(int? id)
         {
-            return View();
+            return View(dbo.Wpis);
         }
     }
 }
