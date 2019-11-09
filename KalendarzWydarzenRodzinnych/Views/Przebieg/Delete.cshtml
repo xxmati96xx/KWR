@@ -1,0 +1,25 @@
+﻿@model KalendarzWydarzenRodzinnych.Models.Przebieg
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Usuń</h2>
+
+<h3>Czy napewno chcesz usunąć element?</h3>
+<div>
+
+    <hr />
+
+    <h5>Czy napewno chcesz usunąć element: @Model.Tytul, który należy do wydarzenia: @Model.Wydarzenie.Tytul</h5>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Usuń" class="btn btn-danger" />
+            @Html.ActionLink("Powrót do listy", "List", new { id = Model.id_wydarzenie }, new { @class = "btn btn-default" })
+        </div>
+    }
+</div>

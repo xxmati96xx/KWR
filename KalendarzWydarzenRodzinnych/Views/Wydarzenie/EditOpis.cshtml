@@ -1,0 +1,50 @@
+﻿@model KalendarzWydarzenRodzinnych.Models.Wydarzenie
+
+@{
+    ViewBag.Title = "Edycja opisu";
+}
+
+<h2>Edycja opisu wydarzenia @Model.Tytul</h2>
+
+
+@using (Html.BeginForm("EditOpis", "Wydarzenie"))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Wydarzenie</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.id)
+    @Html.HiddenFor(model => model.id_organizator)
+    @Html.HiddenFor(model => model.Tytul)
+    @Html.HiddenFor(model => model.DataRozpoczencia)
+    @Html.HiddenFor(model => model.DataZakonczenia)
+
+  
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Opis, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Opis, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Opis, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Zapisz" class="btn btn-primary" />
+            @Html.ActionLink("Anuluj i wróć do wydarzenia", "dajOpis", new { id=Model.id }, new { @class = "btn btn-default" })
+        </div>
+    </div>
+</div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

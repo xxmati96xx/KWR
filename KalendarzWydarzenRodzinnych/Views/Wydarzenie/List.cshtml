@@ -1,0 +1,59 @@
+﻿@model IEnumerable<KalendarzWydarzenRodzinnych.Models.Wydarzenie>
+
+@{
+    ViewBag.Title = "Nadchodzące wydarzenia";
+}
+
+    <h2>Nadchodzące wydarzenia</h2>
+<p align="right">
+    @Html.ActionLink("Utwórz wydarzenie", "Create", null, new { @class = "btn btn-primary add-button" })
+</p>
+<table id="table" class="table">
+    <thead>
+        <tr>
+            <th>
+                Tytuł
+            </th>
+            <th>
+                Data Wydarzenia
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(itemmodel => item.Tytul)
+                </td>
+                <td>
+                    @Html.DisplayFor(itemmodel => item.DataRozpoczencia) -  @Html.DisplayFor(itemmodel => item.DataZakonczenia)
+                </td>
+
+                <td>
+                    <a href="@Url.Action("dajOpis", "Wydarzenie",new { id = item.id })" class="btn btn-primary btn-sm">
+                        <span class="glyphicon glyphicon glyphicon-file" aria-hidden="true"></span>
+                    </a>
+                    @if (item.id_organizator == ViewBag.id_organizator)
+                    {
+                        <a href="@Url.Action("Edit", "Wydarzenie", new { id = item.id })" class="btn btn-warning btn-sm edit-button">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        </a>
+                    }
+
+                    @if (item.id_organizator == ViewBag.id_organizator)
+                    {
+                        <a href="@Url.Action("Delete", "Wydarzenie", new { id = item.id })" class="btn btn-danger btn-sm delete-button">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </a>
+
+                    }
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

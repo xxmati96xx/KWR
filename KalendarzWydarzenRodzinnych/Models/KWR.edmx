@@ -1,0 +1,1419 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="KWRModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Grupa">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nazwa" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Opis" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="id_uzytkownik" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Logowanie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nazwa" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Haslo" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="id_uzytkownik" Type="int" />
+        </EntityType>
+        <EntityType Name="Powiadomienia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_uzytkownik" Type="int" Nullable="false" />
+          <Property Name="id_wydarzenie" Type="int" />
+          <Property Name="id_wiadomosc" Type="int" />
+          <Property Name="rodzaj" Type="int" />
+        </EntityType>
+        <EntityType Name="Powiadomienie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DataPowiadomienia" Type="datetime" Nullable="false" />
+          <Property Name="Czestotliwosc" Type="int" Nullable="false" />
+          <Property Name="id_wydarzenie" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Przebieg">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Opis" Type="varchar" MaxLength="8000" />
+          <Property Name="id_wydarzenie" Type="int" Nullable="false" />
+          <Property Name="Tytul" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Uczestnicy">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_wydarzenie" Type="int" Nullable="false" />
+          <Property Name="id_uzytkownik" Type="int" Nullable="false" />
+          <Property Name="decyzja" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UzytkownicyWGrupie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_grupa" Type="int" Nullable="false" />
+          <Property Name="id_uzytkownik" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Uzytkownik">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Imie" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Nazwisko" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DataUrodzenia" Type="date" Nullable="false" />
+          <Property Name="Zdjcie" Type="varchar" MaxLength="50" />
+          <Property Name="NrTelefonu" Type="varchar" MaxLength="12" />
+          <Property Name="AdresEmail" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Wiadomosc">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Od" Type="int" Nullable="false" />
+          <Property Name="Do" Type="int" Nullable="false" />
+          <Property Name="Temat" Type="varchar" MaxLength="50" />
+          <Property Name="Tresc" Type="varchar" MaxLength="500" />
+          <Property Name="Przeczytana" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Wpis">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Opis" Type="varchar" MaxLength="300" />
+          <Property Name="Zdjecie" Type="varchar" MaxLength="30" />
+          <Property Name="id_wydarzenie" Type="int" />
+          <Property Name="id_przebieg" Type="int" />
+          <Property Name="id_uzytkownik" Type="int" Nullable="false" />
+          <Property Name="Tytul" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Wydarzenie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tytul" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Opis" Type="varchar" MaxLength="8000" />
+          <Property Name="DataRozpoczencia" Type="datetime" Nullable="false" />
+          <Property Name="DataZakonczenia" Type="datetime" Nullable="false" />
+          <Property Name="id_organizator" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Zadanie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Zadanie" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="id_wydarzenie" Type="int" Nullable="false" />
+          <Property Name="liczba_uczestnikow" Type="int" />
+        </EntityType>
+        <EntityType Name="ZadanieUczestnik">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_zadanie" Type="int" Nullable="false" />
+          <Property Name="id_uzytkownik" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Zaproszenie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Od" Type="int" Nullable="false" />
+          <Property Name="Do" Type="int" Nullable="false" />
+          <Property Name="id_wydarzenie" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Grupa_Uzytkownik">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Grupa" Type="Self.Grupa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Grupa">
+              <PropertyRef Name="id_uzytkownik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Logowanie_Uzytkownik">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="0..1" />
+          <End Role="Logowanie" Type="Self.Logowanie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Logowanie">
+              <PropertyRef Name="id_uzytkownik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Powiadomienia_Uzytkownik">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Powiadomienia" Type="Self.Powiadomienia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Powiadomienia">
+              <PropertyRef Name="id_uzytkownik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Powiadomienia_Wiadomosc">
+          <End Role="Wiadomosc" Type="Self.Wiadomosc" Multiplicity="0..1" />
+          <End Role="Powiadomienia" Type="Self.Powiadomienia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wiadomosc">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Powiadomienia">
+              <PropertyRef Name="id_wiadomosc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Powiadomienia_Wydarzenie">
+          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="0..1" />
+          <End Role="Powiadomienia" Type="Self.Powiadomienia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wydarzenie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Powiadomienia">
+              <PropertyRef Name="id_wydarzenie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Powiadomienie_Wydarzenie">
+          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="1" />
+          <End Role="Powiadomienie" Type="Self.Powiadomienie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wydarzenie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Powiadomienie">
+              <PropertyRef Name="id_wydarzenie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Przebieg_Wydarzenie">
+          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="1" />
+          <End Role="Przebieg" Type="Self.Przebieg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wydarzenie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Przebieg">
+              <PropertyRef Name="id_wydarzenie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Uczestnicy_Uzytkownik">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Uczestnicy" Type="Self.Uczestnicy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Uczestnicy">
+              <PropertyRef Name="id_uzytkownik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Uczestnicy_Wydarzenie">
+          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="1" />
+          <End Role="Uczestnicy" Type="Self.Uczestnicy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wydarzenie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Uczestnicy">
+              <PropertyRef Name="id_wydarzenie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UzytkownicyWGrupie_Grupa">
+          <End Role="Grupa" Type="Self.Grupa" Multiplicity="1" />
+          <End Role="UzytkownicyWGrupie" Type="Self.UzytkownicyWGrupie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Grupa">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UzytkownicyWGrupie">
+              <PropertyRef Name="id_grupa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UzytkownicyWGrupie_Uzytkownik">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="UzytkownicyWGrupie" Type="Self.UzytkownicyWGrupie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UzytkownicyWGrupie">
+              <PropertyRef Name="id_uzytkownik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wiadomosc_Do">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Wiadomosc" Type="Self.Wiadomosc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wiadomosc">
+              <PropertyRef Name="Do" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wiadomosc_Od">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Wiadomosc" Type="Self.Wiadomosc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wiadomosc">
+              <PropertyRef Name="Od" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wpis_Przebieg">
+          <End Role="Przebieg" Type="Self.Przebieg" Multiplicity="0..1" />
+          <End Role="Wpis" Type="Self.Wpis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Przebieg">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wpis">
+              <PropertyRef Name="id_przebieg" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wpis_Uzytkownik">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Wpis" Type="Self.Wpis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wpis">
+              <PropertyRef Name="id_uzytkownik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wpis_Wydarzenie">
+          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="0..1" />
+          <End Role="Wpis" Type="Self.Wpis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wydarzenie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wpis">
+              <PropertyRef Name="id_wydarzenie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wydarzenie_Uzytkownik">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wydarzenie">
+              <PropertyRef Name="id_organizator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zadanie_Wydarzenie">
+          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="1" />
+          <End Role="Zadanie" Type="Self.Zadanie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wydarzenie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Zadanie">
+              <PropertyRef Name="id_wydarzenie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ZadanieUczestnik_Uzytkownik">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="ZadanieUczestnik" Type="Self.ZadanieUczestnik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ZadanieUczestnik">
+              <PropertyRef Name="id_uzytkownik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ZadanieUczestnik_Zadanie">
+          <End Role="Zadanie" Type="Self.Zadanie" Multiplicity="1" />
+          <End Role="ZadanieUczestnik" Type="Self.ZadanieUczestnik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zadanie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ZadanieUczestnik">
+              <PropertyRef Name="id_zadanie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zaproszenie_Do">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Zaproszenie" Type="Self.Zaproszenie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Zaproszenie">
+              <PropertyRef Name="Do" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zaproszenie_Od">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Zaproszenie" Type="Self.Zaproszenie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Zaproszenie">
+              <PropertyRef Name="Od" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zaproszenie_Wydarzenie">
+          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="1" />
+          <End Role="Zaproszenie" Type="Self.Zaproszenie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wydarzenie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Zaproszenie">
+              <PropertyRef Name="id_wydarzenie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="Wydarzenie_Uczestnik" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_id_wydarzenie" Type="int" Mode="In" />
+          <Parameter Name="Par_id_uzytkownik" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Wydarzenie_Uczestnik_Usun" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_id_wydarzenie" Type="int" Mode="In" />
+          <Parameter Name="Par_id_uzytkownik" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Wyswietl_Powiadomienia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_IdUzytkownik" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Wyswietl_Uzytkownikow" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_IdWydarzenie" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Wyswietl_Wydarzenia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_IdUzytkownik" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Zadanie_Usun" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_IdZadanie" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ZadanieUczestnik_Dodaj" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_IdUzytkownik" Type="int" Mode="In" />
+          <Parameter Name="Par_IdZadanie" Type="int" Mode="In" />
+        </Function>
+        <Function Name="ZadanieUczestnik_Usun" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_IdUzytkownik" Type="int" Mode="In" />
+          <Parameter Name="Par_IdZadanie" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Zaproszenie_Anuluj" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_id_wydarzenie" Type="int" Mode="In" />
+          <Parameter Name="Par_id_uzytkownik" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Zaproszenie_Potwierdz" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_id_wydarzenie" Type="int" Mode="In" />
+          <Parameter Name="Par_id_uzytkownik" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="KWRModelStoreContainer">
+          <EntitySet Name="Grupa" EntityType="Self.Grupa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Logowanie" EntityType="Self.Logowanie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Powiadomienia" EntityType="Self.Powiadomienia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Powiadomienie" EntityType="Self.Powiadomienie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Przebieg" EntityType="Self.Przebieg" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Uczestnicy" EntityType="Self.Uczestnicy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UzytkownicyWGrupie" EntityType="Self.UzytkownicyWGrupie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Uzytkownik" EntityType="Self.Uzytkownik" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Wiadomosc" EntityType="Self.Wiadomosc" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Wpis" EntityType="Self.Wpis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Wydarzenie" EntityType="Self.Wydarzenie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Zadanie" EntityType="Self.Zadanie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ZadanieUczestnik" EntityType="Self.ZadanieUczestnik" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Zaproszenie" EntityType="Self.Zaproszenie" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Grupa_Uzytkownik" Association="Self.FK_Grupa_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Grupa" EntitySet="Grupa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Logowanie_Uzytkownik" Association="Self.FK_Logowanie_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Logowanie" EntitySet="Logowanie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Powiadomienia_Uzytkownik" Association="Self.FK_Powiadomienia_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Powiadomienia" EntitySet="Powiadomienia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Powiadomienia_Wiadomosc" Association="Self.FK_Powiadomienia_Wiadomosc">
+            <End Role="Wiadomosc" EntitySet="Wiadomosc" />
+            <End Role="Powiadomienia" EntitySet="Powiadomienia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Powiadomienia_Wydarzenie" Association="Self.FK_Powiadomienia_Wydarzenie">
+            <End Role="Wydarzenie" EntitySet="Wydarzenie" />
+            <End Role="Powiadomienia" EntitySet="Powiadomienia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Powiadomienie_Wydarzenie" Association="Self.FK_Powiadomienie_Wydarzenie">
+            <End Role="Wydarzenie" EntitySet="Wydarzenie" />
+            <End Role="Powiadomienie" EntitySet="Powiadomienie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Przebieg_Wydarzenie" Association="Self.FK_Przebieg_Wydarzenie">
+            <End Role="Wydarzenie" EntitySet="Wydarzenie" />
+            <End Role="Przebieg" EntitySet="Przebieg" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Uczestnicy_Uzytkownik" Association="Self.FK_Uczestnicy_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Uczestnicy" EntitySet="Uczestnicy" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Uczestnicy_Wydarzenie" Association="Self.FK_Uczestnicy_Wydarzenie">
+            <End Role="Wydarzenie" EntitySet="Wydarzenie" />
+            <End Role="Uczestnicy" EntitySet="Uczestnicy" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UzytkownicyWGrupie_Grupa" Association="Self.FK_UzytkownicyWGrupie_Grupa">
+            <End Role="Grupa" EntitySet="Grupa" />
+            <End Role="UzytkownicyWGrupie" EntitySet="UzytkownicyWGrupie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UzytkownicyWGrupie_Uzytkownik" Association="Self.FK_UzytkownicyWGrupie_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="UzytkownicyWGrupie" EntitySet="UzytkownicyWGrupie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wiadomosc_Do" Association="Self.FK_Wiadomosc_Do">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Wiadomosc" EntitySet="Wiadomosc" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wiadomosc_Od" Association="Self.FK_Wiadomosc_Od">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Wiadomosc" EntitySet="Wiadomosc" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wpis_Przebieg" Association="Self.FK_Wpis_Przebieg">
+            <End Role="Przebieg" EntitySet="Przebieg" />
+            <End Role="Wpis" EntitySet="Wpis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wpis_Uzytkownik" Association="Self.FK_Wpis_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Wpis" EntitySet="Wpis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wpis_Wydarzenie" Association="Self.FK_Wpis_Wydarzenie">
+            <End Role="Wydarzenie" EntitySet="Wydarzenie" />
+            <End Role="Wpis" EntitySet="Wpis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wydarzenie_Uzytkownik" Association="Self.FK_Wydarzenie_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Wydarzenie" EntitySet="Wydarzenie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zadanie_Wydarzenie" Association="Self.FK_Zadanie_Wydarzenie">
+            <End Role="Wydarzenie" EntitySet="Wydarzenie" />
+            <End Role="Zadanie" EntitySet="Zadanie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZadanieUczestnik_Uzytkownik" Association="Self.FK_ZadanieUczestnik_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="ZadanieUczestnik" EntitySet="ZadanieUczestnik" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZadanieUczestnik_Zadanie" Association="Self.FK_ZadanieUczestnik_Zadanie">
+            <End Role="Zadanie" EntitySet="Zadanie" />
+            <End Role="ZadanieUczestnik" EntitySet="ZadanieUczestnik" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zaproszenie_Do" Association="Self.FK_Zaproszenie_Do">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Zaproszenie" EntitySet="Zaproszenie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zaproszenie_Od" Association="Self.FK_Zaproszenie_Od">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Zaproszenie" EntitySet="Zaproszenie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zaproszenie_Wydarzenie" Association="Self.FK_Zaproszenie_Wydarzenie">
+            <End Role="Wydarzenie" EntitySet="Wydarzenie" />
+            <End Role="Zaproszenie" EntitySet="Zaproszenie" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="KWRModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Grupa">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nazwa" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Opis" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_uzytkownik" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Grupa_Uzytkownik" FromRole="Grupa" ToRole="Uzytkownik" />
+          <NavigationProperty Name="UzytkownicyWGrupie" Relationship="Self.FK_UzytkownicyWGrupie_Grupa" FromRole="Grupa" ToRole="UzytkownicyWGrupie" />
+        </EntityType>
+        <EntityType Name="Logowanie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nazwa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Haslo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_uzytkownik" Type="Int32" />
+          <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Logowanie_Uzytkownik" FromRole="Logowanie" ToRole="Uzytkownik" />
+        </EntityType>
+        <EntityType Name="Powiadomienia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_uzytkownik" Type="Int32" Nullable="false" />
+          <Property Name="id_wydarzenie" Type="Int32" />
+          <Property Name="id_wiadomosc" Type="Int32" />
+          <Property Name="rodzaj" Type="Int32" />
+          <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Powiadomienia_Uzytkownik" FromRole="Powiadomienia" ToRole="Uzytkownik" />
+          <NavigationProperty Name="Wiadomosc" Relationship="Self.FK_Powiadomienia_Wiadomosc" FromRole="Powiadomienia" ToRole="Wiadomosc" />
+          <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Powiadomienia_Wydarzenie" FromRole="Powiadomienia" ToRole="Wydarzenie" />
+        </EntityType>
+        <EntityType Name="Powiadomienie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataPowiadomienia" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Czestotliwosc" Type="Int32" Nullable="false" />
+          <Property Name="id_wydarzenie" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Powiadomienie_Wydarzenie" FromRole="Powiadomienie" ToRole="Wydarzenie" />
+        </EntityType>
+        <EntityType Name="Przebieg">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Opis" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="id_wydarzenie" Type="Int32" Nullable="false" />
+          <Property Name="Tytul" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Przebieg_Wydarzenie" FromRole="Przebieg" ToRole="Wydarzenie" />
+          <NavigationProperty Name="Wpis" Relationship="Self.FK_Wpis_Przebieg" FromRole="Przebieg" ToRole="Wpis" />
+        </EntityType>
+        <EntityType Name="Uczestnicy">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_wydarzenie" Type="Int32" Nullable="false" />
+          <Property Name="id_uzytkownik" Type="Int32" Nullable="false" />
+          <Property Name="decyzja" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Uczestnicy_Uzytkownik" FromRole="Uczestnicy" ToRole="Uzytkownik" />
+          <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Uczestnicy_Wydarzenie" FromRole="Uczestnicy" ToRole="Wydarzenie" />
+        </EntityType>
+        <EntityType Name="UzytkownicyWGrupie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_grupa" Type="Int32" Nullable="false" />
+          <Property Name="id_uzytkownik" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Grupa" Relationship="Self.FK_UzytkownicyWGrupie_Grupa" FromRole="UzytkownicyWGrupie" ToRole="Grupa" />
+          <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_UzytkownicyWGrupie_Uzytkownik" FromRole="UzytkownicyWGrupie" ToRole="Uzytkownik" />
+        </EntityType>
+        <EntityType Name="Uzytkownik">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Imie" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nazwisko" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DataUrodzenia" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Zdjcie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NrTelefonu" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="AdresEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Grupa" Relationship="Self.FK_Grupa_Uzytkownik" FromRole="Uzytkownik" ToRole="Grupa" />
+          <NavigationProperty Name="Logowanie" Relationship="Self.FK_Logowanie_Uzytkownik" FromRole="Uzytkownik" ToRole="Logowanie" />
+          <NavigationProperty Name="Powiadomienia" Relationship="Self.FK_Powiadomienia_Uzytkownik" FromRole="Uzytkownik" ToRole="Powiadomienia" />
+          <NavigationProperty Name="Uczestnicy" Relationship="Self.FK_Uczestnicy_Uzytkownik" FromRole="Uzytkownik" ToRole="Uczestnicy" />
+          <NavigationProperty Name="UzytkownicyWGrupie" Relationship="Self.FK_UzytkownicyWGrupie_Uzytkownik" FromRole="Uzytkownik" ToRole="UzytkownicyWGrupie" />
+          <NavigationProperty Name="Wiadomosc" Relationship="Self.FK_Wiadomosc_Do" FromRole="Uzytkownik" ToRole="Wiadomosc" />
+          <NavigationProperty Name="Wiadomosc1" Relationship="Self.FK_Wiadomosc_Od" FromRole="Uzytkownik" ToRole="Wiadomosc" />
+          <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Wydarzenie_Uzytkownik" FromRole="Uzytkownik" ToRole="Wydarzenie" />
+          <NavigationProperty Name="ZadanieUczestnik" Relationship="Self.FK_ZadanieUczestnik_Uzytkownik" FromRole="Uzytkownik" ToRole="ZadanieUczestnik" />
+          <NavigationProperty Name="Zaproszenie" Relationship="Self.FK_Zaproszenie_Do" FromRole="Uzytkownik" ToRole="Zaproszenie" />
+          <NavigationProperty Name="Zaproszenie1" Relationship="Self.FK_Zaproszenie_Od" FromRole="Uzytkownik" ToRole="Zaproszenie" />
+          <NavigationProperty Name="Wpis" Relationship="KWRModel.FK_Wpis_Uzytkownik" FromRole="Uzytkownik" ToRole="Wpis" />
+        </EntityType>
+        <EntityType Name="Wiadomosc">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Od" Type="Int32" Nullable="false" />
+          <Property Name="Do" Type="Int32" Nullable="false" />
+          <Property Name="Temat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Tresc" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Przeczytana" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Powiadomienia" Relationship="Self.FK_Powiadomienia_Wiadomosc" FromRole="Wiadomosc" ToRole="Powiadomienia" />
+          <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Wiadomosc_Do" FromRole="Wiadomosc" ToRole="Uzytkownik" />
+          <NavigationProperty Name="Uzytkownik1" Relationship="Self.FK_Wiadomosc_Od" FromRole="Wiadomosc" ToRole="Uzytkownik" />
+        </EntityType>
+        <EntityType Name="Wpis">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Opis" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Zdjecie" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="id_wydarzenie" Type="Int32" />
+          <Property Name="id_przebieg" Type="Int32" />
+          <NavigationProperty Name="Przebieg" Relationship="Self.FK_Wpis_Przebieg" FromRole="Wpis" ToRole="Przebieg" />
+          <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Wpis_Wydarzenie" FromRole="Wpis" ToRole="Wydarzenie" />
+          <Property Name="id_uzytkownik" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Uzytkownik" Relationship="KWRModel.FK_Wpis_Uzytkownik" FromRole="Wpis" ToRole="Uzytkownik" />
+          <Property Name="Tytul" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Wydarzenie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tytul" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Opis" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
+          <Property Name="DataRozpoczencia" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DataZakonczenia" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="id_organizator" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Powiadomienia" Relationship="Self.FK_Powiadomienia_Wydarzenie" FromRole="Wydarzenie" ToRole="Powiadomienia" />
+          <NavigationProperty Name="Powiadomienie" Relationship="Self.FK_Powiadomienie_Wydarzenie" FromRole="Wydarzenie" ToRole="Powiadomienie" />
+          <NavigationProperty Name="Przebieg" Relationship="Self.FK_Przebieg_Wydarzenie" FromRole="Wydarzenie" ToRole="Przebieg" />
+          <NavigationProperty Name="Uczestnicy" Relationship="Self.FK_Uczestnicy_Wydarzenie" FromRole="Wydarzenie" ToRole="Uczestnicy" />
+          <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Wydarzenie_Uzytkownik" FromRole="Wydarzenie" ToRole="Uzytkownik" />
+          <NavigationProperty Name="Wpis" Relationship="Self.FK_Wpis_Wydarzenie" FromRole="Wydarzenie" ToRole="Wpis" />
+          <NavigationProperty Name="Zadanie" Relationship="Self.FK_Zadanie_Wydarzenie" FromRole="Wydarzenie" ToRole="Zadanie" />
+          <NavigationProperty Name="Zaproszenie" Relationship="Self.FK_Zaproszenie_Wydarzenie" FromRole="Wydarzenie" ToRole="Zaproszenie" />
+        </EntityType>
+        <EntityType Name="Zadanie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Zadanie1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_wydarzenie" Type="Int32" Nullable="false" />
+          <Property Name="liczba_uczestnikow" Type="Int32" />
+          <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Zadanie_Wydarzenie" FromRole="Zadanie" ToRole="Wydarzenie" />
+          <NavigationProperty Name="ZadanieUczestnik" Relationship="Self.FK_ZadanieUczestnik_Zadanie" FromRole="Zadanie" ToRole="ZadanieUczestnik" />
+        </EntityType>
+        <EntityType Name="ZadanieUczestnik">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_zadanie" Type="Int32" Nullable="false" />
+          <Property Name="id_uzytkownik" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_ZadanieUczestnik_Uzytkownik" FromRole="ZadanieUczestnik" ToRole="Uzytkownik" />
+          <NavigationProperty Name="Zadanie" Relationship="Self.FK_ZadanieUczestnik_Zadanie" FromRole="ZadanieUczestnik" ToRole="Zadanie" />
+        </EntityType>
+        <EntityType Name="Zaproszenie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Od" Type="Int32" Nullable="false" />
+          <Property Name="Do" Type="Int32" Nullable="false" />
+          <Property Name="id_wydarzenie" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Zaproszenie_Do" FromRole="Zaproszenie" ToRole="Uzytkownik" />
+          <NavigationProperty Name="Uzytkownik1" Relationship="Self.FK_Zaproszenie_Od" FromRole="Zaproszenie" ToRole="Uzytkownik" />
+          <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Zaproszenie_Wydarzenie" FromRole="Zaproszenie" ToRole="Wydarzenie" />
+        </EntityType>
+        <Association Name="FK_Grupa_Uzytkownik">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Grupa" Type="Self.Grupa" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Grupa">
+              <PropertyRef Name="id_uzytkownik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UzytkownicyWGrupie_Grupa">
+          <End Role="Grupa" Type="Self.Grupa" Multiplicity="1" />
+          <End Role="UzytkownicyWGrupie" Type="Self.UzytkownicyWGrupie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Grupa">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UzytkownicyWGrupie">
+              <PropertyRef Name="id_grupa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Logowanie_Uzytkownik">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="0..1" />
+          <End Role="Logowanie" Type="Self.Logowanie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Logowanie">
+              <PropertyRef Name="id_uzytkownik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Powiadomienia_Uzytkownik">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Powiadomienia" Type="Self.Powiadomienia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Powiadomienia">
+              <PropertyRef Name="id_uzytkownik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Powiadomienia_Wiadomosc">
+          <End Role="Wiadomosc" Type="Self.Wiadomosc" Multiplicity="0..1" />
+          <End Role="Powiadomienia" Type="Self.Powiadomienia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wiadomosc">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Powiadomienia">
+              <PropertyRef Name="id_wiadomosc" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Powiadomienia_Wydarzenie">
+          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="0..1" />
+          <End Role="Powiadomienia" Type="Self.Powiadomienia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wydarzenie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Powiadomienia">
+              <PropertyRef Name="id_wydarzenie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Powiadomienie_Wydarzenie">
+          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="1" />
+          <End Role="Powiadomienie" Type="Self.Powiadomienie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wydarzenie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Powiadomienie">
+              <PropertyRef Name="id_wydarzenie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Przebieg_Wydarzenie">
+          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="1" />
+          <End Role="Przebieg" Type="Self.Przebieg" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wydarzenie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Przebieg">
+              <PropertyRef Name="id_wydarzenie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wpis_Przebieg">
+          <End Role="Przebieg" Type="Self.Przebieg" Multiplicity="0..1" />
+          <End Role="Wpis" Type="Self.Wpis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Przebieg">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wpis">
+              <PropertyRef Name="id_przebieg" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Uczestnicy_Uzytkownik">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Uczestnicy" Type="Self.Uczestnicy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Uczestnicy">
+              <PropertyRef Name="id_uzytkownik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Uczestnicy_Wydarzenie">
+          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="1" />
+          <End Role="Uczestnicy" Type="Self.Uczestnicy" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wydarzenie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Uczestnicy">
+              <PropertyRef Name="id_wydarzenie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UzytkownicyWGrupie_Uzytkownik">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="UzytkownicyWGrupie" Type="Self.UzytkownicyWGrupie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UzytkownicyWGrupie">
+              <PropertyRef Name="id_uzytkownik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wiadomosc_Do">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Wiadomosc" Type="Self.Wiadomosc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wiadomosc">
+              <PropertyRef Name="Do" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wiadomosc_Od">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Wiadomosc" Type="Self.Wiadomosc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wiadomosc">
+              <PropertyRef Name="Od" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wydarzenie_Uzytkownik">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wydarzenie">
+              <PropertyRef Name="id_organizator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ZadanieUczestnik_Uzytkownik">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="ZadanieUczestnik" Type="Self.ZadanieUczestnik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ZadanieUczestnik">
+              <PropertyRef Name="id_uzytkownik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zaproszenie_Do">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Zaproszenie" Type="Self.Zaproszenie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Zaproszenie">
+              <PropertyRef Name="Do" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zaproszenie_Od">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Zaproszenie" Type="Self.Zaproszenie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Zaproszenie">
+              <PropertyRef Name="Od" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wpis_Wydarzenie">
+          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="0..1" />
+          <End Role="Wpis" Type="Self.Wpis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wydarzenie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wpis">
+              <PropertyRef Name="id_wydarzenie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zadanie_Wydarzenie">
+          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="1" />
+          <End Role="Zadanie" Type="Self.Zadanie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wydarzenie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Zadanie">
+              <PropertyRef Name="id_wydarzenie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zaproszenie_Wydarzenie">
+          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="1" />
+          <End Role="Zaproszenie" Type="Self.Zaproszenie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wydarzenie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Zaproszenie">
+              <PropertyRef Name="id_wydarzenie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ZadanieUczestnik_Zadanie">
+          <End Role="Zadanie" Type="Self.Zadanie" Multiplicity="1" />
+          <End Role="ZadanieUczestnik" Type="Self.ZadanieUczestnik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zadanie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ZadanieUczestnik">
+              <PropertyRef Name="id_zadanie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="KWR" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Grupa" EntityType="Self.Grupa" />
+          <EntitySet Name="Logowanie" EntityType="Self.Logowanie" />
+          <EntitySet Name="Powiadomienia" EntityType="Self.Powiadomienia" />
+          <EntitySet Name="Powiadomienie" EntityType="Self.Powiadomienie" />
+          <EntitySet Name="Przebieg" EntityType="Self.Przebieg" />
+          <EntitySet Name="Uczestnicy" EntityType="Self.Uczestnicy" />
+          <EntitySet Name="UzytkownicyWGrupie" EntityType="Self.UzytkownicyWGrupie" />
+          <EntitySet Name="Uzytkownik" EntityType="Self.Uzytkownik" />
+          <EntitySet Name="Wiadomosc" EntityType="Self.Wiadomosc" />
+          <EntitySet Name="Wpis" EntityType="Self.Wpis" />
+          <EntitySet Name="Wydarzenie" EntityType="Self.Wydarzenie" />
+          <EntitySet Name="Zadanie" EntityType="Self.Zadanie" />
+          <EntitySet Name="ZadanieUczestnik" EntityType="Self.ZadanieUczestnik" />
+          <EntitySet Name="Zaproszenie" EntityType="Self.Zaproszenie" />
+          <AssociationSet Name="FK_Grupa_Uzytkownik" Association="Self.FK_Grupa_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Grupa" EntitySet="Grupa" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UzytkownicyWGrupie_Grupa" Association="Self.FK_UzytkownicyWGrupie_Grupa">
+            <End Role="Grupa" EntitySet="Grupa" />
+            <End Role="UzytkownicyWGrupie" EntitySet="UzytkownicyWGrupie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Logowanie_Uzytkownik" Association="Self.FK_Logowanie_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Logowanie" EntitySet="Logowanie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Powiadomienia_Uzytkownik" Association="Self.FK_Powiadomienia_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Powiadomienia" EntitySet="Powiadomienia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Powiadomienia_Wiadomosc" Association="Self.FK_Powiadomienia_Wiadomosc">
+            <End Role="Wiadomosc" EntitySet="Wiadomosc" />
+            <End Role="Powiadomienia" EntitySet="Powiadomienia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Powiadomienia_Wydarzenie" Association="Self.FK_Powiadomienia_Wydarzenie">
+            <End Role="Wydarzenie" EntitySet="Wydarzenie" />
+            <End Role="Powiadomienia" EntitySet="Powiadomienia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Powiadomienie_Wydarzenie" Association="Self.FK_Powiadomienie_Wydarzenie">
+            <End Role="Wydarzenie" EntitySet="Wydarzenie" />
+            <End Role="Powiadomienie" EntitySet="Powiadomienie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Przebieg_Wydarzenie" Association="Self.FK_Przebieg_Wydarzenie">
+            <End Role="Wydarzenie" EntitySet="Wydarzenie" />
+            <End Role="Przebieg" EntitySet="Przebieg" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wpis_Przebieg" Association="Self.FK_Wpis_Przebieg">
+            <End Role="Przebieg" EntitySet="Przebieg" />
+            <End Role="Wpis" EntitySet="Wpis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Uczestnicy_Uzytkownik" Association="Self.FK_Uczestnicy_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Uczestnicy" EntitySet="Uczestnicy" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Uczestnicy_Wydarzenie" Association="Self.FK_Uczestnicy_Wydarzenie">
+            <End Role="Wydarzenie" EntitySet="Wydarzenie" />
+            <End Role="Uczestnicy" EntitySet="Uczestnicy" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UzytkownicyWGrupie_Uzytkownik" Association="Self.FK_UzytkownicyWGrupie_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="UzytkownicyWGrupie" EntitySet="UzytkownicyWGrupie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wiadomosc_Do" Association="Self.FK_Wiadomosc_Do">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Wiadomosc" EntitySet="Wiadomosc" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wiadomosc_Od" Association="Self.FK_Wiadomosc_Od">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Wiadomosc" EntitySet="Wiadomosc" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wydarzenie_Uzytkownik" Association="Self.FK_Wydarzenie_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Wydarzenie" EntitySet="Wydarzenie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZadanieUczestnik_Uzytkownik" Association="Self.FK_ZadanieUczestnik_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="ZadanieUczestnik" EntitySet="ZadanieUczestnik" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zaproszenie_Do" Association="Self.FK_Zaproszenie_Do">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Zaproszenie" EntitySet="Zaproszenie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zaproszenie_Od" Association="Self.FK_Zaproszenie_Od">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Zaproszenie" EntitySet="Zaproszenie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wpis_Wydarzenie" Association="Self.FK_Wpis_Wydarzenie">
+            <End Role="Wydarzenie" EntitySet="Wydarzenie" />
+            <End Role="Wpis" EntitySet="Wpis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zadanie_Wydarzenie" Association="Self.FK_Zadanie_Wydarzenie">
+            <End Role="Wydarzenie" EntitySet="Wydarzenie" />
+            <End Role="Zadanie" EntitySet="Zadanie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zaproszenie_Wydarzenie" Association="Self.FK_Zaproszenie_Wydarzenie">
+            <End Role="Wydarzenie" EntitySet="Wydarzenie" />
+            <End Role="Zaproszenie" EntitySet="Zaproszenie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ZadanieUczestnik_Zadanie" Association="Self.FK_ZadanieUczestnik_Zadanie">
+            <End Role="Zadanie" EntitySet="Zadanie" />
+            <End Role="ZadanieUczestnik" EntitySet="ZadanieUczestnik" />
+          </AssociationSet>
+          <FunctionImport Name="Wydarzenie_Uczestnik">
+            <Parameter Name="Par_id_wydarzenie" Mode="In" Type="Int32" />
+            <Parameter Name="Par_id_uzytkownik" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Wydarzenie_Uczestnik_Usun">
+            <Parameter Name="Par_id_wydarzenie" Mode="In" Type="Int32" />
+            <Parameter Name="Par_id_uzytkownik" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Wyswietl_Powiadomienia" ReturnType="Collection(KWRModel.Wyswietl_Powiadomienia_Result)">
+          <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Wyswietl_Uzytkownikow" ReturnType="Collection(KWRModel.Wyswietl_Uzytkownikow_Result)">
+          <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Wyswietl_Wydarzenia" ReturnType="Collection(KWRModel.Wyswietl_Wydarzenia_Result)">
+          <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Zadanie_Usun">
+          <Parameter Name="Par_IdZadanie" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ZadanieUczestnik_Dodaj">
+            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
+            <Parameter Name="Par_IdZadanie" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ZadanieUczestnik_Usun">
+            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
+            <Parameter Name="Par_IdZadanie" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Zaproszenie_Anuluj">
+            <Parameter Name="Par_id_wydarzenie" Mode="In" Type="Int32" />
+            <Parameter Name="Par_id_uzytkownik" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Zaproszenie_Potwierdz">
+            <Parameter Name="Par_id_wydarzenie" Mode="In" Type="Int32" />
+            <Parameter Name="Par_id_uzytkownik" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <AssociationSet Name="FK_Wpis_Uzytkownik" Association="KWRModel.FK_Wpis_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Wpis" EntitySet="Wpis" />
+          </AssociationSet>
+        </EntityContainer>
+        <ComplexType Name="Wyswietl_Powiadomienia_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="Int32" Name="id_uzytkownik" Nullable="false" />
+          <Property Type="Int32" Name="id_wydarzenie" Nullable="true" />
+          <Property Type="Int32" Name="id_wiadomosc" Nullable="true" />
+          <Property Type="Int32" Name="rodzaj" Nullable="true" />
+          <Property Type="String" Name="Tytul" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Imie" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Nazwisko" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="Wyswietl_Uzytkownikow_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="Imie" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Nazwisko" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="DataUrodzenia" Nullable="false" />
+          <Property Type="String" Name="Zdjcie" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NrTelefonu" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="AdresEmail" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="Wyswietl_Wydarzenia_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="Tytul" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Opis" Nullable="true" MaxLength="300" />
+          <Property Type="DateTime" Name="DataRozpoczencia" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="DataZakonczenia" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="id_organizator" Nullable="false" />
+        </ComplexType>
+        <Association Name="FK_Wpis_Uzytkownik">
+          <End Type="KWRModel.Uzytkownik" Role="Uzytkownik" Multiplicity="1" />
+          <End Type="KWRModel.Wpis" Role="Wpis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wpis">
+              <PropertyRef Name="id_uzytkownik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="KWRModelStoreContainer" CdmEntityContainer="KWR">
+          <EntitySetMapping Name="Grupa">
+            <EntityTypeMapping TypeName="KWRModel.Grupa">
+              <MappingFragment StoreEntitySet="Grupa">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
+                <ScalarProperty Name="Opis" ColumnName="Opis" />
+                <ScalarProperty Name="id_uzytkownik" ColumnName="id_uzytkownik" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logowanie">
+            <EntityTypeMapping TypeName="KWRModel.Logowanie">
+              <MappingFragment StoreEntitySet="Logowanie">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
+                <ScalarProperty Name="Haslo" ColumnName="Haslo" />
+                <ScalarProperty Name="id_uzytkownik" ColumnName="id_uzytkownik" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Powiadomienia">
+            <EntityTypeMapping TypeName="KWRModel.Powiadomienia">
+              <MappingFragment StoreEntitySet="Powiadomienia">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_uzytkownik" ColumnName="id_uzytkownik" />
+                <ScalarProperty Name="id_wydarzenie" ColumnName="id_wydarzenie" />
+                <ScalarProperty Name="id_wiadomosc" ColumnName="id_wiadomosc" />
+                <ScalarProperty Name="rodzaj" ColumnName="rodzaj" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Powiadomienie">
+            <EntityTypeMapping TypeName="KWRModel.Powiadomienie">
+              <MappingFragment StoreEntitySet="Powiadomienie">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="DataPowiadomienia" ColumnName="DataPowiadomienia" />
+                <ScalarProperty Name="Czestotliwosc" ColumnName="Czestotliwosc" />
+                <ScalarProperty Name="id_wydarzenie" ColumnName="id_wydarzenie" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Przebieg">
+            <EntityTypeMapping TypeName="KWRModel.Przebieg">
+              <MappingFragment StoreEntitySet="Przebieg">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Opis" ColumnName="Opis" />
+                <ScalarProperty Name="id_wydarzenie" ColumnName="id_wydarzenie" />
+                <ScalarProperty Name="Tytul" ColumnName="Tytul" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Uczestnicy">
+            <EntityTypeMapping TypeName="KWRModel.Uczestnicy">
+              <MappingFragment StoreEntitySet="Uczestnicy">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_wydarzenie" ColumnName="id_wydarzenie" />
+                <ScalarProperty Name="id_uzytkownik" ColumnName="id_uzytkownik" />
+                <ScalarProperty Name="decyzja" ColumnName="decyzja" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UzytkownicyWGrupie">
+            <EntityTypeMapping TypeName="KWRModel.UzytkownicyWGrupie">
+              <MappingFragment StoreEntitySet="UzytkownicyWGrupie">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_grupa" ColumnName="id_grupa" />
+                <ScalarProperty Name="id_uzytkownik" ColumnName="id_uzytkownik" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Uzytkownik">
+            <EntityTypeMapping TypeName="KWRModel.Uzytkownik">
+              <MappingFragment StoreEntitySet="Uzytkownik">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Imie" ColumnName="Imie" />
+                <ScalarProperty Name="Nazwisko" ColumnName="Nazwisko" />
+                <ScalarProperty Name="DataUrodzenia" ColumnName="DataUrodzenia" />
+                <ScalarProperty Name="Zdjcie" ColumnName="Zdjcie" />
+                <ScalarProperty Name="NrTelefonu" ColumnName="NrTelefonu" />
+                <ScalarProperty Name="AdresEmail" ColumnName="AdresEmail" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Wiadomosc">
+            <EntityTypeMapping TypeName="KWRModel.Wiadomosc">
+              <MappingFragment StoreEntitySet="Wiadomosc">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Od" ColumnName="Od" />
+                <ScalarProperty Name="Do" ColumnName="Do" />
+                <ScalarProperty Name="Temat" ColumnName="Temat" />
+                <ScalarProperty Name="Tresc" ColumnName="Tresc" />
+                <ScalarProperty Name="Przeczytana" ColumnName="Przeczytana" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Wpis">
+            <EntityTypeMapping TypeName="KWRModel.Wpis">
+              <MappingFragment StoreEntitySet="Wpis">
+                <ScalarProperty Name="Tytul" ColumnName="Tytul" />
+                <ScalarProperty Name="id_uzytkownik" ColumnName="id_uzytkownik" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Opis" ColumnName="Opis" />
+                <ScalarProperty Name="Zdjecie" ColumnName="Zdjecie" />
+                <ScalarProperty Name="id_wydarzenie" ColumnName="id_wydarzenie" />
+                <ScalarProperty Name="id_przebieg" ColumnName="id_przebieg" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Wydarzenie">
+            <EntityTypeMapping TypeName="KWRModel.Wydarzenie">
+              <MappingFragment StoreEntitySet="Wydarzenie">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Tytul" ColumnName="Tytul" />
+                <ScalarProperty Name="Opis" ColumnName="Opis" />
+                <ScalarProperty Name="DataRozpoczencia" ColumnName="DataRozpoczencia" />
+                <ScalarProperty Name="DataZakonczenia" ColumnName="DataZakonczenia" />
+                <ScalarProperty Name="id_organizator" ColumnName="id_organizator" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Zadanie">
+            <EntityTypeMapping TypeName="KWRModel.Zadanie">
+              <MappingFragment StoreEntitySet="Zadanie">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Zadanie1" ColumnName="Zadanie" />
+                <ScalarProperty Name="id_wydarzenie" ColumnName="id_wydarzenie" />
+                <ScalarProperty Name="liczba_uczestnikow" ColumnName="liczba_uczestnikow" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ZadanieUczestnik">
+            <EntityTypeMapping TypeName="KWRModel.ZadanieUczestnik">
+              <MappingFragment StoreEntitySet="ZadanieUczestnik">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_zadanie" ColumnName="id_zadanie" />
+                <ScalarProperty Name="id_uzytkownik" ColumnName="id_uzytkownik" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Zaproszenie">
+            <EntityTypeMapping TypeName="KWRModel.Zaproszenie">
+              <MappingFragment StoreEntitySet="Zaproszenie">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Od" ColumnName="Od" />
+                <ScalarProperty Name="Do" ColumnName="Do" />
+                <ScalarProperty Name="id_wydarzenie" ColumnName="id_wydarzenie" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Wydarzenie_Uczestnik" FunctionName="KWRModel.Store.Wydarzenie_Uczestnik" />
+          <FunctionImportMapping FunctionImportName="Wydarzenie_Uczestnik_Usun" FunctionName="KWRModel.Store.Wydarzenie_Uczestnik_Usun" />
+          <FunctionImportMapping FunctionImportName="Wyswietl_Powiadomienia" FunctionName="KWRModel.Store.Wyswietl_Powiadomienia">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KWRModel.Wyswietl_Powiadomienia_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_uzytkownik" ColumnName="id_uzytkownik" />
+                <ScalarProperty Name="id_wydarzenie" ColumnName="id_wydarzenie" />
+                <ScalarProperty Name="id_wiadomosc" ColumnName="id_wiadomosc" />
+                <ScalarProperty Name="rodzaj" ColumnName="rodzaj" />
+                <ScalarProperty Name="Tytul" ColumnName="Tytul" />
+                <ScalarProperty Name="Imie" ColumnName="Imie" />
+                <ScalarProperty Name="Nazwisko" ColumnName="Nazwisko" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Wyswietl_Uzytkownikow" FunctionName="KWRModel.Store.Wyswietl_Uzytkownikow">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KWRModel.Wyswietl_Uzytkownikow_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Imie" ColumnName="Imie" />
+                <ScalarProperty Name="Nazwisko" ColumnName="Nazwisko" />
+                <ScalarProperty Name="DataUrodzenia" ColumnName="DataUrodzenia" />
+                <ScalarProperty Name="Zdjcie" ColumnName="Zdjcie" />
+                <ScalarProperty Name="NrTelefonu" ColumnName="NrTelefonu" />
+                <ScalarProperty Name="AdresEmail" ColumnName="AdresEmail" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Wyswietl_Wydarzenia" FunctionName="KWRModel.Store.Wyswietl_Wydarzenia">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KWRModel.Wyswietl_Wydarzenia_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Tytul" ColumnName="Tytul" />
+                <ScalarProperty Name="Opis" ColumnName="Opis" />
+                <ScalarProperty Name="DataRozpoczencia" ColumnName="DataRozpoczencia" />
+                <ScalarProperty Name="DataZakonczenia" ColumnName="DataZakonczenia" />
+                <ScalarProperty Name="id_organizator" ColumnName="id_organizator" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Zadanie_Usun" FunctionName="KWRModel.Store.Zadanie_Usun" />
+          <FunctionImportMapping FunctionImportName="ZadanieUczestnik_Dodaj" FunctionName="KWRModel.Store.ZadanieUczestnik_Dodaj" />
+          <FunctionImportMapping FunctionImportName="ZadanieUczestnik_Usun" FunctionName="KWRModel.Store.ZadanieUczestnik_Usun" />
+          <FunctionImportMapping FunctionImportName="Zaproszenie_Anuluj" FunctionName="KWRModel.Store.Zaproszenie_Anuluj" />
+          <FunctionImportMapping FunctionImportName="Zaproszenie_Potwierdz" FunctionName="KWRModel.Store.Zaproszenie_Potwierdz" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

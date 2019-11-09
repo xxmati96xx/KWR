@@ -1,0 +1,86 @@
+﻿@model IEnumerable<KalendarzWydarzenRodzinnych.Models.Uzytkownik>
+
+@{
+    ViewBag.Title = "Dodaj Uczestników";
+}
+
+<div class="row">
+    <div class="col-md-9">
+        <h2>Dodaj Uczestników</h2>
+
+        <table id="table" class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Imie i Nazwisko
+                    </th>
+                    <th>
+                        Data Urodzenia
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(itemmodel => item.Imie) @Html.DisplayFor(itemmodel => item.Nazwisko)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(itemmodel => item.DataUrodzenia)
+                        </td>
+                        <td>
+                            <a href="@Url.Action("addUser", "Uczestnicy", new { @id = item.id,@idW=ViewBag.id_wydarzenie })" class="btn btn-success btn-sm success">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                            </a>
+                        </td>
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @Html.ActionLink("Wróć do wydarzenia", "dajOpis","Wydarzenie",new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default" })
+
+
+    </div>
+
+
+
+    <div class="col-md-3">
+        <h2>Uczestnicy</h2>
+        <table id="tableU" class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Imie i Nazwisko
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.uczestnicy)
+                {
+                    <tr>
+                        <td>
+                            @item.Uzytkownik.Imie  @item.Uzytkownik.Nazwisko
+                        </td>
+                        <td>
+                            
+                        </td>
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+
+    </div>
+
+    </div>

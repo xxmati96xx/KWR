@@ -1,0 +1,55 @@
+﻿@model IEnumerable<KalendarzWydarzenRodzinnych.Models.Zaproszenie>
+
+@{
+    ViewBag.Title = "Zaproszenia";
+}
+
+<h2>Zaproszenia</h2>
+
+<table id="table" class="table">
+    <thead>
+        <tr>
+            <th>
+                Wydarzenie
+            </th>
+            <th>
+                Data Wydarzenia
+            </th>
+            <th>
+                Organizator
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(itemmodel => item.Wydarzenie.Tytul)
+                </td>
+                <td>
+                    @Html.DisplayFor(itemmodel => item.Wydarzenie.DataRozpoczencia) -  @Html.DisplayFor(itemmodel => item.Wydarzenie.DataZakonczenia)
+                </td>
+                <td>
+                    @Html.DisplayFor(itemmodel => item.Uzytkownik1.Imie) @Html.DisplayFor(itemmodel => item.Uzytkownik1.Nazwisko)
+                </td>
+                <td>
+                    <a href="@Url.Action("Accept", "Zaproszenie",new { id = item.id_wydarzenie })" class="btn btn-success btn-sm">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    </a>
+                    <a href="@Url.Action("Cancel", "Zaproszenie",new { id = item.id_wydarzenie })" class="btn btn-danger btn-sm">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </a>
+
+
+
+
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

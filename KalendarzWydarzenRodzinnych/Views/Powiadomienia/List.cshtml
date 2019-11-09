@@ -1,0 +1,46 @@
+﻿
+
+@{
+    ViewBag.Title = "Powiadomienia";
+}
+
+<h2>Powiadomienia</h2>
+
+<table id="table" class="table">
+    <thead>
+        <tr>
+            <th>
+                Powiadomienia
+            </th>
+            <th>
+
+               </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (item.rodzaj == 1)
+                    {
+                    <p>
+                        Użytkownik
+                        @item.Imie @item.Nazwisko
+                        zaprosił(a) cię do wydarzenia
+                        <a href="@Url.Action("dajOpis", "Wydarzenie",new { id = item.id_wydarzenie })" class="">@item.Tytul
+                           
+                        </a>
+
+                    </p>    
+                    }
+                </td>
+                <td>
+                   
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
