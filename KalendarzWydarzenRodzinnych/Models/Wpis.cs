@@ -21,6 +21,7 @@ namespace KalendarzWydarzenRodzinnych.Models
         public Nullable<int> id_przebieg { get; set; }
         public int id_uzytkownik { get; set; }
         public string Tytul { get; set; }
+        public System.DateTime data_dodania { get; set; }
     
         public virtual Przebieg Przebieg { get; set; }
         public virtual Wydarzenie Wydarzenie { get; set; }
