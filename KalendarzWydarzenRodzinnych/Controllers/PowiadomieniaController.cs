@@ -21,7 +21,6 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             var id = Convert.ToInt32(Session["id"]);
             SqlParameter idUzytkownik = new SqlParameter("@Par_IdUzytkownik", id);
             var query = dbo.Wyswietl_Powiadomienia(id);
-            test
             return View(query.ToList());
         }
     }
