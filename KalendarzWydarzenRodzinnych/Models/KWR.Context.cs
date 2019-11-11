@@ -37,6 +37,7 @@ namespace KalendarzWydarzenRodzinnych.Models
         public virtual DbSet<Uzytkownik> Uzytkownik { get; set; }
         public virtual DbSet<Wiadomosc> Wiadomosc { get; set; }
         public virtual DbSet<Wpis> Wpis { get; set; }
+        public virtual DbSet<WpisZdjecia> WpisZdjecia { get; set; }
         public virtual DbSet<Wydarzenie> Wydarzenie { get; set; }
         public virtual DbSet<Zadanie> Zadanie { get; set; }
         public virtual DbSet<ZadanieUczestnik> ZadanieUczestnik { get; set; }
@@ -95,15 +96,6 @@ namespace KalendarzWydarzenRodzinnych.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Wyswietl_Wydarzenia_Result>("Wyswietl_Wydarzenia", par_IdUzytkownikParameter);
         }
     
-        public virtual int Zadanie_Usun(Nullable<int> par_IdZadanie)
-        {
-            var par_IdZadanieParameter = par_IdZadanie.HasValue ?
-                new ObjectParameter("Par_IdZadanie", par_IdZadanie) :
-                new ObjectParameter("Par_IdZadanie", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Zadanie_Usun", par_IdZadanieParameter);
-        }
-    
         public virtual int ZadanieUczestnik_Dodaj(Nullable<int> par_IdUzytkownik, Nullable<int> par_IdZadanie)
         {
             var par_IdUzytkownikParameter = par_IdUzytkownik.HasValue ?
@@ -154,6 +146,15 @@ namespace KalendarzWydarzenRodzinnych.Models
                 new ObjectParameter("Par_id_uzytkownik", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Zaproszenie_Potwierdz", par_id_wydarzenieParameter, par_id_uzytkownikParameter);
+        }
+    
+        public virtual int Zadanie_Usun(Nullable<int> par_IdZadanie)
+        {
+            var par_IdZadanieParameter = par_IdZadanie.HasValue ?
+                new ObjectParameter("Par_IdZadanie", par_IdZadanie) :
+                new ObjectParameter("Par_IdZadanie", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Zadanie_Usun", par_IdZadanieParameter);
         }
     }
 }

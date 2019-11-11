@@ -96,13 +96,20 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Opis" Type="varchar" MaxLength="300" />
-          <Property Name="Zdjecie" Type="varchar" MaxLength="30" />
+          <Property Name="Relacja" Type="varchar" MaxLength="300" />
           <Property Name="id_wydarzenie" Type="int" />
           <Property Name="Tytul" Type="varchar" MaxLength="100" />
           <Property Name="id_przebieg" Type="int" />
           <Property Name="id_uzytkownik" Type="int" Nullable="false" />
-          <Property Name="data_dodania" Type="datetime" Nullable="false" />
+          <Property Name="data_dodania" Type="datetime" />
+        </EntityType>
+        <EntityType Name="WpisZdjecia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_wpis" Type="int" Nullable="false" />
+          <Property Name="zdjecie" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="Wydarzenie">
           <Key>
@@ -309,6 +316,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_WpisZdjecia_Wpis">
+          <End Role="Wpis" Type="Self.Wpis" Multiplicity="1" />
+          <End Role="WpisZdjecia" Type="Self.WpisZdjecia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wpis">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="WpisZdjecia">
+              <PropertyRef Name="id_wpis" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Wydarzenie_Uzytkownik">
           <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
           <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="*" />
@@ -410,6 +429,9 @@
         <Function Name="Wyswietl_Wydarzenia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdUzytkownik" Type="int" Mode="In" />
         </Function>
+        <Function Name="Zadanie_Usun" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_IdZadanie" Type="int" Mode="In" />
+        </Function>
         <Function Name="ZadanieUczestnik_Dodaj" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdUzytkownik" Type="int" Mode="In" />
           <Parameter Name="Par_IdZadanie" Type="int" Mode="In" />
@@ -437,6 +459,7 @@
           <EntitySet Name="Uzytkownik" EntityType="Self.Uzytkownik" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Wiadomosc" EntityType="Self.Wiadomosc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Wpis" EntityType="Self.Wpis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WpisZdjecia" EntityType="Self.WpisZdjecia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Wydarzenie" EntityType="Self.Wydarzenie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Zadanie" EntityType="Self.Zadanie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ZadanieUczestnik" EntityType="Self.ZadanieUczestnik" Schema="dbo" store:Type="Tables" />
@@ -496,6 +519,10 @@
           <AssociationSet Name="FK_Wpis_Wydarzenie" Association="Self.FK_Wpis_Wydarzenie">
             <End Role="Wydarzenie" EntitySet="Wydarzenie" />
             <End Role="Wpis" EntitySet="Wpis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WpisZdjecia_Wpis" Association="Self.FK_WpisZdjecia_Wpis">
+            <End Role="Wpis" EntitySet="Wpis" />
+            <End Role="WpisZdjecia" EntitySet="WpisZdjecia" />
           </AssociationSet>
           <AssociationSet Name="FK_Wydarzenie_Uzytkownik" Association="Self.FK_Wydarzenie_Uzytkownik">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
@@ -583,7 +610,6 @@
           <Property Name="id_wydarzenie" Type="Int32" Nullable="false" />
           <Property Name="Tytul" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Przebieg_Wydarzenie" FromRole="Przebieg" ToRole="Wydarzenie" />
-          <NavigationProperty Name="Wpis" Relationship="Self.FK_Wpis_Przebieg" FromRole="Przebieg" ToRole="Wpis" />
         </EntityType>
         <EntityType Name="Uczestnicy">
           <Key>
@@ -628,7 +654,6 @@
           <NavigationProperty Name="ZadanieUczestnik" Relationship="Self.FK_ZadanieUczestnik_Uzytkownik" FromRole="Uzytkownik" ToRole="ZadanieUczestnik" />
           <NavigationProperty Name="Zaproszenie" Relationship="Self.FK_Zaproszenie_Do" FromRole="Uzytkownik" ToRole="Zaproszenie" />
           <NavigationProperty Name="Zaproszenie1" Relationship="Self.FK_Zaproszenie_Od" FromRole="Uzytkownik" ToRole="Zaproszenie" />
-          <NavigationProperty Name="Wpis" Relationship="KWRModel.FK_Wpis_Uzytkownik" FromRole="Uzytkownik" ToRole="Wpis" />
         </EntityType>
         <EntityType Name="Wiadomosc">
           <Key>
@@ -649,16 +674,23 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Opis" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
-          <Property Name="Zdjecie" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Relacja" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="id_wydarzenie" Type="Int32" />
-          <Property Name="id_przebieg" Type="Int32" />
-          <NavigationProperty Name="Przebieg" Relationship="Self.FK_Wpis_Przebieg" FromRole="Wpis" ToRole="Przebieg" />
-          <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Wpis_Wydarzenie" FromRole="Wpis" ToRole="Wydarzenie" />
-          <Property Name="id_uzytkownik" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Uzytkownik" Relationship="KWRModel.FK_Wpis_Uzytkownik" FromRole="Wpis" ToRole="Uzytkownik" />
           <Property Name="Tytul" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="data_dodania" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="id_przebieg" Type="Int32" />
+          <Property Name="id_uzytkownik" Type="Int32" Nullable="false" />
+          <Property Name="data_dodania" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Wpis_Wydarzenie" FromRole="Wpis" ToRole="Wydarzenie" />
+          <NavigationProperty Name="WpisZdjecia" Relationship="Self.FK_WpisZdjecia_Wpis" FromRole="Wpis" ToRole="WpisZdjecia" />
+        </EntityType>
+        <EntityType Name="WpisZdjecia">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_wpis" Type="Int32" Nullable="false" />
+          <Property Name="zdjecie" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Wpis" Relationship="Self.FK_WpisZdjecia_Wpis" FromRole="WpisZdjecia" ToRole="Wpis" />
         </EntityType>
         <EntityType Name="Wydarzenie">
           <Key>
@@ -808,18 +840,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Wpis_Przebieg">
-          <End Role="Przebieg" Type="Self.Przebieg" Multiplicity="0..1" />
-          <End Role="Wpis" Type="Self.Wpis" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Przebieg">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Wpis">
-              <PropertyRef Name="id_przebieg" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Uczestnicy_Uzytkownik">
           <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
           <End Role="Uczestnicy" Type="Self.Uczestnicy" Multiplicity="*" />
@@ -940,6 +960,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_WpisZdjecia_Wpis">
+          <End Role="Wpis" Type="Self.Wpis" Multiplicity="1" />
+          <End Role="WpisZdjecia" Type="Self.WpisZdjecia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wpis">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="WpisZdjecia">
+              <PropertyRef Name="id_wpis" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Zadanie_Wydarzenie">
           <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="1" />
           <End Role="Zadanie" Type="Self.Zadanie" Multiplicity="*" />
@@ -987,6 +1019,7 @@
           <EntitySet Name="Uzytkownik" EntityType="Self.Uzytkownik" />
           <EntitySet Name="Wiadomosc" EntityType="Self.Wiadomosc" />
           <EntitySet Name="Wpis" EntityType="Self.Wpis" />
+          <EntitySet Name="WpisZdjecia" EntityType="Self.WpisZdjecia" />
           <EntitySet Name="Wydarzenie" EntityType="Self.Wydarzenie" />
           <EntitySet Name="Zadanie" EntityType="Self.Zadanie" />
           <EntitySet Name="ZadanieUczestnik" EntityType="Self.ZadanieUczestnik" />
@@ -1022,10 +1055,6 @@
           <AssociationSet Name="FK_Przebieg_Wydarzenie" Association="Self.FK_Przebieg_Wydarzenie">
             <End Role="Wydarzenie" EntitySet="Wydarzenie" />
             <End Role="Przebieg" EntitySet="Przebieg" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Wpis_Przebieg" Association="Self.FK_Wpis_Przebieg">
-            <End Role="Przebieg" EntitySet="Przebieg" />
-            <End Role="Wpis" EntitySet="Wpis" />
           </AssociationSet>
           <AssociationSet Name="FK_Uczestnicy_Uzytkownik" Association="Self.FK_Uczestnicy_Uzytkownik">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
@@ -1067,6 +1096,10 @@
             <End Role="Wydarzenie" EntitySet="Wydarzenie" />
             <End Role="Wpis" EntitySet="Wpis" />
           </AssociationSet>
+          <AssociationSet Name="FK_WpisZdjecia_Wpis" Association="Self.FK_WpisZdjecia_Wpis">
+            <End Role="Wpis" EntitySet="Wpis" />
+            <End Role="WpisZdjecia" EntitySet="WpisZdjecia" />
+          </AssociationSet>
           <AssociationSet Name="FK_Zadanie_Wydarzenie" Association="Self.FK_Zadanie_Wydarzenie">
             <End Role="Wydarzenie" EntitySet="Wydarzenie" />
             <End Role="Zadanie" EntitySet="Zadanie" />
@@ -1096,9 +1129,6 @@
           <FunctionImport Name="Wyswietl_Wydarzenia" ReturnType="Collection(KWRModel.Wyswietl_Wydarzenia_Result)">
           <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="Zadanie_Usun">
-          <Parameter Name="Par_IdZadanie" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="ZadanieUczestnik_Dodaj">
             <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
             <Parameter Name="Par_IdZadanie" Mode="In" Type="Int32" />
@@ -1115,10 +1145,9 @@
             <Parameter Name="Par_id_wydarzenie" Mode="In" Type="Int32" />
             <Parameter Name="Par_id_uzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
-          <AssociationSet Name="FK_Wpis_Uzytkownik" Association="KWRModel.FK_Wpis_Uzytkownik">
-            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
-            <End Role="Wpis" EntitySet="Wpis" />
-          </AssociationSet>
+          <FunctionImport Name="Zadanie_Usun">
+            <Parameter Name="Par_IdZadanie" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="Wyswietl_Powiadomienia_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
@@ -1142,23 +1171,11 @@
         <ComplexType Name="Wyswietl_Wydarzenia_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
           <Property Type="String" Name="Tytul" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="Opis" Nullable="true" MaxLength="300" />
+          <Property Type="String" Name="Opis" Nullable="true" MaxLength="8000" />
           <Property Type="DateTime" Name="DataRozpoczencia" Nullable="false" Precision="23" />
           <Property Type="DateTime" Name="DataZakonczenia" Nullable="false" Precision="23" />
           <Property Type="Int32" Name="id_organizator" Nullable="false" />
         </ComplexType>
-        <Association Name="FK_Wpis_Uzytkownik">
-          <End Type="KWRModel.Uzytkownik" Role="Uzytkownik" Multiplicity="1" />
-          <End Type="KWRModel.Wpis" Role="Wpis" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Uzytkownik">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Wpis">
-              <PropertyRef Name="id_uzytkownik" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1263,14 +1280,22 @@
           <EntitySetMapping Name="Wpis">
             <EntityTypeMapping TypeName="KWRModel.Wpis">
               <MappingFragment StoreEntitySet="Wpis">
-                <ScalarProperty Name="data_dodania" ColumnName="data_dodania" />
-                <ScalarProperty Name="Tytul" ColumnName="Tytul" />
-                <ScalarProperty Name="id_uzytkownik" ColumnName="id_uzytkownik" />
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="Opis" ColumnName="Opis" />
-                <ScalarProperty Name="Zdjecie" ColumnName="Zdjecie" />
+                <ScalarProperty Name="Relacja" ColumnName="Relacja" />
                 <ScalarProperty Name="id_wydarzenie" ColumnName="id_wydarzenie" />
+                <ScalarProperty Name="Tytul" ColumnName="Tytul" />
                 <ScalarProperty Name="id_przebieg" ColumnName="id_przebieg" />
+                <ScalarProperty Name="id_uzytkownik" ColumnName="id_uzytkownik" />
+                <ScalarProperty Name="data_dodania" ColumnName="data_dodania" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WpisZdjecia">
+            <EntityTypeMapping TypeName="KWRModel.WpisZdjecia">
+              <MappingFragment StoreEntitySet="WpisZdjecia">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_wpis" ColumnName="id_wpis" />
+                <ScalarProperty Name="zdjecie" ColumnName="zdjecie" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1360,6 +1385,7 @@
           <FunctionImportMapping FunctionImportName="ZadanieUczestnik_Usun" FunctionName="KWRModel.Store.ZadanieUczestnik_Usun" />
           <FunctionImportMapping FunctionImportName="Zaproszenie_Anuluj" FunctionName="KWRModel.Store.Zaproszenie_Anuluj" />
           <FunctionImportMapping FunctionImportName="Zaproszenie_Potwierdz" FunctionName="KWRModel.Store.Zaproszenie_Potwierdz" />
+          <FunctionImportMapping FunctionImportName="Zadanie_Usun" FunctionName="KWRModel.Store.Zadanie_Usun" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

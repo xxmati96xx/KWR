@@ -12,13 +12,12 @@ namespace KalendarzWydarzenRodzinnych.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Przebieg
+    public partial class WpisZdjecia
     {
         public int id { get; set; }
-        public string Opis { get; set; }
-        public int id_wydarzenie { get; set; }
-        public string Tytul { get; set; }
+        public int id_wpis { get; set; }
+        public string zdjecie { get; set; }
     
-        public virtual Wydarzenie Wydarzenie { get; set; }
+        public virtual Wpis Wpis { get; set; }
     }
 }

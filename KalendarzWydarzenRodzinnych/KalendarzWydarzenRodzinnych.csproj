@@ -184,6 +184,9 @@
     <Compile Include="Models\Wpis.cs">
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\WpisZdjecia.cs">
+      <DependentUpon>KWR.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Wydarzenie.cs">
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>

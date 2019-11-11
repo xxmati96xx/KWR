@@ -4,21 +4,22 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9c1ff36642d747878ebacd4bba81e1ff" Name="Diagram1">
-        <EntityTypeShape EntityType="KWRModel.Grupa" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
+      <Diagram DiagramId="260742e54e604e58b3599c708118d416" Name="Diagram1">
+        <EntityTypeShape EntityType="KWRModel.Grupa" Width="1.5" PointX="3" PointY="7" IsExpanded="true" />
         <EntityTypeShape EntityType="KWRModel.Logowanie" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Powiadomienia" Width="1.5" PointX="5.25" PointY="18.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Powiadomienie" Width="1.5" PointX="5.25" PointY="22.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Przebieg" Width="1.5" PointX="5.25" PointY="25" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Uczestnicy" Width="1.5" PointX="8.25" PointY="19.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.UzytkownicyWGrupie" Width="1.5" PointX="5.25" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Uzytkownik" Width="1.5" PointX="0.75" PointY="13.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Wiadomosc" Width="1.5" PointX="3" PointY="18.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Wpis" Width="1.5" PointX="7.5" PointY="25" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Wydarzenie" Width="1.5" PointX="3" PointY="24.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Zadanie" Width="1.5" PointX="5.25" PointY="28" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.ZadanieUczestnik" Width="1.5" PointX="10.5" PointY="20.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Zaproszenie" Width="1.5" PointX="8.25" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Powiadomienia" Width="1.5" PointX="5.25" PointY="19" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Powiadomienie" Width="1.5" PointX="5.25" PointY="22.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Przebieg" Width="1.5" PointX="5.25" PointY="25.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Uczestnicy" Width="1.5" PointX="8.25" PointY="21.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.UzytkownicyWGrupie" Width="1.5" PointX="5.25" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Uzytkownik" Width="1.5" PointX="0.75" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Wiadomosc" Width="1.5" PointX="3" PointY="18.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Wpis" Width="1.5" PointX="5.25" PointY="27.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.WpisZdjecia" Width="1.5" PointX="7.5" PointY="28.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Wydarzenie" Width="1.5" PointX="3" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Zadanie" Width="1.5" PointX="5.25" PointY="31.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.ZadanieUczestnik" Width="1.5" PointX="7.5" PointY="24.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Zaproszenie" Width="1.5" PointX="8.25" PointY="18.125" IsExpanded="true" />
         <AssociationConnector Association="KWRModel.FK_Grupa_Uzytkownik" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_UzytkownicyWGrupie_Grupa" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Logowanie_Uzytkownik" ManuallyRouted="false" />
@@ -27,7 +28,6 @@
         <AssociationConnector Association="KWRModel.FK_Powiadomienia_Wydarzenie" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Powiadomienie_Wydarzenie" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Przebieg_Wydarzenie" ManuallyRouted="false" />
-        <AssociationConnector Association="KWRModel.FK_Wpis_Przebieg" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Uczestnicy_Uzytkownik" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Uczestnicy_Wydarzenie" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_UzytkownicyWGrupie_Uzytkownik" ManuallyRouted="false" />
@@ -38,10 +38,10 @@
         <AssociationConnector Association="KWRModel.FK_Zaproszenie_Do" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Zaproszenie_Od" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Wpis_Wydarzenie" ManuallyRouted="false" />
+        <AssociationConnector Association="KWRModel.FK_WpisZdjecia_Wpis" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Zadanie_Wydarzenie" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Zaproszenie_Wydarzenie" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_ZadanieUczestnik_Zadanie" ManuallyRouted="false" />
-        <AssociationConnector Association="KWRModel.FK_Wpis_Uzytkownik" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

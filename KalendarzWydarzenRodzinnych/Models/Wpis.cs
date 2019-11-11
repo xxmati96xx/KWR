@@ -14,17 +14,22 @@ namespace KalendarzWydarzenRodzinnych.Models
     
     public partial class Wpis
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Wpis()
+        {
+            this.WpisZdjecia = new HashSet<WpisZdjecia>();
+        }
+    
         public int id { get; set; }
-        public string Opis { get; set; }
-        public string Zdjecie { get; set; }
+        public string Relacja { get; set; }
         public Nullable<int> id_wydarzenie { get; set; }
+        public string Tytul { get; set; }
         public Nullable<int> id_przebieg { get; set; }
         public int id_uzytkownik { get; set; }
-        public string Tytul { get; set; }
-        public System.DateTime data_dodania { get; set; }
+        public Nullable<System.DateTime> data_dodania { get; set; }
     
-        public virtual Przebieg Przebieg { get; set; }
         public virtual Wydarzenie Wydarzenie { get; set; }
-        public virtual Uzytkownik Uzytkownik { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WpisZdjecia> WpisZdjecia { get; set; }
     }
 }
