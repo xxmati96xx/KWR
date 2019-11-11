@@ -1,0 +1,122 @@
+﻿@model IEnumerable<KalendarzWydarzenRodzinnych.Models.Wpis>
+
+@{
+    ViewBag.Title = "Relacja";
+}
+
+<div class="row">
+    <div class="navbar marnav">
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Opis", "dajOpis", "Wydarzenie", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Zadania", "List", "Zadanie", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Przebieg wydarzenia", "List", "Przebieg", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Relacja z wydarzenia", "List", "Wpis", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
+
+            </ul>
+        </div>
+
+    </div>
+    <div class="col-md-9 opis panel panel-default">
+        @if (ViewBag.id_organizator == ViewBag.id_uzytkownik)
+        {
+            <p align="right" class="marnav">
+                @Html.ActionLink("Dodaj", "Create", new { id_wydarzenie = ViewBag.id_wydarzenie }, new { @class = "btn btn-primary add-button" })
+            </p>
+        }
+        else
+        {
+            <p align="right" class="marnav">
+
+            </p>
+        }
+        <h2 class="h3Przebieg">Relacja z wydarzenia</h2>
+        <table id="table" class="table">
+            <thead>
+                <tr>
+
+                    <th>
+
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("Delete", "Wpis", new { id = item.id })" class="btn btn-danger btn-sm delete-button pull-right buttonmargin">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </a>
+                            <a href="@Url.Action("Edit", "Wpis", new { id = item.id })" class="btn btn-warning btn-sm edit-button pull-right">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                            </a>
+                            <p>
+                                @Html.DisplayFor(itemmodel => item.Uzytkownik.Imie) @Html.DisplayFor(itemmodel => item.Uzytkownik.Nazwisko) @Html.DisplayFor(itemmodel => item.data_dodania)
+
+                            </p>
+                            <p>
+                                @Html.DisplayFor(itemmodel => item.Relacja)
+
+                            </p>
+                        </td>
+
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-3">
+        <h2 class="h3Przebieg">Uczestnicy</h2>
+        <table id="tableU" class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Imie i Nazwisko
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.uczestnicy)
+                {
+                    <tr>
+                        <td>
+                            @if (!item.decyzja)
+                            {
+                                <p class="text-muted">@item.Uzytkownik.Imie @item.Uzytkownik.Nazwisko</p>
+                            }
+                            else
+                            {
+                                <p> @item.Uzytkownik.Imie @item.Uzytkownik.Nazwisko </p>
+                            }
+
+                        </td>
+                        <td>
+
+                            <a href="@Url.Action("Delete", "Wydarzenie", new { id = item.id })" class="btn btn-danger btn-sm delete-button">
+                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                            </a>
+
+                        </td>
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+
+        <div class="col-md-12">
+
+            @Html.ActionLink("Dodaj uczestnika", "addUser", "Uzytkownik", new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default col-md-12" })
+        </div>
+
+    </div>
+
+</div>

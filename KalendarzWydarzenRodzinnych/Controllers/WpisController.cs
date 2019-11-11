@@ -23,7 +23,64 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             ViewBag.id_organizator = dbo.Wydarzenie.Find(id).id_organizator;
             ViewBag.uczestnicy = dbo.Uczestnicy.Include(u => u.Uzytkownik).Where(u => u.id_wydarzenie == id);
             ViewBag.id_uzytkownik = Convert.ToInt32(Session["id"]);
-            return View(dbo.Wpis);
+            return View(wpis.ToList());
+
+        }
+        [HttpGet]
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return View();
+            }
+            Wpis wpis = dbo.Wpis.Find(id);
+            if (wpis == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(wpis);
+
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Wpis wpis)
+        {
+            if (wpis.id == 0)
+            {
+                if (ModelState.IsValid)
+                {
+                    wpis.id_uzytkownik = Convert.ToInt32(Session["id"]);
+                    dbo.Wpis.Add(wpis);
+                    dbo.SaveChanges();
+                    return RedirectToAction("List", new { id = wpis.id_wydarzenie });
+                }
+                else
+                {
+                    return View(wpis);
+                }
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    dbo.Entry(wpis).State = EntityState.Modified;
+                    dbo.SaveChanges();
+                    return RedirectToAction("List", new { id = wpis.id_wydarzenie });
+                }
+                else
+                {
+
+                    return View(wpis);
+                }
+            }
+        }
+        public ActionResult Create(int? id_wydarzenie,int? id_przebieg)
+        {
+            ViewBag.id_wydarzenie = id_wydarzenie;
+            ViewBag.id_przebieg = id_przebieg;
+
+            return View("Edit", new Wpis());
         }
     }
 }

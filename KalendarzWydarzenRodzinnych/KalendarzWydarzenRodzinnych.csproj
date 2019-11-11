@@ -331,11 +331,12 @@
     <Content Include="Views\Przebieg\Edit.cshtml" />
     <Content Include="Views\Przebieg\Delete.cshtml" />
     <Content Include="Views\Wydarzenie\EditOpis.cshtml" />
+    <Content Include="Views\Wpis\List.cshtml" />
+    <Content Include="Views\Wpis\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Uczestnicy\" />
-    <Folder Include="Views\Wpis\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
