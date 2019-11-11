@@ -42,6 +42,7 @@
         <AssociationConnector Association="KWRModel.FK_Zadanie_Wydarzenie" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Zaproszenie_Wydarzenie" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_ZadanieUczestnik_Zadanie" ManuallyRouted="false" />
+        <AssociationConnector Association="KWRModel.FK_Wpis_Uzytkownik" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

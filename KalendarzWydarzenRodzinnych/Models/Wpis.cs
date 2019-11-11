@@ -31,5 +31,6 @@ namespace KalendarzWydarzenRodzinnych.Models
         public virtual Wydarzenie Wydarzenie { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WpisZdjecia> WpisZdjecia { get; set; }
+        public virtual Uzytkownik Uzytkownik { get; set; }
     }
 }

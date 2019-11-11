@@ -28,6 +28,7 @@ namespace KalendarzWydarzenRodzinnych.Models
             this.ZadanieUczestnik = new HashSet<ZadanieUczestnik>();
             this.Zaproszenie = new HashSet<Zaproszenie>();
             this.Zaproszenie1 = new HashSet<Zaproszenie>();
+            this.Wpis = new HashSet<Wpis>();
         }
     
         public int id { get; set; }
@@ -60,5 +61,7 @@ namespace KalendarzWydarzenRodzinnych.Models
         public virtual ICollection<Zaproszenie> Zaproszenie { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Zaproszenie> Zaproszenie1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Wpis> Wpis { get; set; }
     }
 }

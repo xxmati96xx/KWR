@@ -304,6 +304,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Wpis_Uzytkownik">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Wpis" Type="Self.Wpis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wpis">
+              <PropertyRef Name="id_uzytkownik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Wpis_Wydarzenie">
           <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="0..1" />
           <End Role="Wpis" Type="Self.Wpis" Multiplicity="*" />
@@ -516,6 +528,10 @@
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
             <End Role="Wiadomosc" EntitySet="Wiadomosc" />
           </AssociationSet>
+          <AssociationSet Name="FK_Wpis_Uzytkownik" Association="Self.FK_Wpis_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Wpis" EntitySet="Wpis" />
+          </AssociationSet>
           <AssociationSet Name="FK_Wpis_Wydarzenie" Association="Self.FK_Wpis_Wydarzenie">
             <End Role="Wydarzenie" EntitySet="Wydarzenie" />
             <End Role="Wpis" EntitySet="Wpis" />
@@ -654,6 +670,7 @@
           <NavigationProperty Name="ZadanieUczestnik" Relationship="Self.FK_ZadanieUczestnik_Uzytkownik" FromRole="Uzytkownik" ToRole="ZadanieUczestnik" />
           <NavigationProperty Name="Zaproszenie" Relationship="Self.FK_Zaproszenie_Do" FromRole="Uzytkownik" ToRole="Zaproszenie" />
           <NavigationProperty Name="Zaproszenie1" Relationship="Self.FK_Zaproszenie_Od" FromRole="Uzytkownik" ToRole="Zaproszenie" />
+          <NavigationProperty Name="Wpis" Relationship="KWRModel.FK_Wpis_Uzytkownik" FromRole="Uzytkownik" ToRole="Wpis" />
         </EntityType>
         <EntityType Name="Wiadomosc">
           <Key>
@@ -682,6 +699,7 @@
           <Property Name="data_dodania" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Wpis_Wydarzenie" FromRole="Wpis" ToRole="Wydarzenie" />
           <NavigationProperty Name="WpisZdjecia" Relationship="Self.FK_WpisZdjecia_Wpis" FromRole="Wpis" ToRole="WpisZdjecia" />
+          <NavigationProperty Name="Uzytkownik" Relationship="KWRModel.FK_Wpis_Uzytkownik" FromRole="Wpis" ToRole="Uzytkownik" />
         </EntityType>
         <EntityType Name="WpisZdjecia">
           <Key>
@@ -1146,8 +1164,12 @@
             <Parameter Name="Par_id_uzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Zadanie_Usun">
-            <Parameter Name="Par_IdZadanie" Mode="In" Type="Int32" />
+          <Parameter Name="Par_IdZadanie" Mode="In" Type="Int32" />
           </FunctionImport>
+          <AssociationSet Name="FK_Wpis_Uzytkownik" Association="KWRModel.FK_Wpis_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Wpis" EntitySet="Wpis" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="Wyswietl_Powiadomienia_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
@@ -1176,6 +1198,18 @@
           <Property Type="DateTime" Name="DataZakonczenia" Nullable="false" Precision="23" />
           <Property Type="Int32" Name="id_organizator" Nullable="false" />
         </ComplexType>
+        <Association Name="FK_Wpis_Uzytkownik">
+          <End Type="KWRModel.Uzytkownik" Role="Uzytkownik" Multiplicity="1" />
+          <End Type="KWRModel.Wpis" Role="Wpis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wpis">
+              <PropertyRef Name="id_uzytkownik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
