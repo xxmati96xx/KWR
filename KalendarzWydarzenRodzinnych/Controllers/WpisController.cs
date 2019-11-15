@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Net;
+using System.IO;
 using System.Web.Mvc;
 using KalendarzWydarzenRodzinnych.Models;
 
@@ -75,12 +76,50 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 }
             }
         }
+        [HttpGet]
         public ActionResult Create(int? id_wydarzenie,int? id_przebieg)
         {
             ViewBag.id_wydarzenie = id_wydarzenie;
             ViewBag.id_przebieg = id_przebieg;
 
-            return View("Edit", new Wpis());
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Create(WpisWpisZdjecia wpisWpisZdjecia)
+        {
+            //Ensure model state is valid  
+              
+               //iterating through multiple file collection  
+
+                Wpis wpis = wpisWpisZdjecia.Wpis;
+
+                wpis.id_uzytkownik = Convert.ToInt32(Session["id"]);
+              
+
+                dbo.Wpis.Add(wpis);
+                dbo.SaveChanges();
+                int id = wpis.id;
+                foreach (HttpPostedFileBase file in wpisWpisZdjecia.files)
+                {
+                    //Checking file is available to save.  
+                    if (file != null)
+                    {
+                        var InputFileName = Path.GetFileName(file.FileName);
+                        var ServerSavePath = Path.Combine(Server.MapPath("~/Image/") + InputFileName);
+                        //Save file to server folder  
+                        file.SaveAs(ServerSavePath);
+                        WpisZdjecia wpisZdjecia = new WpisZdjecia();
+                        wpisZdjecia.id_wpis = id;
+                        wpisZdjecia.zdjecie = InputFileName;
+                        dbo.WpisZdjecia.Add(wpisZdjecia);
+                        dbo.SaveChanges();
+                        //assigning file uploaded status to ViewBag for showing message to user.  
+                        
+                    }
+
+                }
+            
+            return View(); ////do dokonczenia
         }
     }
 }

@@ -184,6 +184,7 @@
     <Compile Include="Models\Wpis.cs">
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\WpisWpisZdjecia.cs" />
     <Compile Include="Models\WpisZdjecia.cs">
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
@@ -333,9 +334,11 @@
     <Content Include="Views\Wydarzenie\EditOpis.cshtml" />
     <Content Include="Views\Wpis\List.cshtml" />
     <Content Include="Views\Wpis\Edit.cshtml" />
+    <Content Include="Views\Wpis\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Image\" />
     <Folder Include="Views\Uczestnicy\" />
   </ItemGroup>
   <ItemGroup>
