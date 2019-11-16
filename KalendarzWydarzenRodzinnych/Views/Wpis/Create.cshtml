@@ -11,53 +11,54 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>WpisWpisZdjecia</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Wpis.id)
-        @Html.HiddenFor(model => model.Wpis.id_wydarzenie)
-        @Html.HiddenFor(model => model.Wpis.id_przebieg)
-        @Html.HiddenFor(model => model.Wpis.Tytul)
-        @Html.HiddenFor(model => model.Wpis.id_uzytkownik)
-        @Html.HiddenFor(model => model.Wpis.data_dodania)
-        @Html.HiddenFor(model => model.WpisZdjecia.id)
-        @Html.HiddenFor(model => model.WpisZdjecia.id_wpis)
+<div class="form-horizontal">
+    <h4>WpisWpisZdjecia</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Wpis.id)
+    @Html.HiddenFor(model => model.Wpis.id_wydarzenie, htmlAttributes: new {Value = ViewBag.id_wydarzenie })
+    @Html.HiddenFor(model => model.Wpis.id_przebieg, htmlAttributes: new {Value = ViewBag.id_przebieg })
+    @Html.HiddenFor(model => model.Wpis.Tytul)
+    @Html.HiddenFor(model => model.Wpis.id_uzytkownik)
+    @Html.HiddenFor(model => model.Wpis.data_dodania)
+    @Html.HiddenFor(model => model.WpisZdjecia.id)
+    @Html.HiddenFor(model => model.WpisZdjecia.id_wpis)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Wpis.Relacja, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Wpis.Relacja, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Wpis.Relacja, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.files, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-3 file">
-
-                @Html.TextBoxFor(model => model.files, "", new { @accept = "image/*", @type = "file", @multiple = "multiple", @class = " file-upload" })
-                @Html.ValidationMessageFor(model => model.files, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="col-md-offset-2 col-md-10" id="showimage">
-        </div>
-        <hr />
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Dodaj" class="btn btn-primary" />
-
-                @if (ViewBag.id_przebieg > 0)
-                {
-                    @Html.ActionLink("Anuluj i do przebiegu", "List", "Przebieg", new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default" })
-                }
-                else
-                {
-                    @Html.ActionLink("Anuluj i do relacji", "List", new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default" })
-                }
-
-            </div>
+    
+    <div class="form-group">
+        @Html.LabelFor(model => model.Wpis.Relacja, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Wpis.Relacja, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Wpis.Relacja, "", new { @class = "text-danger" })
         </div>
     </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.files, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-3 file">
+
+            @Html.TextBoxFor(model => model.files, "", new { @accept = "image/*", @type = "file", @multiple = "multiple", @class = " file-upload" })
+            @Html.ValidationMessageFor(model => model.files, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="col-md-offset-2 col-md-10" id="showimage">
+    </div>
+    <hr />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Dodaj" class="btn btn-primary" />
+
+            @if (ViewBag.id_przebieg > 0)
+            {
+                @Html.ActionLink("Anuluj i do przebiegu", "List", "Przebieg", new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default" })
+            }
+            else
+            {
+                @Html.ActionLink("Anuluj i do relacji", "List", new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default" })
+            }
+
+        </div>
+    </div>
+</div>
 
 }
 
@@ -78,8 +79,9 @@
                             if (licznik <= 1) {
                             ++licznik;
                             var img = $("<img />");
-                            img.attr("style", "height:200px;width: 200px; margin-right:15px;margin-bottom:15px;");
+                            img.attr("style", "height:100px;width:img.width; margin-right:15px;margin-bottom:15px;");
                             img.attr("src", e.target.result);
+                                
                             previewimages.append(img);
                         }
                     }
