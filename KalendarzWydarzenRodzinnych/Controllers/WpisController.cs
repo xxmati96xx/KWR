@@ -25,9 +25,20 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             ViewBag.id_organizator = dbo.Wydarzenie.Find(id).id_organizator;
             ViewBag.uczestnicy = dbo.Uczestnicy.Include(u => u.Uzytkownik).Where(u => u.id_wydarzenie == id);
             ViewBag.id_uzytkownik = Convert.ToInt32(Session["id"]);
+            ViewBag.zdjecia = dbo.WpisZdjecia.Include(wz => wz.Wpis).Where(wz => wz.Wpis.id_wydarzenie == id);
+            ViewBag.wpisWpisZdjecia = new WpisWpisZdjecia();
             return View(wpis.ToList());
 
         }
+
+        public ActionResult form(int? id_wydarzenie)
+        {
+            ViewBag.id_wydarzenie = id_wydarzenie;
+            WpisWpisZdjecia wpisWpisZdjecia = new WpisWpisZdjecia();
+            return PartialView("_PartialCreate", wpisWpisZdjecia);
+        }
+
+
         [HttpGet]
         public ActionResult Edit(int? id)
         {

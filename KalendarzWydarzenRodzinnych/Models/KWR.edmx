@@ -691,7 +691,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Relacja" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Relacja" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
           <Property Name="id_wydarzenie" Type="Int32" />
           <Property Name="Tytul" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="id_przebieg" Type="Int32" />
@@ -707,7 +707,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="id_wpis" Type="Int32" Nullable="false" />
-          <Property Name="zdjecie" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="zdjecie" Type="String" MaxLength="600" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Wpis" Relationship="Self.FK_WpisZdjecia_Wpis" FromRole="WpisZdjecia" ToRole="Wpis" />
         </EntityType>
         <EntityType Name="Wydarzenie">

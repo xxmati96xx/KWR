@@ -358,6 +358,7 @@
     <Content Include="Views\Wpis\Create.cshtml" />
     <Content Include="Views\Wpis\Details.cshtml" />
     <Content Include="Scripts\lightbox.min.map" />
+    <Content Include="Views\Wpis\_PartialCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

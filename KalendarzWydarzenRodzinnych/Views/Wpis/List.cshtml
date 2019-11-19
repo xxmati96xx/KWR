@@ -18,11 +18,11 @@
 
     </div>
     <div class="col-md-9 opis panel panel-default">
+
+        @Html.Action("form", new { id_wydarzenie = ViewBag.id_wydarzenie })
         @if (ViewBag.id_organizator == ViewBag.id_uzytkownik)
         {
-            <p align="right" class="marnav">
-                @Html.ActionLink("Dodaj", "Create", new { id_wydarzenie = ViewBag.id_wydarzenie }, new { @class = "btn btn-primary add-button" })
-            </p>
+
         }
         else
         {
@@ -52,7 +52,7 @@
                             <a href="@Url.Action("Edit", "Wpis", new { id = item.id })" class="btn btn-warning btn-sm edit-button pull-right buttonmargin">
                                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                             </a>
-                            <a href="@Url.Action("Details", "Wpis", new { id = item.id})" class="btn btn-primary btn-sm  pull-right buttonmargin">
+                            <a href="@Url.Action("Details", "Wpis", new { id = item.id })" class="btn btn-primary btn-sm  pull-right buttonmargin">
                                 <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
                             </a>
                             <p>
@@ -63,6 +63,22 @@
                                 @Html.DisplayFor(itemmodel => item.Relacja)
 
                             </p>
+                            @{
+                                var licznik = 0;
+                            }
+                            @foreach (var img in ViewBag.zdjecia)
+                            {
+
+                                if (item.id == img.id_wpis && licznik < 3)
+                                {
+                                    licznik++;
+                                    <a href="~/Image/orginal/@img.zdjecie" data-toggle="lightbox" data-gallery="gallery-@item.id">
+                                        <img class="imgmargin" src="~/Image/thumb/@img.zdjecie" />
+                                    </a>
+
+                                }
+                            }
+                            @{licznik = 0;}
                         </td>
 
 
@@ -123,3 +139,22 @@
     </div>
 
 </div>
+@section Scripts {
+
+    @Scripts.Render("~/bundles/ekko")
+   
+
+        @Scripts.Render("~/bundles/img")
+        @Scripts.Render("~/bundles/jqueryval")
+
+    
+    <script>
+        $(document).ready(function ($) {
+
+            $(document).on('click', '[data-toggle="lightbox"]:not([data-gallery="navigateTo"])', function (event) {
+                event.preventDefault();
+                return $(this).ekkoLightbox();
+            });
+        });
+    </script>
+}

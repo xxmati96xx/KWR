@@ -1,0 +1,48 @@
+﻿@model KalendarzWydarzenRodzinnych.Models.WpisWpisZdjecia
+
+@using (Html.BeginForm("Create", "Wpis", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <br />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Wpis.id)
+        @Html.HiddenFor(model => model.Wpis.id_wydarzenie, htmlAttributes: new { Value = ViewBag.id_wydarzenie })
+        @Html.HiddenFor(model => model.Wpis.id_przebieg, htmlAttributes: new { Value = ViewBag.id_przebieg })
+        @Html.HiddenFor(model => model.Wpis.Tytul)
+        @Html.HiddenFor(model => model.Wpis.id_uzytkownik)
+        @Html.HiddenFor(model => model.Wpis.data_dodania)
+        @Html.HiddenFor(model => model.WpisZdjecia.id)
+        @Html.HiddenFor(model => model.WpisZdjecia.id_wpis)
+
+
+        <div class="form-group">
+
+            <div class="col-md-12">
+                @Html.EditorFor(model => model.Wpis.Relacja, new { htmlAttributes = new { @class = "form-control textareawpis", rows = "4" } })
+                @Html.ValidationMessageFor(model => model.Wpis.Relacja, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.files, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+
+                @Html.TextBoxFor(model => model.files, "", new { @accept = "image/*", @type = "file", @multiple = "multiple", @class = " file-upload" })
+                @Html.ValidationMessageFor(model => model.files, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-offset-2 col-md-10" id="showimage">
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Dodaj wpis" class="btn btn-primary pull-right" />
+
+
+            </div>
+        </div>
+    </div>
+
+}

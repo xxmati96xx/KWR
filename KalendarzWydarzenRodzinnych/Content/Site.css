@@ -33,6 +33,10 @@
     margin-top:10px;
 }
 
+.wpismarginrelacja{
+    margin-bottom:20px;
+}
+
 .h3Przebieg {
     margin-top: 20px;
     margin-bottom: 10px;
@@ -49,10 +53,8 @@
     
 }
 
-img {
+.imgmargin {
     margin: 8px;
-    
-    
 }
 
 .divimagemargin {
@@ -70,9 +72,12 @@ img {
     white-space: normal;
 }
 
+.textareawpis {
+   resize:none;
+}
+
 /* Set width on the form input elements since they're 100% wide by default */
 input,
-select,
-textarea {
+select {
     max-width: 280px;
 }

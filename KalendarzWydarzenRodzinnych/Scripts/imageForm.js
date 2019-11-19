@@ -9,7 +9,7 @@
             var file = $(this);
             var reader = new FileReader();
             reader.onload = function (e) {
-                if (licznik <= 1) {
+                if (licznik <= 100) {
                     ++licznik;
                     var img = $("<img />");
                     img.attr("style", "height:100px;width:img.width; margin-right:15px;margin-bottom:15px;");

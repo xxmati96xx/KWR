@@ -11,7 +11,8 @@ namespace KalendarzWydarzenRodzinnych.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Wpis
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,6 +22,7 @@ namespace KalendarzWydarzenRodzinnych.Models
         }
     
         public int id { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Relacja { get; set; }
         public Nullable<int> id_wydarzenie { get; set; }
         public string Tytul { get; set; }
