@@ -49,8 +49,11 @@
                             <a href="@Url.Action("Delete", "Wpis", new { id = item.id })" class="btn btn-danger btn-sm delete-button pull-right buttonmargin">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                             </a>
-                            <a href="@Url.Action("Edit", "Wpis", new { id = item.id })" class="btn btn-warning btn-sm edit-button pull-right">
+                            <a href="@Url.Action("Edit", "Wpis", new { id = item.id })" class="btn btn-warning btn-sm edit-button pull-right buttonmargin">
                                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                            </a>
+                            <a href="@Url.Action("Details", "Wpis", new { id = item.id})" class="btn btn-primary btn-sm  pull-right buttonmargin">
+                                <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
                             </a>
                             <p>
                                 @Html.DisplayFor(itemmodel => item.Uzytkownik.Imie) @Html.DisplayFor(itemmodel => item.Uzytkownik.Nazwisko) @Html.DisplayFor(itemmodel => item.data_dodania)

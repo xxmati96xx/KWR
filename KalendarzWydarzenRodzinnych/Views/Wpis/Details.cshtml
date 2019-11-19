@@ -1,0 +1,109 @@
+﻿@model KalendarzWydarzenRodzinnych.Models.Wpis
+
+@{
+    ViewBag.Title = "Details";
+}
+<div class="row">
+    <div class="navbar marnav">
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Opis", "dajOpis", "Wydarzenie", new { id = Model.id_wydarzenie }, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Zadania", "List", "Zadanie", new { id = Model.id_wydarzenie }, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Przebieg wydarzenia", "List", "Przebieg", new { id = Model.id_wydarzenie }, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Relacja z wydarzenia", "List", "Wpis", new { id = Model.id_wydarzenie }, new { @class = "wmenu" })</li>
+
+            </ul>
+        </div>
+
+    </div>
+    <div class="col-md-9 opis panel panel-default">
+
+        <div class="col-md-12 container">
+            <div class="dwpismargin">
+                @Html.DisplayFor(model => model.Uzytkownik.Imie) @Html.DisplayFor(model => model.Uzytkownik.Nazwisko) @Html.DisplayFor(model => model.data_dodania)
+            </div>
+
+
+
+            <div>
+                @Html.DisplayFor(model => model.Relacja)
+
+            </div>
+            <div class="gallery">
+                @foreach (var item in ViewBag.zdjecia)
+                {
+
+
+                    <a href="~/Image/orginal/@item.zdjecie" data-toggle="lightbox">
+                        <img src="~/Image/thumb/@item.zdjecie" />
+                    </a>
+
+
+                }
+            </div>
+            </div>
+        </div>
+    <div class="col-md-3">
+        <h2 class="h3Przebieg">Uczestnicy</h2>
+        <table id="tableU" class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Imie i Nazwisko
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.uczestnicy)
+                {
+                    <tr>
+                        <td>
+                            @if (!item.decyzja)
+                            {
+                                <p class="text-muted">@item.Uzytkownik.Imie @item.Uzytkownik.Nazwisko</p>
+                            }
+                            else
+                            {
+                                <p> @item.Uzytkownik.Imie @item.Uzytkownik.Nazwisko </p>
+                            }
+
+                        </td>
+                        <td>
+
+                            <a href="@Url.Action("Delete", "Wydarzenie", new { id = item.id })" class="btn btn-danger btn-sm delete-button">
+                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                            </a>
+
+                        </td>
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+
+        <div class="col-md-12">
+
+            @Html.ActionLink("Dodaj uczestnika", "addUser", "Uzytkownik", new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default col-md-12" })
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/ekko")
+    <script>
+    $(document).ready(function ($) {
+
+        $(document).on('click', '[data-toggle="lightbox"]:not([data-gallery="navigateTo"])', function (event) {
+                    event.preventDefault();
+                    return $(this).ekkoLightbox();
+                });
+        });
+    </script>
+    }

@@ -22,7 +22,11 @@ namespace KalendarzWydarzenRodzinnych
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jquery-ui-1.12.1.min.js"));
 
-           
+            bundles.Add(new ScriptBundle("~/bundles/img").Include(
+                         "~/Scripts/imageForm.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/ekko").Include(
+                         "~/Scripts/ekko-lightbox.js"));
 
             // Użyj wersji deweloperskiej biblioteki Modernizr do nauki i opracowywania rozwiązań. Następnie, kiedy wszystko będzie
             // gotowe do produkcji, użyj narzędzia do kompilowania ze strony https://modernizr.com, aby wybrać wyłącznie potrzebne testy.
@@ -39,6 +43,9 @@ namespace KalendarzWydarzenRodzinnych
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                       "~/Content/themes/base/all.css"));
+
+            bundles.Add(new StyleBundle("~/Content/ekko").Include(
+                      "~/Content/ekko-lightbox.css"));
         }
     }
 }

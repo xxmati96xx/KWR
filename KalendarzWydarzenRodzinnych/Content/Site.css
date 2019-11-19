@@ -49,6 +49,20 @@
     
 }
 
+img {
+    margin: 8px;
+    
+    
+}
+
+.divimagemargin {
+    margin: 5px;
+}
+
+.dwpismargin{
+    margin-bottom:10px;
+    margin-top:10px;
+}
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */

@@ -114,7 +114,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                         dbo.SaveChanges();
                         WebImage img = new WebImage(image.InputStream);
                         if (img.Width > 300)
-                        img.Resize(300, 300, false);
+                        img.Resize(250, 250);
                         img.Save("~/Image/thumb/" + InputFileName);
 
                    
@@ -128,6 +128,23 @@ namespace KalendarzWydarzenRodzinnych.Controllers
 
 
         }
-        
+
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var id_wydarzenie = dbo.Wpis.Find(id).id_wydarzenie;
+            Wpis wpis = dbo.Wpis.Include(w=>w.Uzytkownik).SingleOrDefault(x => x.id == id); ;            
+            ViewBag.zdjecia = dbo.WpisZdjecia.Where(wz => wz.id_wpis == id);
+            ViewBag.uczestnicy = dbo.Uczestnicy.Include(u => u.Uzytkownik).Where(u => u.id_wydarzenie == id_wydarzenie);
+            if (wpis == null)
+            {
+                return HttpNotFound();
+            }
+            return View(wpis);
+        }
+
     }
 }
