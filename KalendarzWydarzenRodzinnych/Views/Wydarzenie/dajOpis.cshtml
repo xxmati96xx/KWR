@@ -48,55 +48,7 @@
 
 
         <div class="col-md-3">
-            <h2 class="h3Przebieg">Uczestnicy</h2>
-            <table id="table" class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            Imie i Nazwisko
-                        </th>
-                        <th>
-
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in ViewBag.uczestnicy)
-                    {
-                        <tr>
-                            <td>
-                                @if(!item.decyzja)
-                                {
-                                   <p class="text-muted">@item.Uzytkownik.Imie @item.Uzytkownik.Nazwisko</p>
-                                }
-                                else
-                                {
-                                       <p> @item.Uzytkownik.Imie @item.Uzytkownik.Nazwisko </p>
-                                    }
-
-                            </td>
-                            <td>
-                                @if (Model.id_organizator == ViewBag.id_organizator)
-                                {
-                                    <a href="@Url.Action("Delete", "Wydarzenie", new { id = item.id })" class="btn btn-danger btn-sm delete-button">
-                                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                                    </a>
-                                }
-                            </td>
-
-
-                        </tr>
-                    }
-                </tbody>
-            </table>
-            <br />
-            @if (Model.id_organizator == ViewBag.id_organizator)
-            {
-            <div class="col-md-12">
-
-                @Html.ActionLink("Dodaj uczestnika", "addUser", "Uzytkownik", new { id = Model.id }, new { @class = "btn btn-default col-md-12" })
-            </div>
-            }
+            @Html.Action("GetUczestnicy", "Uczestnicy", new { id_wydarzenie = Model.id })
         </div>
     </div>
 

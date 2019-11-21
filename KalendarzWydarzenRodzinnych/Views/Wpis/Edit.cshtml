@@ -9,50 +9,91 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>Wpis</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.id)
-    @Html.HiddenFor(model => model.id_wydarzenie)
-    @Html.HiddenFor(model => model.id_przebieg)
-    @Html.HiddenFor(model => model.Tytul)
-    @Html.HiddenFor(model => model.id_uzytkownik)
-    @Html.HiddenFor(model => model.data_dodania)
+    <div class="form-horizontal">
+        <h4>Wpis</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+        @Html.HiddenFor(model => model.id_wydarzenie)
+        @Html.HiddenFor(model => model.id_przebieg)
+        @Html.HiddenFor(model => model.Tytul)
+        @Html.HiddenFor(model => model.id_uzytkownik)
+        @Html.HiddenFor(model => model.data_dodania)
 
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Relacja, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Relacja, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Relacja, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Relacja, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Relacja, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Relacja, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Dodaj" class="btn btn-primary" />
-            @if (Model.id_wydarzenie > 0)
+        <div class="col-lg-offset-2 gallery ">
+            @foreach (var item in ViewBag.zdjecia)
             {
 
-                @Html.ActionLink("Anuluj i do poprawy opsługi powrotu z Wpis i inaczej z Przebieg model", "List", new { id = Model.id_wydarzenie }, new { @class = "btn btn-default" })
+            <div class="col-md-6">
+                <a href="~/Image/orginal/@item.zdjecie" data-toggle="lightbox" data-gallery="gallery">
+                    <img class="imgmargin" src="~/Image/thumb/@item.zdjecie" />
+                </a>
+                <a href="@Url.Action("Delete", "Wpis", new { id = item.id })" class="btn btn-danger btn-sm delete-button buttonmargin">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </a>
+            </div>
             }
-            else
-            {
-                if (ViewBag.id_przebieg > 0)
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Dodaj" class="btn btn-primary" />
+                @if (Model.id_wydarzenie > 0)
                 {
-                @Html.ActionLink("Anuluj i do przebiegu", "List","Przebieg", new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default" })
+
+                    @Html.ActionLink("Anuluj i przejdz do listy przebiegu wydarzenia", "List", new { id = Model.id_wydarzenie }, new { @class = "btn btn-default" })
                 }
-                else { 
-                @Html.ActionLink("Anuluj i do relacji", "List", new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default" })
+                else
+                {
+                    if (ViewBag.id_przebieg > 0)
+                    {
+                        @Html.ActionLink("Anuluj i do przebiegu", "List", "Przebieg", new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default" })
                     }
-            }
+                    else
+                    {
+                        @Html.ActionLink("Anuluj i do relacji", "List", new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default" })
+                    }
+                }
+            </div>
         </div>
     </div>
-</div>
 }
 
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/ekko")
+    <script>
+        $(document).ready(function ($) {
+
+        $(document).on('click', '[data-toggle="lightbox"]:not([data-gallery="navigateTo"])', function (event) {
+                    event.preventDefault();
+                    return $(this).ekkoLightbox();
+                });
+        });
+        $("textarea").height($("textarea")[0].scrollHeight);
+
+        var textarea = document.querySelector('textarea');
+
+
+        textarea.addEventListener('keydown', autosize);
+
+        function autosize() {
+            var el = this;
+            setTimeout(function () {
+
+                el.style.cssText = 'height:auto; padding-bottom:0';
+
+                el.style.cssText = 'height:' + el.scrollHeight + 'px';
+            }, 0);
+        }
+    </script>
 }

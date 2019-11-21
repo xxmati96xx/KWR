@@ -359,12 +359,12 @@
     <Content Include="Views\Wpis\Details.cshtml" />
     <Content Include="Scripts\lightbox.min.map" />
     <Content Include="Views\Wpis\_PartialCreate.cshtml" />
+    <Content Include="Views\Uczestnicy\_PartialUczestnicy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Image\orginal\" />
     <Folder Include="Image\thumb\" />
-    <Folder Include="Views\Uczestnicy\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

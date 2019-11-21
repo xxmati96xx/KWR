@@ -47,6 +47,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 return View();
             }
             Wpis wpis = dbo.Wpis.Find(id);
+            ViewBag.zdjecia = dbo.WpisZdjecia.Where(wz => wz.id_wpis == wpis.id);
             if (wpis == null)
             {
                 return HttpNotFound();
@@ -77,6 +78,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    ViewBag.zdjecia = dbo.WpisZdjecia.Where(wz => wz.id_wpis == wpis.id);
                     dbo.Entry(wpis).State = EntityState.Modified;
                     dbo.SaveChanges();
                     return RedirectToAction("List", new { id = wpis.id_wydarzenie });
@@ -147,7 +149,8 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var id_wydarzenie = dbo.Wpis.Find(id).id_wydarzenie;
-            Wpis wpis = dbo.Wpis.Include(w=>w.Uzytkownik).SingleOrDefault(x => x.id == id); ;            
+            ViewBag.id_uzytkownik = Convert.ToInt32(Session["id"]);
+            Wpis wpis = dbo.Wpis.Include(w=>w.Uzytkownik).Include(w=>w.Wydarzenie).SingleOrDefault(x => x.id == id); ;            
             ViewBag.zdjecia = dbo.WpisZdjecia.Where(wz => wz.id_wpis == id);
             ViewBag.uczestnicy = dbo.Uczestnicy.Include(u => u.Uzytkownik).Where(u => u.id_wydarzenie == id_wydarzenie);
             if (wpis == null)
