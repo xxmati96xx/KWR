@@ -44,15 +44,15 @@
                 @foreach (var item in ViewBag.zdjecia)
                 {
 
+                    
+                        <a href="~/Image/orginal/@item.zdjecie" data-toggle="lightbox" data-gallery="gallery">
+                            <img class="imgmargin" src="~/Image/thumb/@item.zdjecie" />
+                        </a>
+                        
 
-                    <a href="~/Image/orginal/@item.zdjecie" data-toggle="lightbox" data-gallery="gallery">
-                        <img class="imgmargin" src="~/Image/thumb/@item.zdjecie" />
-                    </a>
-
-
-                }
-            </div>
-        </div>
+                        }
+                    </div>
+                </div>
     </div>
     <div class="col-md-3">
         <h2 class="h3Przebieg">Uczestnicy</h2>

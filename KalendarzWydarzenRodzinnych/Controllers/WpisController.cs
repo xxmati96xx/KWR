@@ -47,48 +47,68 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 return View();
             }
             Wpis wpis = dbo.Wpis.Find(id);
+            WpisWpisZdjecia wpisWpisZdjecia = new WpisWpisZdjecia();
+            wpisWpisZdjecia.Wpis = wpis;
             ViewBag.zdjecia = dbo.WpisZdjecia.Where(wz => wz.id_wpis == wpis.id);
             if (wpis == null)
             {
                 return HttpNotFound();
             }
 
-            return View(wpis);
+            return View(wpisWpisZdjecia);
 
         }
 
         [HttpPost]
-        public ActionResult Edit(Wpis wpis)
+        public ActionResult Edit(WpisWpisZdjecia wpisWpisZdjecia)
         {
-            if (wpis.id == 0)
-            {
-                if (ModelState.IsValid)
-                {
-                    wpis.id_uzytkownik = Convert.ToInt32(Session["id"]);
-                    dbo.Wpis.Add(wpis);
-                    dbo.SaveChanges();
-                    return RedirectToAction("List", new { id = wpis.id_wydarzenie });
-                }
-                else
-                {
-                    return View(wpis);
-                }
-            }
-            else
-            {
-                if (ModelState.IsValid)
-                {
-                    ViewBag.zdjecia = dbo.WpisZdjecia.Where(wz => wz.id_wpis == wpis.id);
-                    dbo.Entry(wpis).State = EntityState.Modified;
-                    dbo.SaveChanges();
-                    return RedirectToAction("List", new { id = wpis.id_wydarzenie });
-                }
-                else
-                {
 
-                    return View(wpis);
+            //   if (ModelState.IsValid)
+            //    {
+            ViewBag.zdjecia = dbo.WpisZdjecia.Where(wz => wz.id_wpis == wpisWpisZdjecia.Wpis.id);
+            Wpis wpis = wpisWpisZdjecia.Wpis;
+            dbo.Entry(wpis).State = EntityState.Modified;
+            dbo.SaveChanges();
+            foreach (HttpPostedFileBase image in wpisWpisZdjecia.files)
+            {
+                try
+                {
+                    if (image != null)
+                    {
+                        var InputFileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
+                        var ServerSavePath = Path.Combine(Server.MapPath("~/Image/orginal/") + InputFileName);
+
+                        image.SaveAs(ServerSavePath);
+                        WpisZdjecia wpisZdjecia = new WpisZdjecia();
+                        wpisZdjecia.id_wpis = wpis.id;
+                        wpisZdjecia.zdjecie = InputFileName;
+                        dbo.WpisZdjecia.Add(wpisZdjecia);
+                        dbo.SaveChanges();
+                        WebImage img = new WebImage(image.InputStream);
+                        if (img.Width > 300)
+                            img.Resize(250, 250);
+                        img.Save("~/Image/thumb/" + InputFileName);
+
+
+                    }
                 }
+                catch (Exception e)
+                {
+                    TempData["message"] = string.Format("Dodanie zdjęć nie powiodło się. Spróbuj ponownie lub skontaktuj się z administratorem aplikacji Błąd:" + e.ToString());
+                }
+
             }
+
+
+
+            return RedirectToAction("List", new { id = wpis.id_wydarzenie });
+        //}
+            //   else
+             //   {
+
+              //      return View(wpisWpisZdjecia);
+              //  }
+            
         }
         [HttpGet]
         public ActionResult Create(int id_wydarzenie,int? id_przebieg)
@@ -113,12 +133,13 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 int id = wpis.id;
                 foreach (HttpPostedFileBase image in wpisWpisZdjecia.files)
                 {
-                     
+                try
+                {
                     if (image != null)
                     {
-                        var InputFileName = Guid.NewGuid().ToString() +Path.GetExtension(image.FileName);
+                        var InputFileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
                         var ServerSavePath = Path.Combine(Server.MapPath("~/Image/orginal/") + InputFileName);
-                        
+
                         image.SaveAs(ServerSavePath);
                         WpisZdjecia wpisZdjecia = new WpisZdjecia();
                         wpisZdjecia.id_wpis = id;
@@ -127,13 +148,19 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                         dbo.SaveChanges();
                         WebImage img = new WebImage(image.InputStream);
                         if (img.Width > 300)
-                        img.Resize(250, 250);
+                            img.Resize(250, 250);
                         img.Save("~/Image/thumb/" + InputFileName);
 
-                   
-                            
-                        
+
                     }
+                }
+                catch (Exception e)
+                {
+                    TempData["message"] = string.Format("Dodanie zdjęć nie powiodło się. Spróbuj ponownie lub skontaktuj się z administratorem aplikacji Błąd:"+e.ToString());
+                }
+                
+                        
+                    
                 
                 }
 
