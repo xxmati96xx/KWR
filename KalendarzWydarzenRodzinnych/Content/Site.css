@@ -29,8 +29,13 @@
     color:lightgrey;
 }
 
+.big-checkbox {
+    width: 30px;
+    height: 30px;
+}
+
 .editWpisButtonpading{
-    padding-left:131px
+    padding-left:145px
 }
 
 .h2Opis{

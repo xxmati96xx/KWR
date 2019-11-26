@@ -168,7 +168,24 @@ namespace KalendarzWydarzenRodzinnych.Controllers
 
 
         }
-
+        [HttpGet]
+        public ActionResult DeleteFoto(int? id)
+        {
+            List<int> checkBox = new List<int>();
+            ViewBag.zdjecia = dbo.WpisZdjecia.Where(wz => wz.id_wpis == id);
+            return PartialView(checkBox);
+        }
+        [HttpPost]
+        public ActionResult DeleteFoto(List<int> checkbox)
+        {
+            ViewBag.zdjecia = dbo.WpisZdjecia;
+            foreach(int idZ in checkbox)
+            {
+                int test = idZ;
+            }
+           
+            return PartialView();
+        }
         public ActionResult Details(int? id)
         {
             if (id == null)

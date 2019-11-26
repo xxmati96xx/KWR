@@ -360,6 +360,7 @@
     <Content Include="Scripts\lightbox.min.map" />
     <Content Include="Views\Wpis\_PartialCreate.cshtml" />
     <Content Include="Views\Uczestnicy\_PartialUczestnicy.cshtml" />
+    <Content Include="Views\Wpis\DeleteFoto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

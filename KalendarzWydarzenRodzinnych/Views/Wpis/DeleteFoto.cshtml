@@ -1,0 +1,41 @@
+﻿
+@if (ViewBag.zdjecia != null)
+{
+
+}
+
+@using (Html.BeginForm("DeleteFoto", "Wpis", FormMethod.Post, new { id = "form2" }))
+{
+    
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10 pull-right">
+                <h4 class="col-md-5">Wybierz zdjęcia do usunięcia:</h4>
+                <input type="submit" value="Usuń" class="btn btn-danger pull-right" />
+            </div>
+        </div>
+        @foreach (var item in ViewBag.zdjecia)
+        {
+
+            <div class="col-md-offset-2 col-md-4">
+                <div>
+                    <a href="~/Image/orginal/@item.zdjecie" data-toggle="lightbox" data-gallery="gallery">
+                        <img class="list-group-item imgmargin" src="~/Image/thumb/@item.zdjecie" />
+                    </a>
+                </div>
+                <div class="col-md-12 editWpisButtonpading">
+
+                    <div class="form-group">
+                        <input type="checkbox" class="chkCheckBoxId editWpisButtonpading big-checkbox panel panel-danger" multiple="multiple" id="checkbox" value=@item.id name="checkbox" />
+                    </div>
+                </div>
+            </div>
+
+
+        }
+
+    </div>
+}
+
