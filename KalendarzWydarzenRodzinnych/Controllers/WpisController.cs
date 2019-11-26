@@ -169,22 +169,33 @@ namespace KalendarzWydarzenRodzinnych.Controllers
 
         }
         [HttpGet]
-        public ActionResult DeleteFoto(int? id)
+        public ActionResult DeleteFotoForm(int? id)
         {
-            List<int> checkBox = new List<int>();
+            //List<int> checkBox = new List<int>();
             ViewBag.zdjecia = dbo.WpisZdjecia.Where(wz => wz.id_wpis == id);
-            return PartialView(checkBox);
+            return PartialView();
         }
         [HttpPost]
-        public ActionResult DeleteFoto(List<int> checkbox)
+        public ActionResult DeleteFotoForm(List<int> checkbox)
         {
-            ViewBag.zdjecia = dbo.WpisZdjecia;
+            //ViewBag.zdjecia = dbo.WpisZdjecia;
+            List<WpisZdjecia> wpisZdjecia = new List<WpisZdjecia>();
             foreach(int idZ in checkbox)
             {
-                int test = idZ;
+                WpisZdjecia wpis = new WpisZdjecia();
+                wpis = dbo.WpisZdjecia.Find(idZ);
+                wpisZdjecia.Add(wpis);
             }
-           
-            return PartialView();
+
+            return DeleteFoto(wpisZdjecia);
+        }
+
+        [HttpGet]
+        public ActionResult DeleteFoto(List<KalendarzWydarzenRodzinnych.Models.WpisZdjecia> wpisZdjecia)
+        {
+            ViewBag.wpisZdjecia = wpisZdjecia;
+
+            return RedirectToActionPermanent("DeleteFoto", wpisZdjecia);
         }
         public ActionResult Details(int? id)
         {
