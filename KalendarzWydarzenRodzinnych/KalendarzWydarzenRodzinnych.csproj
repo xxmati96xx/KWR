@@ -361,7 +361,7 @@
     <Content Include="Views\Wpis\_PartialCreate.cshtml" />
     <Content Include="Views\Uczestnicy\_PartialUczestnicy.cshtml" />
     <Content Include="Views\Wpis\DeleteFotoForm.cshtml" />
-    <Content Include="Views\Wpis\DeleteFoto.cshtml" />
+    <Content Include="Views\Wpis\DeleteFotoConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

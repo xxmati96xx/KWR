@@ -172,30 +172,66 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         public ActionResult DeleteFotoForm(int? id)
         {
             //List<int> checkBox = new List<int>();
+            ViewBag.id_wpis = id;
             ViewBag.zdjecia = dbo.WpisZdjecia.Where(wz => wz.id_wpis == id);
             return PartialView();
         }
-        [HttpPost]
-        public ActionResult DeleteFotoForm(List<int> checkbox)
-        {
+       // [HttpPost]
+       // public ActionResult DeleteFotoForm(List<int> checkbox)
+       // {
             //ViewBag.zdjecia = dbo.WpisZdjecia;
+         //   List<WpisZdjecia> wpisZdjecia = new List<WpisZdjecia>();
+        //    foreach(int idZ in checkbox)
+        //    {
+        //        WpisZdjecia wpis = new WpisZdjecia();
+        //        wpis = dbo.WpisZdjecia.Find(idZ);
+        //        wpisZdjecia.Add(wpis);
+        //    }
+//      return DeleteFoto(wpisZdjecia);
+      //  }
+
+        [HttpPost]
+        public ActionResult DeleteFotoConfirm(List<int> checkbox, int? id_wpis)
+        {
+            if(checkbox == null)
+            {
+                TempData["message"] = string.Format("Musisz wybrać co najmniej jedno zdjęcie do usunięcia");
+                return RedirectToAction("Edit", new { id = id_wpis });
+            }
             List<WpisZdjecia> wpisZdjecia = new List<WpisZdjecia>();
-            foreach(int idZ in checkbox)
+            foreach (int idZ in checkbox)
             {
                 WpisZdjecia wpis = new WpisZdjecia();
                 wpis = dbo.WpisZdjecia.Find(idZ);
+                if(wpis == null)
+                {
+                    return RedirectToAction("Edit", new { id = id_wpis });
+                }
                 wpisZdjecia.Add(wpis);
             }
-
-            return DeleteFoto(wpisZdjecia);
+            return View(wpisZdjecia);
         }
 
-        [HttpGet]
-        public ActionResult DeleteFoto(List<KalendarzWydarzenRodzinnych.Models.WpisZdjecia> wpisZdjecia)
+        [HttpPost]
+        public ActionResult DeleteFoto(List<int> checkbox)
         {
-            ViewBag.wpisZdjecia = wpisZdjecia;
-
-            return RedirectToActionPermanent("DeleteFoto", wpisZdjecia);
+            WpisZdjecia wpis = new WpisZdjecia();
+            foreach (int idZ in checkbox)
+            {
+                
+                wpis = dbo.WpisZdjecia.Find(idZ);
+                dbo.WpisZdjecia.Remove(wpis);
+                dbo.SaveChanges();
+               
+                string orginalPath = Path.Combine(Server.MapPath("~/Image/orginal/" + wpis.zdjecie));
+                string thumbPath = Path.Combine(Server.MapPath("~/Image/thumb/" + wpis.zdjecie));
+                if (System.IO.File.Exists(orginalPath))
+                {
+                    System.IO.File.Delete(orginalPath);
+                    System.IO.File.Delete(thumbPath);
+                }
+            }
+            return RedirectToAction("Edit",new { id = wpis.id_wpis});
         }
         public ActionResult Details(int? id)
         {

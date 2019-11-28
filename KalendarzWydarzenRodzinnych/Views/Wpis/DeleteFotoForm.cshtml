@@ -1,12 +1,18 @@
-﻿
-    <div class="gallery ">
+﻿@if (TempData["message"] != null)
+{
+    <div class="alert alert-danger">@TempData["message"]</div>
+}
+<div class="gallery ">
 
-        @using (Html.BeginForm("DeleteFotoForm", "Wpis", FormMethod.Post, new { id = "form2" }))
-        {
+    @using (Html.BeginForm("DeleteFotoConfirm", "Wpis", FormMethod.Post))
+    {
 
-            @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
         <div class="form-horizontal">
+            <div class="form-group">
+                <input name="id_wpis" id="id_wpis" value="@ViewBag.id_wpis" type="number" hidden />
+            </div>
             <div class="form-group">
                 @if (ViewBag.zdjecia != null)
                 {
@@ -19,30 +25,29 @@
             <div class="form-group">
                 @foreach (var item in ViewBag.zdjecia)
                 {
-                   
-            
-             
-                    
+
+
                     <div class="col-md-offset-2 col-md-4">
                         <div>
                             <a href="~/Image/orginal/@item.zdjecie" data-toggle="lightbox" data-gallery="gallery">
                                 <img class="list-group-item imgmargin" src="~/Image/thumb/@item.zdjecie" />
                             </a>
+
                         </div>
                         <div class="col-md-12 editWpisButtonpading">
-                          
+
 
                             <input type="checkbox" class="chkCheckBoxId editWpisButtonpading big-checkbox panel panel-danger" multiple="multiple" id="checkbox" value=@item.id name="checkbox" />
                         </div>
                     </div>
-                    
-               
-                        
 
-                    }
+
+
+
+                }
             </div>
-            </div>
-
-        }
-
         </div>
+
+    }
+
+</div>
