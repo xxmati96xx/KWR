@@ -9,6 +9,7 @@ using System.Net;
 using System.IO;
 using System.Web.Mvc;
 using System.Web.Helpers;
+using System.IO.Compression;
 using KalendarzWydarzenRodzinnych.Models;
 
 
@@ -249,6 +250,25 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 return HttpNotFound();
             }
             return View(wpis);
+        }
+
+        public ActionResult Download(int? id)
+        {
+            IEnumerable<WpisZdjecia> lista = dbo.WpisZdjecia.Include(wz=>wz.Wpis).Where(wz => wz.id_wpis == 15);
+            string nazwa = "Image.zip";
+            using (var memoryStream = new MemoryStream())
+            {
+                using (var zip = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
+                {
+                    foreach (var item in lista)
+                    {
+                        string orginalPath = Path.Combine(Server.MapPath("~/Image/orginal/"+item.zdjecie));
+                        zip.CreateEntryFromFile(orginalPath, item.zdjecie);
+                        nazwa = item.Wpis.Wydarzenie.Tytul+"("+item.Wpis.Uzytkownik.Imie+"_" + item.Wpis.Uzytkownik.Nazwisko+"_"+item.Wpis.data_dodania+").zip";
+                    }
+                }
+                return File(memoryStream.ToArray(), "application/zip", nazwa);
+            }
         }
 
     }

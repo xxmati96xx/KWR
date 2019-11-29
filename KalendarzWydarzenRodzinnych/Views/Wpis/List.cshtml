@@ -18,7 +18,7 @@
 
     </div>
     <div class="col-md-9 opis panel panel-default">
-
+        @Html.ActionLink("Test", "Download", new { @class = "btn btn-primary add-button" })
         @Html.Action("form", new { id_wydarzenie = ViewBag.id_wydarzenie })
         @if (ViewBag.id_organizator == ViewBag.id_uzytkownik)
         {
