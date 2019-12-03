@@ -51,13 +51,24 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             {
                 return HttpNotFound();
             }
-            UzytkownicyWGrupie user = dbo.UzytkownicyWGrupie.Find(id_uzytkownik);
+            UzytkownicyWGrupie user = dbo.UzytkownicyWGrupie.Where(u=>u.id_uzytkownik ==id_uzytkownik).FirstOrDefault();
             dbo.UzytkownicyWGrupie.Remove(user);
             dbo.SaveChanges();
 
             return RedirectToAction("Details", new { id = id_grupa });
         }
 
-      
+        public ActionResult AddUserGrup(int? id_uzytkownik, int? id_grupa)
+        {
+            if (id_uzytkownik == null || id_grupa == null)
+            {
+                return HttpNotFound();
+            }
+            dbo.Dodaj_Uzytkownikow_Grupa(id_grupa, id_uzytkownik);
+            dbo.SaveChanges();
+            
+            return RedirectToAction("AddUserGrupa", "Uzytkownik", new { id = id_grupa });
+        }
+
     }
 }

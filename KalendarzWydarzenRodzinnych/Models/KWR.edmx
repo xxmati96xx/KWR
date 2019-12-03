@@ -544,6 +544,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="Dodaj_Uzytkownikow_Grupa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_IdGrupa" Type="int" Mode="In" />
+          <Parameter Name="Par_IdUzytkownik" Type="int" Mode="In" />
+        </Function>
         <Function Name="Wydarzenie_Uczestnik" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_id_wydarzenie" Type="int" Mode="In" />
           <Parameter Name="Par_id_uzytkownik" Type="int" Mode="In" />
@@ -557,6 +561,10 @@
         </Function>
         <Function Name="Wyswietl_Uzytkownikow" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdWydarzenie" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Wyswietl_Uzytkownikow_Grupa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_IdGrupa" Type="int" Mode="In" />
+          <Parameter Name="Par_IdUzytkownik" Type="int" Mode="In" />
         </Function>
         <Function Name="Wyswietl_Wydarzenia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdUzytkownik" Type="int" Mode="In" />
@@ -1337,6 +1345,14 @@
             <End Role="Przebieg" EntitySet="Przebieg" />
             <End Role="Wpis" EntitySet="Wpis" />
           </AssociationSet>
+          <FunctionImport Name="Wyswietl_Uzytkownikow_Grupa" ReturnType="Collection(KWRModel.Wyswietl_Uzytkownikow_Grupa_Result)">
+            <Parameter Name="Par_IdGrupa" Mode="In" Type="Int32" />
+            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Dodaj_Uzytkownikow_Grupa">
+            <Parameter Name="Par_IdGrupa" Mode="In" Type="Int32" />
+            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="Wyswietl_Powiadomienia_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
@@ -1471,6 +1487,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="Wyswietl_Uzytkownikow_Grupa_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="Imie" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Nazwisko" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="DataUrodzenia" Nullable="false" />
+          <Property Type="String" Name="Zdjcie" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="NrTelefonu" Nullable="true" MaxLength="12" />
+          <Property Type="String" Name="AdresEmail" Nullable="true" MaxLength="50" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1735,6 +1760,20 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="Wyswietl_Uzytkownikow_Grupa" FunctionName="KWRModel.Store.Wyswietl_Uzytkownikow_Grupa">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KWRModel.Wyswietl_Uzytkownikow_Grupa_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Imie" ColumnName="Imie" />
+                <ScalarProperty Name="Nazwisko" ColumnName="Nazwisko" />
+                <ScalarProperty Name="DataUrodzenia" ColumnName="DataUrodzenia" />
+                <ScalarProperty Name="Zdjcie" ColumnName="Zdjcie" />
+                <ScalarProperty Name="NrTelefonu" ColumnName="NrTelefonu" />
+                <ScalarProperty Name="AdresEmail" ColumnName="AdresEmail" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Dodaj_Uzytkownikow_Grupa" FunctionName="KWRModel.Store.Dodaj_Uzytkownikow_Grupa" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

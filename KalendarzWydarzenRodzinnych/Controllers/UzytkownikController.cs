@@ -18,7 +18,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         private KWR dbo = new KWR();
         
         [HttpGet]
-        public ActionResult addUser(int? id)
+        public ActionResult addUser(int? id)  ////Poprawić partial view uczestnicy
         {
             
             var idU = Convert.ToInt32(User.Identity.GetUzytkownikId());
@@ -29,7 +29,19 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             IEnumerable<Uzytkownik> query = dbo.Uzytkownik.SqlQuery("Wyswietl_Uzytkownikow @Par_IdWydarzenie", idWydarzenie);
             return View(query.ToList());
         }
-        
-        
+
+        [HttpGet]
+        public ActionResult AddUserGrupa(int? id)
+        {
+            ViewBag.id_grupa = id;
+            var idU = Convert.ToInt32(User.Identity.GetUzytkownikId());           
+            SqlParameter idGrupa = new SqlParameter("@Par_IdGrupa", id);
+            SqlParameter idUzytkownik = new SqlParameter("@Par_IdUzytkownik", idU);
+
+            IEnumerable<Uzytkownik> query = dbo.Uzytkownik.SqlQuery("Wyswietl_Uzytkownikow_Grupa @Par_IdGrupa, @Par_IdUzytkownik", idGrupa, idUzytkownik);
+            return View(query.ToList());
+        }
+
+
     }
 }

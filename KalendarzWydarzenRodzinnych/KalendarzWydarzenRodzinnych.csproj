@@ -291,6 +291,9 @@
     <Compile Include="Models\Wyswietl_Powiadomienia_Result.cs">
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Wyswietl_Uzytkownikow_Grupa_Result.cs">
+      <DependentUpon>KWR.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Wyswietl_Uzytkownikow_Result.cs">
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
@@ -485,6 +488,7 @@
     <Content Include="Views\Grupa\List.cshtml" />
     <Content Include="Views\Grupa\Details.cshtml" />
     <Content Include="Views\Grupa\_PartialUzytkownicyWGrupie.cshtml" />
+    <Content Include="Views\Uzytkownik\AddUserGrupa.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

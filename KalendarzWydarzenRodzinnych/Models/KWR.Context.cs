@@ -160,5 +160,31 @@ namespace KalendarzWydarzenRodzinnych.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Zadanie_Usun", par_IdZadanieParameter);
         }
+    
+        public virtual ObjectResult<Wyswietl_Uzytkownikow_Grupa_Result> Wyswietl_Uzytkownikow_Grupa(Nullable<int> par_IdGrupa, Nullable<int> par_IdUzytkownik)
+        {
+            var par_IdGrupaParameter = par_IdGrupa.HasValue ?
+                new ObjectParameter("Par_IdGrupa", par_IdGrupa) :
+                new ObjectParameter("Par_IdGrupa", typeof(int));
+    
+            var par_IdUzytkownikParameter = par_IdUzytkownik.HasValue ?
+                new ObjectParameter("Par_IdUzytkownik", par_IdUzytkownik) :
+                new ObjectParameter("Par_IdUzytkownik", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Wyswietl_Uzytkownikow_Grupa_Result>("Wyswietl_Uzytkownikow_Grupa", par_IdGrupaParameter, par_IdUzytkownikParameter);
+        }
+    
+        public virtual int Dodaj_Uzytkownikow_Grupa(Nullable<int> par_IdGrupa, Nullable<int> par_IdUzytkownik)
+        {
+            var par_IdGrupaParameter = par_IdGrupa.HasValue ?
+                new ObjectParameter("Par_IdGrupa", par_IdGrupa) :
+                new ObjectParameter("Par_IdGrupa", typeof(int));
+    
+            var par_IdUzytkownikParameter = par_IdUzytkownik.HasValue ?
+                new ObjectParameter("Par_IdUzytkownik", par_IdUzytkownik) :
+                new ObjectParameter("Par_IdUzytkownik", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Dodaj_Uzytkownikow_Grupa", par_IdGrupaParameter, par_IdUzytkownikParameter);
+        }
     }
 }
