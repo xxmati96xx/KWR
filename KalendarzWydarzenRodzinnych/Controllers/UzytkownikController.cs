@@ -8,9 +8,11 @@ using System.Data.SqlClient;
 using System.Net;
 using System.Web.Mvc;
 using KalendarzWydarzenRodzinnych.Models;
+using KalendarzWydarzenRodzinnych.Extensions;
 
 namespace KalendarzWydarzenRodzinnych.Controllers
 {
+    [Authorize]
     public class UzytkownikController : Controller
     {
         private KWR dbo = new KWR();
@@ -19,7 +21,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         public ActionResult addUser(int? id)
         {
             
-            var idU = Convert.ToInt32(Session["id"]);
+            var idU = Convert.ToInt32(User.Identity.GetUzytkownikId());
             ViewBag.id_wydarzenie = id;
             ViewBag.id_organizator = idU;
             ViewBag.uczestnicy = dbo.Uczestnicy.Include(u => u.Uzytkownik).Where(u => u.id_wydarzenie == id);

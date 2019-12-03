@@ -23,7 +23,7 @@ namespace KalendarzWydarzenRodzinnych.Models
         public int id { get; set; }
         public string Zadanie1 { get; set; }
         public int id_wydarzenie { get; set; }
-        public int liczba_uczestnikow { get; set; }
+        public Nullable<int> liczba_uczestnikow { get; set; }
     
         public virtual Wydarzenie Wydarzenie { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

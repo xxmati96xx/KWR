@@ -43,6 +43,14 @@
         <AssociationConnector Association="KWRModel.FK_Zaproszenie_Wydarzenie" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_ZadanieUczestnik_Zadanie" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Wpis_Uzytkownik" />
+        <EntityTypeShape EntityType="KWRModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="2.5" />
+        <EntityTypeShape EntityType="KWRModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="1" />
+        <EntityTypeShape EntityType="KWRModel.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="3.75" />
+        <EntityTypeShape EntityType="KWRModel.AspNetUsers" Width="1.5" PointX="3" PointY="1.375" />
+        <AssociationConnector Association="KWRModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="KWRModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="KWRModel.AspNetUserRoles" />
+        <AssociationConnector Association="KWRModel.FK_Wpis_Przebieg" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

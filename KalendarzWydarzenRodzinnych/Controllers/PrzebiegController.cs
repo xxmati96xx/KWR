@@ -9,9 +9,11 @@ using System.Net;
 using System.Web.Mvc;
 
 using KalendarzWydarzenRodzinnych.Models;
+using KalendarzWydarzenRodzinnych.Extensions;
 
 namespace KalendarzWydarzenRodzinnych.Controllers
 {
+    [Authorize]
     public class PrzebiegController : Controller
     {
         private KWR dbo = new KWR();
@@ -23,7 +25,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             ViewBag.id_wydarzenie = id;
             ViewBag.id_organizator = dbo.Wydarzenie.Find(id).id_organizator;
             ViewBag.uczestnicy = dbo.Uczestnicy.Include(u => u.Uzytkownik).Where(u => u.id_wydarzenie == id);
-            ViewBag.id_uzytkownik = Convert.ToInt32(Session["id"]);
+            ViewBag.id_uzytkownik = Convert.ToInt32(User.Identity.GetUzytkownikId());
             return View(przebieg.ToList());
             
         }

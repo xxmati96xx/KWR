@@ -1,0 +1,33 @@
+﻿@model KalendarzWydarzenRodzinnych.Models.LoginViewModel
+
+
+
+@{
+    ViewBag.Title = "Nie potwierdzono adresu email";
+}
+
+    <hgroup>
+        <h1 class="text">Konto jest zablokowane.</h1>
+        <h2 class="text">To konto jest zablokowane. Potwierdz adress email.</h2>
+        <h2 class="text">Jeśli link aktywacyjny nie dotarł kliknij łącze poniżej.</h2>
+        @using (Html.BeginForm("RepeatConfirmEmail", "Account",FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Email)
+            @Html.ActionLink("Kliknij aby wysłać link aktywacyjny", "RepeatConfirmEmail", "Account", null, new { @class = "send", onclick = "return false;" })
+        }
+
+    </hgroup>
+
+
+   
+    @section Scripts{
+        <script>
+            $(document).ready(function () {
+                $('.send').click(function () {
+                    $(this).closest('form')[0].submit();
+                });
+            });
+        </script>
+    }
+

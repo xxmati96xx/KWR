@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using KalendarzWydarzenRodzinnych.Extensions;
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -25,11 +26,13 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    @if (User.Identity.IsAuthenticated) { 
                     <li>@Html.ActionLink("Wydarzenia", "List", "Wydarzenie")</li>
                     <li>@Html.ActionLink("Zaproszenia", "List", "Zaproszenie")</li>
                     <li>@Html.ActionLink("Powiadomienia", "List", "Powiadomienia")</li>
-
+                    }
                 </ul>
+                @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>

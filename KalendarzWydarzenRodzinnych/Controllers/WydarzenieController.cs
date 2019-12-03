@@ -7,12 +7,14 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Net;
 using System.Web.Mvc;
-
+using Microsoft.AspNet.Identity;
+using System.Web.Security;
 using KalendarzWydarzenRodzinnych.Models;
+using KalendarzWydarzenRodzinnych.Extensions;
 
 namespace KalendarzWydarzenRodzinnych.Controllers
 {
-   
+    [Authorize]
     public class WydarzenieController : Controller
     {
        
@@ -21,11 +23,14 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         // GET: Wydarzenie
         public ActionResult List()
         {
-            int cos = 1;
-            Session["id"] = cos;
-            var id = Convert.ToInt32(Session["id"]);
+            //var idU = User.Identity.GetUzytkownikId();
+            //var user = dbo.AspNetUsers.Find(UserId).id_uzytkownik;
+            
+            //int cos = 1;
+            //User.Identity.GetUzytkownikId() = cos;
+            var id = Convert.ToInt32(User.Identity.GetUzytkownikId());
             ViewBag.id_organizator = id;
-
+            
 
             // IEnumerable<Wydarzenie> query = (from w in dbo.Wydarzenie.DefaultIfEmpty()
             //                                 from u in dbo.Uczestnicy.Where(u => u.id_wydarzenie == w.id).DefaultIfEmpty()                                           
@@ -70,7 +75,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    wydarzenie.id_organizator = Convert.ToInt32(Session["id"]);
+                    wydarzenie.id_organizator = Convert.ToInt32(User.Identity.GetUzytkownikId());
                     dbo.Wydarzenie.Add(wydarzenie);
                     dbo.SaveChanges();
                     return RedirectToAction("List");
@@ -114,7 +119,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 return HttpNotFound();
             }
             
-            var idU = Convert.ToInt32(Session["id"]);
+            var idU = Convert.ToInt32(User.Identity.GetUzytkownikId());
             ViewBag.id_organizator = idU;
             ViewBag.uczestnicy = dbo.Uczestnicy.Include(u=>u.Uzytkownik).Where(u=>u.id_wydarzenie == id);
             return View(wydarzenie);

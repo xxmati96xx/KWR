@@ -11,10 +11,11 @@ using System.Web.Mvc;
 using System.Web.Helpers;
 using System.IO.Compression;
 using KalendarzWydarzenRodzinnych.Models;
-
+using KalendarzWydarzenRodzinnych.Extensions;
 
 namespace KalendarzWydarzenRodzinnych.Controllers
 {
+    [Authorize]
     public class WpisController : Controller
     {
         private KWR dbo = new KWR();
@@ -25,7 +26,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             ViewBag.id_wydarzenie = id;
             ViewBag.id_organizator = dbo.Wydarzenie.Find(id).id_organizator;
             ViewBag.uczestnicy = dbo.Uczestnicy.Include(u => u.Uzytkownik).Where(u => u.id_wydarzenie == id);
-            ViewBag.id_uzytkownik = Convert.ToInt32(Session["id"]);
+            ViewBag.id_uzytkownik = Convert.ToInt32(User.Identity.GetUzytkownikId());
             ViewBag.zdjecia = dbo.WpisZdjecia.Include(wz => wz.Wpis).Where(wz => wz.Wpis.id_wydarzenie == id);
             ViewBag.wpisWpisZdjecia = new WpisWpisZdjecia();
             return View(wpis.ToList());
@@ -43,6 +44,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         [HttpGet]
         public ActionResult Edit(int? id)
         {
+            
             if (id == null)
             {
                 return View();
@@ -126,7 +128,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
 
                 Wpis wpis = wpisWpisZdjecia.Wpis;
                 
-                wpis.id_uzytkownik = Convert.ToInt32(Session["id"]);
+                wpis.id_uzytkownik = Convert.ToInt32(User.Identity.GetUzytkownikId());
               
 
                 dbo.Wpis.Add(wpis);
@@ -241,7 +243,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var id_wydarzenie = dbo.Wpis.Find(id).id_wydarzenie;
-            ViewBag.id_uzytkownik = Convert.ToInt32(Session["id"]);
+            ViewBag.id_uzytkownik = Convert.ToInt32(User.Identity.GetUzytkownikId());
             Wpis wpis = dbo.Wpis.Include(w=>w.Uzytkownik).Include(w=>w.Wydarzenie).SingleOrDefault(x => x.id == id); ;            
             ViewBag.zdjecia = dbo.WpisZdjecia.Where(wz => wz.id_wpis == id);
             ViewBag.uczestnicy = dbo.Uczestnicy.Include(u => u.Uzytkownik).Where(u => u.id_wydarzenie == id_wydarzenie);

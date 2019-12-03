@@ -42,6 +42,10 @@ namespace KalendarzWydarzenRodzinnych.Models
         public virtual DbSet<Zadanie> Zadanie { get; set; }
         public virtual DbSet<ZadanieUczestnik> ZadanieUczestnik { get; set; }
         public virtual DbSet<Zaproszenie> Zaproszenie { get; set; }
+        public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
     
         public virtual int Wydarzenie_Uczestnik(Nullable<int> par_id_wydarzenie, Nullable<int> par_id_uzytkownik)
         {

@@ -14,11 +14,19 @@ namespace KalendarzWydarzenRodzinnych.Models
     
     public partial class Przebieg
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Przebieg()
+        {
+            this.Wpis = new HashSet<Wpis>();
+        }
+    
         public int id { get; set; }
         public string Opis { get; set; }
         public int id_wydarzenie { get; set; }
         public string Tytul { get; set; }
     
         public virtual Wydarzenie Wydarzenie { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Wpis> Wpis { get; set; }
     }
 }

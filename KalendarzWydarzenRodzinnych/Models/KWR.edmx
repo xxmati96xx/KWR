@@ -5,6 +5,58 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="KWRModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="id_uzytkownik" Type="int" />
+        </EntityType>
         <EntityType Name="Grupa">
           <Key>
             <PropertyRef Name="id" />
@@ -49,7 +101,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Opis" Type="varchar" MaxLength="8000" />
           <Property Name="id_wydarzenie" Type="int" Nullable="false" />
-          <Property Name="Tytul" Type="varchar" MaxLength="100" />
+          <Property Name="Tytul" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Uczestnicy">
           <Key>
@@ -96,11 +148,11 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Relacja" Type="varchar" MaxLength="300" />
+          <Property Name="Relacja" Type="varchar" MaxLength="8000" />
           <Property Name="id_wydarzenie" Type="int" />
-          <Property Name="Tytul" Type="varchar" MaxLength="100" />
           <Property Name="id_przebieg" Type="int" />
           <Property Name="id_uzytkownik" Type="int" Nullable="false" />
+          <Property Name="Tytul" Type="varchar" MaxLength="100" />
           <Property Name="data_dodania" Type="datetime" />
         </EntityType>
         <EntityType Name="WpisZdjecia">
@@ -109,7 +161,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_wpis" Type="int" Nullable="false" />
-          <Property Name="zdjecie" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="zdjecie" Type="varchar" MaxLength="600" />
         </EntityType>
         <EntityType Name="Wydarzenie">
           <Key>
@@ -129,7 +181,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Zadanie" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="id_wydarzenie" Type="int" Nullable="false" />
-          <Property Name="liczba_uczestnikow" Type="int" Nullable="false" />
+          <Property Name="liczba_uczestnikow" Type="int" />
         </EntityType>
         <EntityType Name="ZadanieUczestnik">
           <Key>
@@ -148,6 +200,62 @@
           <Property Name="Do" Type="int" Nullable="false" />
           <Property Name="id_wydarzenie" Type="int" Nullable="false" />
         </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Grupa_Uzytkownik">
           <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
           <End Role="Grupa" Type="Self.Grupa" Multiplicity="*" />
@@ -301,6 +409,18 @@
             </Principal>
             <Dependent Role="Wiadomosc">
               <PropertyRef Name="Od" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wpis_Przebieg">
+          <End Role="Przebieg" Type="Self.Przebieg" Multiplicity="0..1" />
+          <End Role="Wpis" Type="Self.Wpis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Przebieg">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wpis">
+              <PropertyRef Name="id_przebieg" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -461,6 +581,11 @@
           <Parameter Name="Par_id_uzytkownik" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="KWRModelStoreContainer">
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Grupa" EntityType="Self.Grupa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Logowanie" EntityType="Self.Logowanie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Powiadomienia" EntityType="Self.Powiadomienia" Schema="dbo" store:Type="Tables" />
@@ -476,6 +601,22 @@
           <EntitySet Name="Zadanie" EntityType="Self.Zadanie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ZadanieUczestnik" EntityType="Self.ZadanieUczestnik" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Zaproszenie" EntityType="Self.Zaproszenie" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
           <AssociationSet Name="FK_Grupa_Uzytkownik" Association="Self.FK_Grupa_Uzytkownik">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
             <End Role="Grupa" EntitySet="Grupa" />
@@ -527,6 +668,10 @@
           <AssociationSet Name="FK_Wiadomosc_Od" Association="Self.FK_Wiadomosc_Od">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
             <End Role="Wiadomosc" EntitySet="Wiadomosc" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wpis_Przebieg" Association="Self.FK_Wpis_Przebieg">
+            <End Role="Przebieg" EntitySet="Przebieg" />
+            <End Role="Wpis" EntitySet="Wpis" />
           </AssociationSet>
           <AssociationSet Name="FK_Wpis_Uzytkownik" Association="Self.FK_Wpis_Uzytkownik">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
@@ -624,8 +769,9 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Opis" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
           <Property Name="id_wydarzenie" Type="Int32" Nullable="false" />
-          <Property Name="Tytul" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Tytul" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Przebieg_Wydarzenie" FromRole="Przebieg" ToRole="Wydarzenie" />
+          <NavigationProperty Name="Wpis" Relationship="KWRModel.FK_Wpis_Przebieg" FromRole="Przebieg" ToRole="Wpis" />
         </EntityType>
         <EntityType Name="Uczestnicy">
           <Key>
@@ -700,6 +846,7 @@
           <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Wpis_Wydarzenie" FromRole="Wpis" ToRole="Wydarzenie" />
           <NavigationProperty Name="WpisZdjecia" Relationship="Self.FK_WpisZdjecia_Wpis" FromRole="Wpis" ToRole="WpisZdjecia" />
           <NavigationProperty Name="Uzytkownik" Relationship="KWRModel.FK_Wpis_Uzytkownik" FromRole="Wpis" ToRole="Uzytkownik" />
+          <NavigationProperty Name="Przebieg" Relationship="KWRModel.FK_Wpis_Przebieg" FromRole="Wpis" ToRole="Przebieg" />
         </EntityType>
         <EntityType Name="WpisZdjecia">
           <Key>
@@ -707,7 +854,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="id_wpis" Type="Int32" Nullable="false" />
-          <Property Name="zdjecie" Type="String" MaxLength="600" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="zdjecie" Type="String" MaxLength="600" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Wpis" Relationship="Self.FK_WpisZdjecia_Wpis" FromRole="WpisZdjecia" ToRole="Wpis" />
         </EntityType>
         <EntityType Name="Wydarzenie">
@@ -736,7 +883,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Zadanie1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="id_wydarzenie" Type="Int32" Nullable="false" />
-          <Property Name="liczba_uczestnikow" Type="Int32" Nullable="false" />
+          <Property Name="liczba_uczestnikow" Type="Int32" />
           <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Zadanie_Wydarzenie" FromRole="Zadanie" ToRole="Wydarzenie" />
           <NavigationProperty Name="ZadanieUczestnik" Relationship="Self.FK_ZadanieUczestnik_Zadanie" FromRole="Zadanie" ToRole="ZadanieUczestnik" />
         </EntityType>
@@ -1170,6 +1317,26 @@
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
             <End Role="Wpis" EntitySet="Wpis" />
           </AssociationSet>
+          <EntitySet Name="AspNetRoles" EntityType="KWRModel.AspNetRoles" />
+          <EntitySet Name="AspNetUserClaims" EntityType="KWRModel.AspNetUserClaims" />
+          <EntitySet Name="AspNetUserLogins" EntityType="KWRModel.AspNetUserLogins" />
+          <EntitySet Name="AspNetUsers" EntityType="KWRModel.AspNetUsers" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="KWRModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="KWRModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="KWRModel.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wpis_Przebieg" Association="KWRModel.FK_Wpis_Przebieg">
+            <End Role="Przebieg" EntitySet="Przebieg" />
+            <End Role="Wpis" EntitySet="Wpis" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="Wyswietl_Powiadomienia_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
@@ -1207,6 +1374,100 @@
             </Principal>
             <Dependent Role="Wpis">
               <PropertyRef Name="id_uzytkownik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="KWRModel.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="KWRModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="KWRModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="KWRModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="KWRModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="AspNetRoles" Relationship="KWRModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+          <Property Name="id_uzytkownik" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Type="KWRModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="KWRModel.AspNetUserClaims" Role="AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Type="KWRModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="KWRModel.AspNetUserLogins" Role="AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Type="KWRModel.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
+          <End Type="KWRModel.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
+        </Association>
+        <Association Name="FK_Wpis_Przebieg">
+          <End Type="KWRModel.Przebieg" Role="Przebieg" Multiplicity="0..1" />
+          <End Type="KWRModel.Wpis" Role="Wpis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Przebieg">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wpis">
+              <PropertyRef Name="id_przebieg" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1420,6 +1681,60 @@
           <FunctionImportMapping FunctionImportName="Zaproszenie_Anuluj" FunctionName="KWRModel.Store.Zaproszenie_Anuluj" />
           <FunctionImportMapping FunctionImportName="Zaproszenie_Potwierdz" FunctionName="KWRModel.Store.Zaproszenie_Potwierdz" />
           <FunctionImportMapping FunctionImportName="Zadanie_Usun" FunctionName="KWRModel.Store.Zadanie_Usun" />
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="KWRModel.AspNetRoles">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="KWRModel.AspNetUserClaims">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="KWRModel.AspNetUserLogins">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="KWRModel.AspNetUsers">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="id_uzytkownik" ColumnName="id_uzytkownik" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="KWRModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

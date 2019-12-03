@@ -11,29 +11,19 @@ namespace KalendarzWydarzenRodzinnych.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
-    public partial class Wpis
+    
+    public partial class AspNetRoles
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Wpis()
+        public AspNetRoles()
         {
-            this.WpisZdjecia = new HashSet<WpisZdjecia>();
+            this.AspNetUsers = new HashSet<AspNetUsers>();
         }
     
-        public int id { get; set; }
-        [DataType(DataType.MultilineText)]
-        public string Relacja { get; set; }
-        public Nullable<int> id_wydarzenie { get; set; }
-        public string Tytul { get; set; }
-        public Nullable<int> id_przebieg { get; set; }
-        public int id_uzytkownik { get; set; }
-        public Nullable<System.DateTime> data_dodania { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
     
-        public virtual Wydarzenie Wydarzenie { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<WpisZdjecia> WpisZdjecia { get; set; }
-        public virtual Uzytkownik Uzytkownik { get; set; }
-        public virtual Przebieg Przebieg { get; set; }
+        public virtual ICollection<AspNetUsers> AspNetUsers { get; set; }
     }
 }
