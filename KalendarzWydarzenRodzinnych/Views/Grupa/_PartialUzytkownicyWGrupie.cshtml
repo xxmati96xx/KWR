@@ -1,0 +1,36 @@
+﻿@model IEnumerable<KalendarzWydarzenRodzinnych.Models.UzytkownicyWGrupie>
+
+
+    <table id="table" class="table">
+        <thead>
+            <tr>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.id_uzytkownik)
+                </th>
+                <th>
+                    Data urodzenia
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                 
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Uzytkownik.Imie) @Html.DisplayFor(modelItem => item.Uzytkownik.Nazwisko)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Uzytkownik.DataUrodzenia)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("DeleteUser", "Grupa", new { id_uzytkownik = item.id_uzytkownik, id_grupa = item.id_grupa })" class="btn btn-danger btn-sm delete-button">
+                            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

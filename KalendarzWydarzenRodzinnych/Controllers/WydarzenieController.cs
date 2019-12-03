@@ -119,9 +119,9 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 return HttpNotFound();
             }
             
-            var idU = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            var idU = Convert.ToInt32(User.Identity.GetUzytkownikId());//Sprawdzić czy poprawnie 
             ViewBag.id_organizator = idU;
-            ViewBag.uczestnicy = dbo.Uczestnicy.Include(u=>u.Uzytkownik).Where(u=>u.id_wydarzenie == id);
+            ViewBag.uczestnicy = dbo.Uczestnicy.Include(u=>u.Uzytkownik).Where(u=>u.id_wydarzenie == id);//Wywalić wszystko
             return View(wydarzenie);
         }
 

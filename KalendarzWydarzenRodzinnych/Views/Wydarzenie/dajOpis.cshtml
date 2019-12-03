@@ -1,5 +1,5 @@
 ﻿@model KalendarzWydarzenRodzinnych.Models.Wydarzenie
-
+@using KalendarzWydarzenRodzinnych.Extensions
 @{
     ViewBag.Title = "Opis";
 }
@@ -20,7 +20,7 @@
         </div>
         <div class="col-md-9 opis panel panel-default">
 
-            @if (Model.id_organizator == ViewBag.id_organizator)
+            @if (Model.id_organizator == Convert.ToInt32(User.Identity.GetUzytkownikId()))
             {
                 <p align="right" class="marnav">
                     @Html.ActionLink("Edytuj opis", "EditOpis", new { id = Model.id }, new { @class = "btn btn-warning btn-sm edit-button" })

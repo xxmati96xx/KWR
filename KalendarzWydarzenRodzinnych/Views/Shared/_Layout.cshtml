@@ -21,15 +21,18 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                 </button>
                 @Html.ActionLink("KWR", "List", "Wydarzenie", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    @if (User.Identity.IsAuthenticated) { 
-                    <li>@Html.ActionLink("Wydarzenia", "List", "Wydarzenie")</li>
-                    <li>@Html.ActionLink("Zaproszenia", "List", "Zaproszenie")</li>
-                    <li>@Html.ActionLink("Powiadomienia", "List", "Powiadomienia")</li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Wydarzenia", "List", "Wydarzenie")</li>
+                        <li>@Html.ActionLink("Zaproszenia", "List", "Zaproszenie")</li>
+                        <li>@Html.ActionLink("Powiadomienia", "List", "Powiadomienia")</li>
+                        <li>@Html.ActionLink("Grupy", "List", "Grupa")</li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

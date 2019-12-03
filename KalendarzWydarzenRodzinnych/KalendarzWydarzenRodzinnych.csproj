@@ -207,6 +207,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\GrupaController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PowiadomieniaController.cs" />
     <Compile Include="Controllers\PrzebiegController.cs" />
@@ -481,6 +482,9 @@
     <Content Include="Views\Uczestnicy\_PartialUczestnicy.cshtml" />
     <Content Include="Views\Wpis\DeleteFotoForm.cshtml" />
     <Content Include="Views\Wpis\DeleteFotoConfirm.cshtml" />
+    <Content Include="Views\Grupa\List.cshtml" />
+    <Content Include="Views\Grupa\Details.cshtml" />
+    <Content Include="Views\Grupa\_PartialUzytkownicyWGrupie.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

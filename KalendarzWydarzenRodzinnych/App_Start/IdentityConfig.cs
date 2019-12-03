@@ -24,7 +24,7 @@ namespace KalendarzWydarzenRodzinnych
         public async Task SendAsync(IdentityMessage message)
         {
 
-            var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+            var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");//pamiętac żeby ustawić zmienną środowiskową w systemie
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("mati10_96.1996@o2.pl", "Kalendarz Wydarzen Rodzinnych");
             var subject = message.Subject;
