@@ -18,7 +18,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         private KWR dbo = new KWR();
         
         [HttpGet]
-        public ActionResult addUser(int? id)  ////Poprawić partial view uczestnicy
+        public ActionResult addUser(int? id)  
         {
             
             var idU = Convert.ToInt32(User.Identity.GetUzytkownikId());

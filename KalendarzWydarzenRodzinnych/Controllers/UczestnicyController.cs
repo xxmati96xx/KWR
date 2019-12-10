@@ -20,7 +20,11 @@ namespace KalendarzWydarzenRodzinnych.Controllers
 
         public ActionResult addUser(int id, int idW)
         {
-            dbo.Wydarzenie_Uczestnik(idW, id);
+            var count = dbo.Uczestnicy.Where(u => u.id_uzytkownik == id).Where(u=>u.id_wydarzenie==idW).Count();
+            if (count == 0)
+            {
+                dbo.Wydarzenie_Uczestnik(idW, id);
+            }
             return RedirectToAction("addUser", "Uzytkownik", new { id = idW });
         }
 
@@ -31,6 +35,22 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             ViewBag.id_organizator_wydarzenie = dbo.Wydarzenie.Find(id_wydarzenie).id_organizator;
             IEnumerable<Uczestnicy> uczestnicy = dbo.Uczestnicy.Include(u => u.Uzytkownik).Include(u=>u.Wydarzenie).Where(u => u.id_wydarzenie == id_wydarzenie);
             return PartialView("_PartialUczestnicy", uczestnicy.ToList());
+        }
+
+        public ActionResult AddGroupEvent(int id, int idW)
+        {
+            IList<UzytkownicyWGrupie> uzytkownicyWGrupie = dbo.UzytkownicyWGrupie.Where(uwg => uwg.id_grupa == id).ToList();
+            foreach(var item in uzytkownicyWGrupie)
+            {
+                var count = dbo.Uczestnicy.Where(u => u.id_uzytkownik == item.id_uzytkownik).Where(u => u.id_wydarzenie == idW).Count();
+                if (count == 0)
+                {
+                    dbo.Wydarzenie_Uczestnik(idW, item.id_uzytkownik);
+                }
+               
+            }
+            
+            return RedirectToAction("AddGroupEvent", "Grupa", new { id = idW });
         }
     }
 }

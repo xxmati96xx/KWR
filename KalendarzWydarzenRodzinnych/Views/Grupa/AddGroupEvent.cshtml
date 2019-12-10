@@ -1,20 +1,20 @@
-﻿@model IEnumerable<KalendarzWydarzenRodzinnych.Models.Uzytkownik>
+﻿@model IEnumerable<KalendarzWydarzenRodzinnych.Models.Grupa>
 
 @{
-    ViewBag.Title = "Dodaj uczestników";
+    ViewBag.Title = "Dodaj grupę";
 }
 <div class="row">
     <div class="col-md-9">
-        <h2>Dodaj uczestników</h2>
+        <h2>Dodaj grupę</h2>
 
         <table id="table" class="table">
             <thead>
                 <tr>
                     <th>
-                        Imie i Nazwisko
+                        Nazwa
                     </th>
                     <th>
-                        Data Urodzenia
+                        Opis
                     </th>
                     <th>
 
@@ -26,13 +26,13 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(itemmodel => item.Imie) @Html.DisplayFor(itemmodel => item.Nazwisko)
+                            @Html.DisplayFor(itemmodel => item.Nazwa)
                         </td>
                         <td>
-                            @Html.DisplayFor(itemmodel => item.DataUrodzenia)
+                            @Html.DisplayFor(itemmodel => item.Opis)
                         </td>
                         <td>
-                            <a href="@Url.Action("addUser", "Uczestnicy", new { @id = item.id,@idW=ViewBag.id_wydarzenie })" class="btn btn-success btn-sm success">
+                            <a href="@Url.Action("AddGroupEvent", "Uczestnicy", new { id = item.id, idW=ViewBag.id_wydarzenie })" class="btn btn-success btn-sm success">
                                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                             </a>
                         </td>
@@ -42,7 +42,7 @@
                 }
             </tbody>
         </table>
-        @Html.ActionLink("Wróć do wydarzenia", "dajOpis","Wydarzenie",new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default" })
+        @Html.ActionLink("Wróć do wydarzenia", "dajOpis", "Wydarzenie", new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default" })
 
 
     </div>
@@ -54,4 +54,4 @@
 
     </div>
 
-    </div>
+</div>

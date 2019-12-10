@@ -186,5 +186,14 @@ namespace KalendarzWydarzenRodzinnych.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Dodaj_Uzytkownikow_Grupa", par_IdGrupaParameter, par_IdUzytkownikParameter);
         }
+    
+        public virtual int Grupa_Usun(Nullable<int> par_IdGrupa)
+        {
+            var par_IdGrupaParameter = par_IdGrupa.HasValue ?
+                new ObjectParameter("Par_IdGrupa", par_IdGrupa) :
+                new ObjectParameter("Par_IdGrupa", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Grupa_Usun", par_IdGrupaParameter);
+        }
     }
 }

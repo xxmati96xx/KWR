@@ -44,8 +44,9 @@
 <br />
 @if (ViewBag.id_uzytkownik == ViewBag.id_organizator_wydarzenie)
 {
-    <div class="col-md-12">
+<div class="col-md-12">
 
-        @Html.ActionLink("Dodaj uczestnika", "addUser", "Uzytkownik", new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default col-md-12" })
-    </div>
+    @Html.ActionLink("Dodaj uczestnika", "addUser", "Uzytkownik", new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default col-md-12" })
+    @Html.ActionLink("Dodaj grupę", "AddGroupEvent", "Grupa", new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default col-md-12 h2Opis" })
+</div>
 }

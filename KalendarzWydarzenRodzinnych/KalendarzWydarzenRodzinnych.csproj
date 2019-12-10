@@ -576,6 +576,8 @@
     <Content Include="Views\Grupa\_PartialUzytkownicyWGrupie.cshtml" />
     <Content Include="Views\Uzytkownik\AddUserGrupa.cshtml" />
     <Content Include="Views\Grupa\Edit.cshtml" />
+    <Content Include="Views\Grupa\Delete.cshtml" />
+    <Content Include="Views\Grupa\AddGroupEvent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

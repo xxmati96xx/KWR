@@ -1,0 +1,26 @@
+﻿@model KalendarzWydarzenRodzinnych.Models.Grupa
+
+@{
+    ViewBag.Title = "Usuń grupę";
+}
+
+<h2>Usuń grupę</h2>
+
+
+<h3>Czy napewno chcesz wybraną grupę?</h3>
+<div>
+
+    <hr />
+
+    <h5>Czy napewno chcesz usunąć grupę: @Model.Nazwa </h5>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Usuń" class="btn btn-danger" />
+            @Html.ActionLink("Powrót do listy grup", "List",null, new { @class = "btn btn-default" })
+        </div>
+    }
+</div>

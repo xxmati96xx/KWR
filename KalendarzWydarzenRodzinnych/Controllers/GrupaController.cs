@@ -69,6 +69,21 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             
             return RedirectToAction("AddUserGrupa", "Uzytkownik", new { id = id_grupa });
         }
+        [HttpGet]
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return View();
+            }
+            Grupa grupa = dbo.Grupa.Find(id);
+            if (grupa == null)
+            {
+                return HttpNotFound();
+            }
+            return View(grupa);
+
+        }
 
         [HttpPost]
         public ActionResult Edit(Grupa grupa)
@@ -137,5 +152,14 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             return RedirectToAction("List");
         }
 
+        [HttpGet]
+        public ActionResult AddGroupEvent(int? id)  
+        {
+
+            var idU = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            ViewBag.id_wydarzenie = id;
+            IEnumerable<Grupa> grupa = dbo.Grupa;
+            return View(grupa.ToList());
+        }
     }
 }
