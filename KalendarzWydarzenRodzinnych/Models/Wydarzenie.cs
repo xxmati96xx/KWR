@@ -27,7 +27,7 @@ namespace KalendarzWydarzenRodzinnych.Models
         }
     
         public int id { get; set; }
-        [Display(Name = "Tytu³")]
+        [Display(Name = "Nazwa")]
         public string Tytul { get; set; }
         [DataType(DataType.MultilineText)]
         public string Opis { get; set; }

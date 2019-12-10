@@ -23,6 +23,7 @@ namespace KalendarzWydarzenRodzinnych.Models
     
         public int id { get; set; }
         public string Nazwa { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Opis { get; set; }
         public int id_uzytkownik { get; set; }
     

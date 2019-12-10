@@ -70,5 +70,72 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             return RedirectToAction("AddUserGrupa", "Uzytkownik", new { id = id_grupa });
         }
 
+        [HttpPost]
+        public ActionResult Edit(Grupa grupa)
+        {
+            if (grupa.id == 0)
+            {
+
+                if (ModelState.IsValid)
+                {
+                   grupa.id_uzytkownik = Convert.ToInt32(User.Identity.GetUzytkownikId());
+                    dbo.Grupa.Add(grupa);
+                    dbo.SaveChanges();
+                    return RedirectToAction("List");
+                }
+                else
+                {
+                    return View(grupa);
+                }
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    dbo.Entry(grupa).State = EntityState.Modified;
+                    dbo.SaveChanges();
+                    return RedirectToAction("List");
+                }
+                else
+                {
+
+                    return View(grupa);
+                }
+            }
+        }
+
+        public ActionResult Create()
+        {
+
+            return View("Edit", new Grupa());  ///zmienić na create osobny formularz
+        }
+
+        [HttpGet]
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Grupa grupa = dbo.Grupa.Find(id);
+            if (grupa == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(grupa);
+
+
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+           
+            dbo.Grupa_Usun(id);
+            dbo.SaveChanges();
+            return RedirectToAction("List");
+        }
+
     }
 }

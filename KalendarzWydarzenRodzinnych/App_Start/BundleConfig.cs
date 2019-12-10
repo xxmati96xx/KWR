@@ -28,7 +28,13 @@ namespace KalendarzWydarzenRodzinnych
             bundles.Add(new ScriptBundle("~/bundles/ekko").Include(
                          "~/Scripts/ekko-lightbox.js"));
 
-           
+            bundles.Add(new ScriptBundle("~/bundles/datepicker").Include(
+                        "~/Scripts/moment.js",
+                        "~/Scripts/moment-with-locales.js",
+                        "~/Scripts/bootstrap-datetimepicker.js"
+                       ));
+
+
 
             // Użyj wersji deweloperskiej biblioteki Modernizr do nauki i opracowywania rozwiązań. Następnie, kiedy wszystko będzie
             // gotowe do produkcji, użyj narzędzia do kompilowania ze strony https://modernizr.com, aby wybrać wyłącznie potrzebne testy.
@@ -41,7 +47,8 @@ namespace KalendarzWydarzenRodzinnych
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                      "~/Content/dataTables.bootstrap.css"));
+                      "~/Content/dataTables.bootstrap.css",
+                      "~/Content/bootstrap-datetimepicker.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                       "~/Content/themes/base/all.css"));

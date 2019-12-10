@@ -73,6 +73,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         {
             if (wydarzenie.id == 0)
             {
+                
                 if (ModelState.IsValid)
                 {
                     wydarzenie.id_organizator = Convert.ToInt32(User.Identity.GetUzytkownikId());
@@ -104,7 +105,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         public ActionResult Create()
         {
             
-            return View("Edit",new Wydarzenie());
+            return View("Edit",new Wydarzenie());  ///zmienić na create osobny formularz
         }
 
         public ActionResult dajOpis(int? id)

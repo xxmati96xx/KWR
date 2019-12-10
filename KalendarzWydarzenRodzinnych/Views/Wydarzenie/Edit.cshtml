@@ -10,80 +10,87 @@
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>Wydarzenie</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.id)
-    @Html.HiddenFor(model => model.id_organizator)
+    <div class="form-horizontal">
+        <h4>Wydarzenie</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+        @Html.HiddenFor(model => model.id_organizator)
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Tytul, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Tytul, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Tytul, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Tytul, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Tytul, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Tytul, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DataRozpoczencia, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DataRozpoczencia, new { htmlAttributes = new { @class = "form-control datapicker" } })
+                @Html.ValidationMessageFor(model => model.DataRozpoczencia, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DataZakonczenia, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DataZakonczenia, new { htmlAttributes = new { @class = "form-control empty datapicker" } })
+                @Html.ValidationMessageFor(model => model.DataZakonczenia, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Opis, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Opis, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Opis, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
+                @Html.ActionLink("Anuluj i wróć do listy wydarzeń", "List", null, new { @class = "btn btn-default" })
+            </div>
         </div>
     </div>
-
-
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.DataRozpoczencia, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.DataRozpoczencia, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.DataRozpoczencia, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.DataZakonczenia, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.DataZakonczenia, new { htmlAttributes = new { @class = "form-control empty" } })
-            @Html.ValidationMessageFor(model => model.DataZakonczenia, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Opis, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Opis, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Opis, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Zapisz" class="btn btn-primary" />
-            @Html.ActionLink("Anuluj i wróć do listy wydarzeń", "List", null, new { @class = "btn btn-default" })
-        </div>
-    </div>
-</div>
 }
 
 
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/datepicker")
+    <script>
+        $(function () {
+            $('.datapicker').datetimepicker({
+                locale: 'pl',
+                format: 'YYYY-MM-DD HH:mm'
 
-<script>
-    $("textarea").height($("textarea")[0].scrollHeight);
+            });
+        });
+        $("textarea").height($("textarea")[0].scrollHeight);
 
-    var textarea = document.querySelector('textarea');
+        var textarea = document.querySelector('textarea');
 
 
-    textarea.addEventListener('keydown', autosize);
+        textarea.addEventListener('keydown', autosize);
 
-    function autosize() {
-        var el = this;
-        setTimeout(function () {
+        function autosize() {
+            var el = this;
+            setTimeout(function () {
 
-            el.style.cssText = 'height:auto; padding-bottom:0';
+                el.style.cssText = 'height:auto; padding-bottom:0';
 
-            el.style.cssText = 'height:' + el.scrollHeight + 'px';
-        }, 0);
-    }
-</script>
+                el.style.cssText = 'height:' + el.scrollHeight + 'px';
+            }, 0);
+        }
+    </script>
 }
 
