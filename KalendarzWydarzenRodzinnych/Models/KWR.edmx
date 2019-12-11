@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="KWRModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="KWRModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -66,14 +66,15 @@
           <Property Name="Opis" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="id_uzytkownik" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="Logowanie">
+        <EntityType Name="Odebrane_Wiadomosc">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Nazwa" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Haslo" Type="varchar" MaxLength="500" Nullable="false" />
-          <Property Name="id_uzytkownik" Type="int" />
+          <Property Name="id_wiadomosc" Type="int" Nullable="false" />
+          <Property Name="Od" Type="int" Nullable="false" />
+          <Property Name="Do" Type="int" Nullable="false" />
+          <Property Name="Data" Type="datetime" />
         </EntityType>
         <EntityType Name="Powiadomienia">
           <Key>
@@ -137,8 +138,6 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Od" Type="int" Nullable="false" />
-          <Property Name="Do" Type="int" Nullable="false" />
           <Property Name="Temat" Type="varchar" MaxLength="50" />
           <Property Name="Tresc" Type="varchar" MaxLength="500" />
           <Property Name="Przeczytana" Type="bit" Nullable="false" />
@@ -173,6 +172,16 @@
           <Property Name="DataRozpoczencia" Type="datetime" Nullable="false" />
           <Property Name="DataZakonczenia" Type="datetime" Nullable="false" />
           <Property Name="id_organizator" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Wyslane_Wiadomosc">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_wiadomosc" Type="int" Nullable="false" />
+          <Property Name="Od" Type="int" Nullable="false" />
+          <Property Name="Do" Type="int" Nullable="false" />
+          <Property Name="Data" Type="datetime" />
         </EntityType>
         <EntityType Name="Zadanie">
           <Key>
@@ -268,15 +277,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Logowanie_Uzytkownik">
-          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="0..1" />
-          <End Role="Logowanie" Type="Self.Logowanie" Multiplicity="*" />
+        <Association Name="FK_Odebrane_Wiadomosc_Do">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Odebrane_Wiadomosc" Type="Self.Odebrane_Wiadomosc" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Uzytkownik">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Logowanie">
-              <PropertyRef Name="id_uzytkownik" />
+            <Dependent Role="Odebrane_Wiadomosc">
+              <PropertyRef Name="Do" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Odebrane_Wiadomosc_Od">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Odebrane_Wiadomosc" Type="Self.Odebrane_Wiadomosc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Odebrane_Wiadomosc">
+              <PropertyRef Name="Od" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Odebrane_Wiadomosc_Wiadomosc">
+          <End Role="Wiadomosc" Type="Self.Wiadomosc" Multiplicity="1" />
+          <End Role="Odebrane_Wiadomosc" Type="Self.Odebrane_Wiadomosc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wiadomosc">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Odebrane_Wiadomosc">
+              <PropertyRef Name="id_wiadomosc" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -388,30 +421,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Wiadomosc_Do">
-          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
-          <End Role="Wiadomosc" Type="Self.Wiadomosc" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Uzytkownik">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Wiadomosc">
-              <PropertyRef Name="Do" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Wiadomosc_Od">
-          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
-          <End Role="Wiadomosc" Type="Self.Wiadomosc" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Uzytkownik">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Wiadomosc">
-              <PropertyRef Name="Od" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Wpis_Przebieg">
           <End Role="Przebieg" Type="Self.Przebieg" Multiplicity="0..1" />
           <End Role="Wpis" Type="Self.Wpis" Multiplicity="*" />
@@ -469,6 +478,42 @@
             </Principal>
             <Dependent Role="Wydarzenie">
               <PropertyRef Name="id_organizator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wyslane_Wiadomosc_Do">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Wyslane_Wiadomosc" Type="Self.Wyslane_Wiadomosc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wyslane_Wiadomosc">
+              <PropertyRef Name="Do" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wyslane_Wiadomosc_Od">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Wyslane_Wiadomosc" Type="Self.Wyslane_Wiadomosc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wyslane_Wiadomosc">
+              <PropertyRef Name="Od" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wyslane_Wiadomosc_Wiadomosc">
+          <End Role="Wiadomosc" Type="Self.Wiadomosc" Multiplicity="1" />
+          <End Role="Wyslane_Wiadomosc" Type="Self.Wyslane_Wiadomosc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wiadomosc">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wyslane_Wiadomosc">
+              <PropertyRef Name="id_wiadomosc" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -598,7 +643,7 @@
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Grupa" EntityType="Self.Grupa" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Logowanie" EntityType="Self.Logowanie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Odebrane_Wiadomosc" EntityType="Self.Odebrane_Wiadomosc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Powiadomienia" EntityType="Self.Powiadomienia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Powiadomienie" EntityType="Self.Powiadomienie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Przebieg" EntityType="Self.Przebieg" Schema="dbo" store:Type="Tables" />
@@ -609,6 +654,7 @@
           <EntitySet Name="Wpis" EntityType="Self.Wpis" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WpisZdjecia" EntityType="Self.WpisZdjecia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Wydarzenie" EntityType="Self.Wydarzenie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Wyslane_Wiadomosc" EntityType="Self.Wyslane_Wiadomosc" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Zadanie" EntityType="Self.Zadanie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ZadanieUczestnik" EntityType="Self.ZadanieUczestnik" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Zaproszenie" EntityType="Self.Zaproszenie" Schema="dbo" store:Type="Tables" />
@@ -632,9 +678,17 @@
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
             <End Role="Grupa" EntitySet="Grupa" />
           </AssociationSet>
-          <AssociationSet Name="FK_Logowanie_Uzytkownik" Association="Self.FK_Logowanie_Uzytkownik">
+          <AssociationSet Name="FK_Odebrane_Wiadomosc_Do" Association="Self.FK_Odebrane_Wiadomosc_Do">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
-            <End Role="Logowanie" EntitySet="Logowanie" />
+            <End Role="Odebrane_Wiadomosc" EntitySet="Odebrane_Wiadomosc" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Odebrane_Wiadomosc_Od" Association="Self.FK_Odebrane_Wiadomosc_Od">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Odebrane_Wiadomosc" EntitySet="Odebrane_Wiadomosc" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Odebrane_Wiadomosc_Wiadomosc" Association="Self.FK_Odebrane_Wiadomosc_Wiadomosc">
+            <End Role="Wiadomosc" EntitySet="Wiadomosc" />
+            <End Role="Odebrane_Wiadomosc" EntitySet="Odebrane_Wiadomosc" />
           </AssociationSet>
           <AssociationSet Name="FK_Powiadomienia_Uzytkownik" Association="Self.FK_Powiadomienia_Uzytkownik">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
@@ -672,14 +726,6 @@
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
             <End Role="UzytkownicyWGrupie" EntitySet="UzytkownicyWGrupie" />
           </AssociationSet>
-          <AssociationSet Name="FK_Wiadomosc_Do" Association="Self.FK_Wiadomosc_Do">
-            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
-            <End Role="Wiadomosc" EntitySet="Wiadomosc" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Wiadomosc_Od" Association="Self.FK_Wiadomosc_Od">
-            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
-            <End Role="Wiadomosc" EntitySet="Wiadomosc" />
-          </AssociationSet>
           <AssociationSet Name="FK_Wpis_Przebieg" Association="Self.FK_Wpis_Przebieg">
             <End Role="Przebieg" EntitySet="Przebieg" />
             <End Role="Wpis" EntitySet="Wpis" />
@@ -699,6 +745,18 @@
           <AssociationSet Name="FK_Wydarzenie_Uzytkownik" Association="Self.FK_Wydarzenie_Uzytkownik">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
             <End Role="Wydarzenie" EntitySet="Wydarzenie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wyslane_Wiadomosc_Do" Association="Self.FK_Wyslane_Wiadomosc_Do">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Wyslane_Wiadomosc" EntitySet="Wyslane_Wiadomosc" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wyslane_Wiadomosc_Od" Association="Self.FK_Wyslane_Wiadomosc_Od">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Wyslane_Wiadomosc" EntitySet="Wyslane_Wiadomosc" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wyslane_Wiadomosc_Wiadomosc" Association="Self.FK_Wyslane_Wiadomosc_Wiadomosc">
+            <End Role="Wiadomosc" EntitySet="Wiadomosc" />
+            <End Role="Wyslane_Wiadomosc" EntitySet="Wyslane_Wiadomosc" />
           </AssociationSet>
           <AssociationSet Name="FK_Zadanie_Wydarzenie" Association="Self.FK_Zadanie_Wydarzenie">
             <End Role="Wydarzenie" EntitySet="Wydarzenie" />
@@ -725,10 +783,61 @@
             <End Role="Zaproszenie" EntitySet="Zaproszenie" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="KWRModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="id_uzytkownik" Type="Int32" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+        </EntityType>
         <EntityType Name="Grupa">
           <Key>
             <PropertyRef Name="id" />
@@ -740,15 +849,18 @@
           <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Grupa_Uzytkownik" FromRole="Grupa" ToRole="Uzytkownik" />
           <NavigationProperty Name="UzytkownicyWGrupie" Relationship="Self.FK_UzytkownicyWGrupie_Grupa" FromRole="Grupa" ToRole="UzytkownicyWGrupie" />
         </EntityType>
-        <EntityType Name="Logowanie">
+        <EntityType Name="Odebrane_Wiadomosc">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nazwa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Haslo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="id_uzytkownik" Type="Int32" />
-          <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Logowanie_Uzytkownik" FromRole="Logowanie" ToRole="Uzytkownik" />
+          <Property Name="id_wiadomosc" Type="Int32" Nullable="false" />
+          <Property Name="Od" Type="Int32" Nullable="false" />
+          <Property Name="Do" Type="Int32" Nullable="false" />
+          <Property Name="Data" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Odebrane_Wiadomosc_Do" FromRole="Odebrane_Wiadomosc" ToRole="Uzytkownik" />
+          <NavigationProperty Name="Uzytkownik1" Relationship="Self.FK_Odebrane_Wiadomosc_Od" FromRole="Odebrane_Wiadomosc" ToRole="Uzytkownik" />
+          <NavigationProperty Name="Wiadomosc" Relationship="Self.FK_Odebrane_Wiadomosc_Wiadomosc" FromRole="Odebrane_Wiadomosc" ToRole="Wiadomosc" />
         </EntityType>
         <EntityType Name="Powiadomienia">
           <Key>
@@ -782,7 +894,7 @@
           <Property Name="id_wydarzenie" Type="Int32" Nullable="false" />
           <Property Name="Tytul" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Przebieg_Wydarzenie" FromRole="Przebieg" ToRole="Wydarzenie" />
-          <NavigationProperty Name="Wpis" Relationship="KWRModel.FK_Wpis_Przebieg" FromRole="Przebieg" ToRole="Wpis" />
+          <NavigationProperty Name="Wpis" Relationship="Self.FK_Wpis_Przebieg" FromRole="Przebieg" ToRole="Wpis" />
         </EntityType>
         <EntityType Name="Uczestnicy">
           <Key>
@@ -817,31 +929,30 @@
           <Property Name="NrTelefonu" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
           <Property Name="AdresEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Grupa" Relationship="Self.FK_Grupa_Uzytkownik" FromRole="Uzytkownik" ToRole="Grupa" />
-          <NavigationProperty Name="Logowanie" Relationship="Self.FK_Logowanie_Uzytkownik" FromRole="Uzytkownik" ToRole="Logowanie" />
+          <NavigationProperty Name="Odebrane_Wiadomosc" Relationship="Self.FK_Odebrane_Wiadomosc_Do" FromRole="Uzytkownik" ToRole="Odebrane_Wiadomosc" />
+          <NavigationProperty Name="Odebrane_Wiadomosc1" Relationship="Self.FK_Odebrane_Wiadomosc_Od" FromRole="Uzytkownik" ToRole="Odebrane_Wiadomosc" />
           <NavigationProperty Name="Powiadomienia" Relationship="Self.FK_Powiadomienia_Uzytkownik" FromRole="Uzytkownik" ToRole="Powiadomienia" />
           <NavigationProperty Name="Uczestnicy" Relationship="Self.FK_Uczestnicy_Uzytkownik" FromRole="Uzytkownik" ToRole="Uczestnicy" />
           <NavigationProperty Name="UzytkownicyWGrupie" Relationship="Self.FK_UzytkownicyWGrupie_Uzytkownik" FromRole="Uzytkownik" ToRole="UzytkownicyWGrupie" />
-          <NavigationProperty Name="Wiadomosc" Relationship="Self.FK_Wiadomosc_Do" FromRole="Uzytkownik" ToRole="Wiadomosc" />
-          <NavigationProperty Name="Wiadomosc1" Relationship="Self.FK_Wiadomosc_Od" FromRole="Uzytkownik" ToRole="Wiadomosc" />
+          <NavigationProperty Name="Wpis" Relationship="Self.FK_Wpis_Uzytkownik" FromRole="Uzytkownik" ToRole="Wpis" />
           <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Wydarzenie_Uzytkownik" FromRole="Uzytkownik" ToRole="Wydarzenie" />
+          <NavigationProperty Name="Wyslane_Wiadomosc" Relationship="Self.FK_Wyslane_Wiadomosc_Do" FromRole="Uzytkownik" ToRole="Wyslane_Wiadomosc" />
+          <NavigationProperty Name="Wyslane_Wiadomosc1" Relationship="Self.FK_Wyslane_Wiadomosc_Od" FromRole="Uzytkownik" ToRole="Wyslane_Wiadomosc" />
           <NavigationProperty Name="ZadanieUczestnik" Relationship="Self.FK_ZadanieUczestnik_Uzytkownik" FromRole="Uzytkownik" ToRole="ZadanieUczestnik" />
           <NavigationProperty Name="Zaproszenie" Relationship="Self.FK_Zaproszenie_Do" FromRole="Uzytkownik" ToRole="Zaproszenie" />
           <NavigationProperty Name="Zaproszenie1" Relationship="Self.FK_Zaproszenie_Od" FromRole="Uzytkownik" ToRole="Zaproszenie" />
-          <NavigationProperty Name="Wpis" Relationship="KWRModel.FK_Wpis_Uzytkownik" FromRole="Uzytkownik" ToRole="Wpis" />
         </EntityType>
         <EntityType Name="Wiadomosc">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Od" Type="Int32" Nullable="false" />
-          <Property Name="Do" Type="Int32" Nullable="false" />
           <Property Name="Temat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Tresc" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="Przeczytana" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Odebrane_Wiadomosc" Relationship="Self.FK_Odebrane_Wiadomosc_Wiadomosc" FromRole="Wiadomosc" ToRole="Odebrane_Wiadomosc" />
           <NavigationProperty Name="Powiadomienia" Relationship="Self.FK_Powiadomienia_Wiadomosc" FromRole="Wiadomosc" ToRole="Powiadomienia" />
-          <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Wiadomosc_Do" FromRole="Wiadomosc" ToRole="Uzytkownik" />
-          <NavigationProperty Name="Uzytkownik1" Relationship="Self.FK_Wiadomosc_Od" FromRole="Wiadomosc" ToRole="Uzytkownik" />
+          <NavigationProperty Name="Wyslane_Wiadomosc" Relationship="Self.FK_Wyslane_Wiadomosc_Wiadomosc" FromRole="Wiadomosc" ToRole="Wyslane_Wiadomosc" />
         </EntityType>
         <EntityType Name="Wpis">
           <Key>
@@ -850,14 +961,14 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Relacja" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
           <Property Name="id_wydarzenie" Type="Int32" />
-          <Property Name="Tytul" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="id_przebieg" Type="Int32" />
           <Property Name="id_uzytkownik" Type="Int32" Nullable="false" />
+          <Property Name="Tytul" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="data_dodania" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Przebieg" Relationship="Self.FK_Wpis_Przebieg" FromRole="Wpis" ToRole="Przebieg" />
+          <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Wpis_Uzytkownik" FromRole="Wpis" ToRole="Uzytkownik" />
           <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Wpis_Wydarzenie" FromRole="Wpis" ToRole="Wydarzenie" />
           <NavigationProperty Name="WpisZdjecia" Relationship="Self.FK_WpisZdjecia_Wpis" FromRole="Wpis" ToRole="WpisZdjecia" />
-          <NavigationProperty Name="Uzytkownik" Relationship="KWRModel.FK_Wpis_Uzytkownik" FromRole="Wpis" ToRole="Uzytkownik" />
-          <NavigationProperty Name="Przebieg" Relationship="KWRModel.FK_Wpis_Przebieg" FromRole="Wpis" ToRole="Przebieg" />
         </EntityType>
         <EntityType Name="WpisZdjecia">
           <Key>
@@ -886,6 +997,19 @@
           <NavigationProperty Name="Wpis" Relationship="Self.FK_Wpis_Wydarzenie" FromRole="Wydarzenie" ToRole="Wpis" />
           <NavigationProperty Name="Zadanie" Relationship="Self.FK_Zadanie_Wydarzenie" FromRole="Wydarzenie" ToRole="Zadanie" />
           <NavigationProperty Name="Zaproszenie" Relationship="Self.FK_Zaproszenie_Wydarzenie" FromRole="Wydarzenie" ToRole="Zaproszenie" />
+        </EntityType>
+        <EntityType Name="Wyslane_Wiadomosc">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_wiadomosc" Type="Int32" Nullable="false" />
+          <Property Name="Od" Type="Int32" Nullable="false" />
+          <Property Name="Do" Type="Int32" Nullable="false" />
+          <Property Name="Data" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Wyslane_Wiadomosc_Do" FromRole="Wyslane_Wiadomosc" ToRole="Uzytkownik" />
+          <NavigationProperty Name="Uzytkownik1" Relationship="Self.FK_Wyslane_Wiadomosc_Od" FromRole="Wyslane_Wiadomosc" ToRole="Uzytkownik" />
+          <NavigationProperty Name="Wiadomosc" Relationship="Self.FK_Wyslane_Wiadomosc_Wiadomosc" FromRole="Wyslane_Wiadomosc" ToRole="Wiadomosc" />
         </EntityType>
         <EntityType Name="Zadanie">
           <Key>
@@ -920,6 +1044,34 @@
           <NavigationProperty Name="Uzytkownik1" Relationship="Self.FK_Zaproszenie_Od" FromRole="Zaproszenie" ToRole="Uzytkownik" />
           <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Zaproszenie_Wydarzenie" FromRole="Zaproszenie" ToRole="Wydarzenie" />
         </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Grupa_Uzytkownik">
           <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
           <End Role="Grupa" Type="Self.Grupa" Multiplicity="*" />
@@ -944,15 +1096,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Logowanie_Uzytkownik">
-          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="0..1" />
-          <End Role="Logowanie" Type="Self.Logowanie" Multiplicity="*" />
+        <Association Name="FK_Odebrane_Wiadomosc_Do">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Odebrane_Wiadomosc" Type="Self.Odebrane_Wiadomosc" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Uzytkownik">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Logowanie">
-              <PropertyRef Name="id_uzytkownik" />
+            <Dependent Role="Odebrane_Wiadomosc">
+              <PropertyRef Name="Do" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Odebrane_Wiadomosc_Od">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Odebrane_Wiadomosc" Type="Self.Odebrane_Wiadomosc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Odebrane_Wiadomosc">
+              <PropertyRef Name="Od" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Odebrane_Wiadomosc_Wiadomosc">
+          <End Role="Wiadomosc" Type="Self.Wiadomosc" Multiplicity="1" />
+          <End Role="Odebrane_Wiadomosc" Type="Self.Odebrane_Wiadomosc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wiadomosc">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Odebrane_Wiadomosc">
+              <PropertyRef Name="id_wiadomosc" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1016,6 +1192,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Wpis_Przebieg">
+          <End Role="Przebieg" Type="Self.Przebieg" Multiplicity="0..1" />
+          <End Role="Wpis" Type="Self.Wpis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Przebieg">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wpis">
+              <PropertyRef Name="id_przebieg" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Uczestnicy_Uzytkownik">
           <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
           <End Role="Uczestnicy" Type="Self.Uczestnicy" Multiplicity="*" />
@@ -1052,27 +1240,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Wiadomosc_Do">
+        <Association Name="FK_Wpis_Uzytkownik">
           <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
-          <End Role="Wiadomosc" Type="Self.Wiadomosc" Multiplicity="*" />
+          <End Role="Wpis" Type="Self.Wpis" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Uzytkownik">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Wiadomosc">
-              <PropertyRef Name="Do" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Wiadomosc_Od">
-          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
-          <End Role="Wiadomosc" Type="Self.Wiadomosc" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Uzytkownik">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Wiadomosc">
-              <PropertyRef Name="Od" />
+            <Dependent Role="Wpis">
+              <PropertyRef Name="id_uzytkownik" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1085,6 +1261,30 @@
             </Principal>
             <Dependent Role="Wydarzenie">
               <PropertyRef Name="id_organizator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wyslane_Wiadomosc_Do">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Wyslane_Wiadomosc" Type="Self.Wyslane_Wiadomosc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wyslane_Wiadomosc">
+              <PropertyRef Name="Do" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wyslane_Wiadomosc_Od">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Wyslane_Wiadomosc" Type="Self.Wyslane_Wiadomosc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wyslane_Wiadomosc">
+              <PropertyRef Name="Od" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1121,6 +1321,18 @@
             </Principal>
             <Dependent Role="Zaproszenie">
               <PropertyRef Name="Od" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Wyslane_Wiadomosc_Wiadomosc">
+          <End Role="Wiadomosc" Type="Self.Wiadomosc" Multiplicity="1" />
+          <End Role="Wyslane_Wiadomosc" Type="Self.Wyslane_Wiadomosc" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wiadomosc">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Wyslane_Wiadomosc">
+              <PropertyRef Name="id_wiadomosc" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1184,9 +1396,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="AspNetUserRoles">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
+        </Association>
         <EntityContainer Name="KWR" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
           <EntitySet Name="Grupa" EntityType="Self.Grupa" />
-          <EntitySet Name="Logowanie" EntityType="Self.Logowanie" />
+          <EntitySet Name="Odebrane_Wiadomosc" EntityType="Self.Odebrane_Wiadomosc" />
           <EntitySet Name="Powiadomienia" EntityType="Self.Powiadomienia" />
           <EntitySet Name="Powiadomienie" EntityType="Self.Powiadomienie" />
           <EntitySet Name="Przebieg" EntityType="Self.Przebieg" />
@@ -1197,9 +1417,18 @@
           <EntitySet Name="Wpis" EntityType="Self.Wpis" />
           <EntitySet Name="WpisZdjecia" EntityType="Self.WpisZdjecia" />
           <EntitySet Name="Wydarzenie" EntityType="Self.Wydarzenie" />
+          <EntitySet Name="Wyslane_Wiadomosc" EntityType="Self.Wyslane_Wiadomosc" />
           <EntitySet Name="Zadanie" EntityType="Self.Zadanie" />
           <EntitySet Name="ZadanieUczestnik" EntityType="Self.ZadanieUczestnik" />
           <EntitySet Name="Zaproszenie" EntityType="Self.Zaproszenie" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
           <AssociationSet Name="FK_Grupa_Uzytkownik" Association="Self.FK_Grupa_Uzytkownik">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
             <End Role="Grupa" EntitySet="Grupa" />
@@ -1208,9 +1437,17 @@
             <End Role="Grupa" EntitySet="Grupa" />
             <End Role="UzytkownicyWGrupie" EntitySet="UzytkownicyWGrupie" />
           </AssociationSet>
-          <AssociationSet Name="FK_Logowanie_Uzytkownik" Association="Self.FK_Logowanie_Uzytkownik">
+          <AssociationSet Name="FK_Odebrane_Wiadomosc_Do" Association="Self.FK_Odebrane_Wiadomosc_Do">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
-            <End Role="Logowanie" EntitySet="Logowanie" />
+            <End Role="Odebrane_Wiadomosc" EntitySet="Odebrane_Wiadomosc" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Odebrane_Wiadomosc_Od" Association="Self.FK_Odebrane_Wiadomosc_Od">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Odebrane_Wiadomosc" EntitySet="Odebrane_Wiadomosc" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Odebrane_Wiadomosc_Wiadomosc" Association="Self.FK_Odebrane_Wiadomosc_Wiadomosc">
+            <End Role="Wiadomosc" EntitySet="Wiadomosc" />
+            <End Role="Odebrane_Wiadomosc" EntitySet="Odebrane_Wiadomosc" />
           </AssociationSet>
           <AssociationSet Name="FK_Powiadomienia_Uzytkownik" Association="Self.FK_Powiadomienia_Uzytkownik">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
@@ -1232,6 +1469,10 @@
             <End Role="Wydarzenie" EntitySet="Wydarzenie" />
             <End Role="Przebieg" EntitySet="Przebieg" />
           </AssociationSet>
+          <AssociationSet Name="FK_Wpis_Przebieg" Association="Self.FK_Wpis_Przebieg">
+            <End Role="Przebieg" EntitySet="Przebieg" />
+            <End Role="Wpis" EntitySet="Wpis" />
+          </AssociationSet>
           <AssociationSet Name="FK_Uczestnicy_Uzytkownik" Association="Self.FK_Uczestnicy_Uzytkownik">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
             <End Role="Uczestnicy" EntitySet="Uczestnicy" />
@@ -1244,17 +1485,21 @@
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
             <End Role="UzytkownicyWGrupie" EntitySet="UzytkownicyWGrupie" />
           </AssociationSet>
-          <AssociationSet Name="FK_Wiadomosc_Do" Association="Self.FK_Wiadomosc_Do">
+          <AssociationSet Name="FK_Wpis_Uzytkownik" Association="Self.FK_Wpis_Uzytkownik">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
-            <End Role="Wiadomosc" EntitySet="Wiadomosc" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Wiadomosc_Od" Association="Self.FK_Wiadomosc_Od">
-            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
-            <End Role="Wiadomosc" EntitySet="Wiadomosc" />
+            <End Role="Wpis" EntitySet="Wpis" />
           </AssociationSet>
           <AssociationSet Name="FK_Wydarzenie_Uzytkownik" Association="Self.FK_Wydarzenie_Uzytkownik">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
             <End Role="Wydarzenie" EntitySet="Wydarzenie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wyslane_Wiadomosc_Do" Association="Self.FK_Wyslane_Wiadomosc_Do">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Wyslane_Wiadomosc" EntitySet="Wyslane_Wiadomosc" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wyslane_Wiadomosc_Od" Association="Self.FK_Wyslane_Wiadomosc_Od">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Wyslane_Wiadomosc" EntitySet="Wyslane_Wiadomosc" />
           </AssociationSet>
           <AssociationSet Name="FK_ZadanieUczestnik_Uzytkownik" Association="Self.FK_ZadanieUczestnik_Uzytkownik">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
@@ -1267,6 +1512,10 @@
           <AssociationSet Name="FK_Zaproszenie_Od" Association="Self.FK_Zaproszenie_Od">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
             <End Role="Zaproszenie" EntitySet="Zaproszenie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Wyslane_Wiadomosc_Wiadomosc" Association="Self.FK_Wyslane_Wiadomosc_Wiadomosc">
+            <End Role="Wiadomosc" EntitySet="Wiadomosc" />
+            <End Role="Wyslane_Wiadomosc" EntitySet="Wyslane_Wiadomosc" />
           </AssociationSet>
           <AssociationSet Name="FK_Wpis_Wydarzenie" Association="Self.FK_Wpis_Wydarzenie">
             <End Role="Wydarzenie" EntitySet="Wydarzenie" />
@@ -1288,6 +1537,17 @@
             <End Role="Zadanie" EntitySet="Zadanie" />
             <End Role="ZadanieUczestnik" EntitySet="ZadanieUczestnik" />
           </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <FunctionImport Name="Dodaj_Uzytkownikow_Grupa">
+            <Parameter Name="Par_IdGrupa" Mode="In" Type="Int32" />
+            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Grupa_Usun">
+            <Parameter Name="Par_IdGrupa" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="Wydarzenie_Uczestnik">
             <Parameter Name="Par_id_wydarzenie" Mode="In" Type="Int32" />
             <Parameter Name="Par_id_uzytkownik" Mode="In" Type="Int32" />
@@ -1297,13 +1557,20 @@
             <Parameter Name="Par_id_uzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Wyswietl_Powiadomienia" ReturnType="Collection(KWRModel.Wyswietl_Powiadomienia_Result)">
-          <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
+            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Wyswietl_Uzytkownikow" ReturnType="Collection(KWRModel.Wyswietl_Uzytkownikow_Result)">
-          <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
+            <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Wyswietl_Uzytkownikow_Grupa" ReturnType="Collection(KWRModel.Wyswietl_Uzytkownikow_Grupa_Result)">
+            <Parameter Name="Par_IdGrupa" Mode="In" Type="Int32" />
+            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Wyswietl_Wydarzenia" ReturnType="Collection(KWRModel.Wyswietl_Wydarzenia_Result)">
-          <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
+            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Zadanie_Usun">
+            <Parameter Name="Par_IdZadanie" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ZadanieUczestnik_Dodaj">
             <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
@@ -1320,44 +1587,6 @@
           <FunctionImport Name="Zaproszenie_Potwierdz">
             <Parameter Name="Par_id_wydarzenie" Mode="In" Type="Int32" />
             <Parameter Name="Par_id_uzytkownik" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="Zadanie_Usun">
-          <Parameter Name="Par_IdZadanie" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <AssociationSet Name="FK_Wpis_Uzytkownik" Association="KWRModel.FK_Wpis_Uzytkownik">
-            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
-            <End Role="Wpis" EntitySet="Wpis" />
-          </AssociationSet>
-          <EntitySet Name="AspNetRoles" EntityType="KWRModel.AspNetRoles" />
-          <EntitySet Name="AspNetUserClaims" EntityType="KWRModel.AspNetUserClaims" />
-          <EntitySet Name="AspNetUserLogins" EntityType="KWRModel.AspNetUserLogins" />
-          <EntitySet Name="AspNetUsers" EntityType="KWRModel.AspNetUsers" />
-          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="KWRModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="KWRModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
-          </AssociationSet>
-          <AssociationSet Name="AspNetUserRoles" Association="KWRModel.AspNetUserRoles">
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Wpis_Przebieg" Association="KWRModel.FK_Wpis_Przebieg">
-            <End Role="Przebieg" EntitySet="Przebieg" />
-            <End Role="Wpis" EntitySet="Wpis" />
-          </AssociationSet>
-          <FunctionImport Name="Wyswietl_Uzytkownikow_Grupa" ReturnType="Collection(KWRModel.Wyswietl_Uzytkownikow_Grupa_Result)">
-            <Parameter Name="Par_IdGrupa" Mode="In" Type="Int32" />
-            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="Dodaj_Uzytkownikow_Grupa">
-            <Parameter Name="Par_IdGrupa" Mode="In" Type="Int32" />
-            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="Grupa_Usun">
-            <Parameter Name="Par_IdGrupa" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="Wyswietl_Powiadomienia_Result">
@@ -1379,120 +1608,6 @@
           <Property Type="String" Name="NrTelefonu" Nullable="true" MaxLength="12" />
           <Property Type="String" Name="AdresEmail" Nullable="true" MaxLength="50" />
         </ComplexType>
-        <ComplexType Name="Wyswietl_Wydarzenia_Result">
-          <Property Type="Int32" Name="id" Nullable="false" />
-          <Property Type="String" Name="Tytul" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="Opis" Nullable="true" MaxLength="8000" />
-          <Property Type="DateTime" Name="DataRozpoczencia" Nullable="false" Precision="23" />
-          <Property Type="DateTime" Name="DataZakonczenia" Nullable="false" Precision="23" />
-          <Property Type="Int32" Name="id_organizator" Nullable="false" />
-        </ComplexType>
-        <Association Name="FK_Wpis_Uzytkownik">
-          <End Type="KWRModel.Uzytkownik" Role="Uzytkownik" Multiplicity="1" />
-          <End Type="KWRModel.Wpis" Role="Wpis" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Uzytkownik">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Wpis">
-              <PropertyRef Name="id_uzytkownik" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="AspNetRoles">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUsers" Relationship="KWRModel.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
-        </EntityType>
-        <EntityType Name="AspNetUserClaims">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUsers" Relationship="KWRModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
-        </EntityType>
-        <EntityType Name="AspNetUserLogins">
-          <Key>
-            <PropertyRef Name="LoginProvider" />
-            <PropertyRef Name="ProviderKey" />
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUsers" Relationship="KWRModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
-        </EntityType>
-        <EntityType Name="AspNetUsers">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
-          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUserClaims" Relationship="KWRModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
-          <NavigationProperty Name="AspNetUserLogins" Relationship="KWRModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
-          <NavigationProperty Name="AspNetRoles" Relationship="KWRModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
-          <Property Name="id_uzytkownik" Type="Int32" />
-        </EntityType>
-        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-          <End Type="KWRModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="KWRModel.AspNetUserClaims" Role="AspNetUserClaims" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserClaims">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-          <End Type="KWRModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="KWRModel.AspNetUserLogins" Role="AspNetUserLogins" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserLogins">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="AspNetUserRoles">
-          <End Type="KWRModel.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
-          <End Type="KWRModel.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
-        </Association>
-        <Association Name="FK_Wpis_Przebieg">
-          <End Type="KWRModel.Przebieg" Role="Przebieg" Multiplicity="0..1" />
-          <End Type="KWRModel.Wpis" Role="Wpis" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Przebieg">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Wpis">
-              <PropertyRef Name="id_przebieg" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="Wyswietl_Uzytkownikow_Grupa_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
           <Property Type="String" Name="Imie" Nullable="false" MaxLength="30" />
@@ -1502,12 +1617,66 @@
           <Property Type="String" Name="NrTelefonu" Nullable="true" MaxLength="12" />
           <Property Type="String" Name="AdresEmail" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="Wyswietl_Wydarzenia_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="Tytul" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="Opis" Nullable="true" MaxLength="8000" />
+          <Property Type="DateTime" Name="DataRozpoczencia" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="DataZakonczenia" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="id_organizator" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="KWRModelStoreContainer" CdmEntityContainer="KWR">
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="KWRModel.AspNetRoles">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="KWRModel.AspNetUserClaims">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="KWRModel.AspNetUserLogins">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="KWRModel.AspNetUsers">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="id_uzytkownik" ColumnName="id_uzytkownik" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Grupa">
             <EntityTypeMapping TypeName="KWRModel.Grupa">
               <MappingFragment StoreEntitySet="Grupa">
@@ -1518,13 +1687,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Logowanie">
-            <EntityTypeMapping TypeName="KWRModel.Logowanie">
-              <MappingFragment StoreEntitySet="Logowanie">
+          <EntitySetMapping Name="Odebrane_Wiadomosc">
+            <EntityTypeMapping TypeName="KWRModel.Odebrane_Wiadomosc">
+              <MappingFragment StoreEntitySet="Odebrane_Wiadomosc">
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="Nazwa" ColumnName="Nazwa" />
-                <ScalarProperty Name="Haslo" ColumnName="Haslo" />
-                <ScalarProperty Name="id_uzytkownik" ColumnName="id_uzytkownik" />
+                <ScalarProperty Name="id_wiadomosc" ColumnName="id_wiadomosc" />
+                <ScalarProperty Name="Od" ColumnName="Od" />
+                <ScalarProperty Name="Do" ColumnName="Do" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1595,8 +1765,6 @@
             <EntityTypeMapping TypeName="KWRModel.Wiadomosc">
               <MappingFragment StoreEntitySet="Wiadomosc">
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="Od" ColumnName="Od" />
-                <ScalarProperty Name="Do" ColumnName="Do" />
                 <ScalarProperty Name="Temat" ColumnName="Temat" />
                 <ScalarProperty Name="Tresc" ColumnName="Tresc" />
                 <ScalarProperty Name="Przeczytana" ColumnName="Przeczytana" />
@@ -1609,9 +1777,9 @@
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="Relacja" ColumnName="Relacja" />
                 <ScalarProperty Name="id_wydarzenie" ColumnName="id_wydarzenie" />
-                <ScalarProperty Name="Tytul" ColumnName="Tytul" />
                 <ScalarProperty Name="id_przebieg" ColumnName="id_przebieg" />
                 <ScalarProperty Name="id_uzytkownik" ColumnName="id_uzytkownik" />
+                <ScalarProperty Name="Tytul" ColumnName="Tytul" />
                 <ScalarProperty Name="data_dodania" ColumnName="data_dodania" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1634,6 +1802,17 @@
                 <ScalarProperty Name="DataRozpoczencia" ColumnName="DataRozpoczencia" />
                 <ScalarProperty Name="DataZakonczenia" ColumnName="DataZakonczenia" />
                 <ScalarProperty Name="id_organizator" ColumnName="id_organizator" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Wyslane_Wiadomosc">
+            <EntityTypeMapping TypeName="KWRModel.Wyslane_Wiadomosc">
+              <MappingFragment StoreEntitySet="Wyslane_Wiadomosc">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_wiadomosc" ColumnName="id_wiadomosc" />
+                <ScalarProperty Name="Od" ColumnName="Od" />
+                <ScalarProperty Name="Do" ColumnName="Do" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1666,6 +1845,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="KWRModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="Dodaj_Uzytkownikow_Grupa" FunctionName="KWRModel.Store.Dodaj_Uzytkownikow_Grupa" />
+          <FunctionImportMapping FunctionImportName="Grupa_Usun" FunctionName="KWRModel.Store.Grupa_Usun" />
           <FunctionImportMapping FunctionImportName="Wydarzenie_Uczestnik" FunctionName="KWRModel.Store.Wydarzenie_Uczestnik" />
           <FunctionImportMapping FunctionImportName="Wydarzenie_Uczestnik_Usun" FunctionName="KWRModel.Store.Wydarzenie_Uczestnik_Usun" />
           <FunctionImportMapping FunctionImportName="Wyswietl_Powiadomienia" FunctionName="KWRModel.Store.Wyswietl_Powiadomienia">
@@ -1695,77 +1884,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="Wyswietl_Wydarzenia" FunctionName="KWRModel.Store.Wyswietl_Wydarzenia">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="KWRModel.Wyswietl_Wydarzenia_Result">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="Tytul" ColumnName="Tytul" />
-                <ScalarProperty Name="Opis" ColumnName="Opis" />
-                <ScalarProperty Name="DataRozpoczencia" ColumnName="DataRozpoczencia" />
-                <ScalarProperty Name="DataZakonczenia" ColumnName="DataZakonczenia" />
-                <ScalarProperty Name="id_organizator" ColumnName="id_organizator" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="ZadanieUczestnik_Dodaj" FunctionName="KWRModel.Store.ZadanieUczestnik_Dodaj" />
-          <FunctionImportMapping FunctionImportName="ZadanieUczestnik_Usun" FunctionName="KWRModel.Store.ZadanieUczestnik_Usun" />
-          <FunctionImportMapping FunctionImportName="Zaproszenie_Anuluj" FunctionName="KWRModel.Store.Zaproszenie_Anuluj" />
-          <FunctionImportMapping FunctionImportName="Zaproszenie_Potwierdz" FunctionName="KWRModel.Store.Zaproszenie_Potwierdz" />
-          <FunctionImportMapping FunctionImportName="Zadanie_Usun" FunctionName="KWRModel.Store.Zadanie_Usun" />
-          <EntitySetMapping Name="AspNetRoles">
-            <EntityTypeMapping TypeName="KWRModel.AspNetRoles">
-              <MappingFragment StoreEntitySet="AspNetRoles">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUserClaims">
-            <EntityTypeMapping TypeName="KWRModel.AspNetUserClaims">
-              <MappingFragment StoreEntitySet="AspNetUserClaims">
-                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
-                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUserLogins">
-            <EntityTypeMapping TypeName="KWRModel.AspNetUserLogins">
-              <MappingFragment StoreEntitySet="AspNetUserLogins">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
-                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUsers">
-            <EntityTypeMapping TypeName="KWRModel.AspNetUsers">
-              <MappingFragment StoreEntitySet="AspNetUsers">
-                <ScalarProperty Name="id_uzytkownik" ColumnName="id_uzytkownik" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="AspNetUserRoles" TypeName="KWRModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
-            <EndProperty Name="AspNetUsers">
-              <ScalarProperty Name="Id" ColumnName="UserId" />
-            </EndProperty>
-            <EndProperty Name="AspNetRoles">
-              <ScalarProperty Name="Id" ColumnName="RoleId" />
-            </EndProperty>
-          </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="Wyswietl_Uzytkownikow_Grupa" FunctionName="KWRModel.Store.Wyswietl_Uzytkownikow_Grupa">
             <ResultMapping>
               <ComplexTypeMapping TypeName="KWRModel.Wyswietl_Uzytkownikow_Grupa_Result">
@@ -1779,8 +1897,23 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="Dodaj_Uzytkownikow_Grupa" FunctionName="KWRModel.Store.Dodaj_Uzytkownikow_Grupa" />
-          <FunctionImportMapping FunctionImportName="Grupa_Usun" FunctionName="KWRModel.Store.Grupa_Usun" />
+          <FunctionImportMapping FunctionImportName="Wyswietl_Wydarzenia" FunctionName="KWRModel.Store.Wyswietl_Wydarzenia">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KWRModel.Wyswietl_Wydarzenia_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Tytul" ColumnName="Tytul" />
+                <ScalarProperty Name="Opis" ColumnName="Opis" />
+                <ScalarProperty Name="DataRozpoczencia" ColumnName="DataRozpoczencia" />
+                <ScalarProperty Name="DataZakonczenia" ColumnName="DataZakonczenia" />
+                <ScalarProperty Name="id_organizator" ColumnName="id_organizator" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Zadanie_Usun" FunctionName="KWRModel.Store.Zadanie_Usun" />
+          <FunctionImportMapping FunctionImportName="ZadanieUczestnik_Dodaj" FunctionName="KWRModel.Store.ZadanieUczestnik_Dodaj" />
+          <FunctionImportMapping FunctionImportName="ZadanieUczestnik_Usun" FunctionName="KWRModel.Store.ZadanieUczestnik_Usun" />
+          <FunctionImportMapping FunctionImportName="Zaproszenie_Anuluj" FunctionName="KWRModel.Store.Zaproszenie_Anuluj" />
+          <FunctionImportMapping FunctionImportName="Zaproszenie_Potwierdz" FunctionName="KWRModel.Store.Zaproszenie_Potwierdz" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

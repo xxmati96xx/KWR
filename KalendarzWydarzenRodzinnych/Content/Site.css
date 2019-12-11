@@ -21,6 +21,11 @@
     margin-left:4px;
 }
 
+.message-button-margin {
+    margin-left: 4px;
+    margin-right:15px
+}
+
 .opis{
     min-height:400px;   
 }
@@ -83,6 +88,20 @@
 
 .textareawpis {
    resize:none;
+}
+
+#Do {
+    resize: none;
+    
+}
+
+#wiadomosc_Temat {
+    resize: none;
+    max-width: initial;
+}
+
+#wiadomosc_Tresc {
+    height: 300px;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */

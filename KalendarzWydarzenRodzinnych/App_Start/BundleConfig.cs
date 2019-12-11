@@ -34,6 +34,12 @@ namespace KalendarzWydarzenRodzinnych
                         "~/Scripts/bootstrap-datetimepicker.js"
                        ));
 
+            bundles.Add(new ScriptBundle("~/bundles/chosen").Include(
+                        "~/Scripts/chosen/chosen.jquery.min.js",
+                        "~/Scripts/docsupport/prism.js",
+                        "~/Scripts/docsupport/init.js"
+                       ));
+
 
 
             // Użyj wersji deweloperskiej biblioteki Modernizr do nauki i opracowywania rozwiązań. Następnie, kiedy wszystko będzie
@@ -55,6 +61,11 @@ namespace KalendarzWydarzenRodzinnych
 
             bundles.Add(new StyleBundle("~/Content/ekko").Include(
                       "~/Content/ekko-lightbox.css"));
+
+            bundles.Add(new StyleBundle("~/Content/chosen").Include(
+                      "~/Content/docsupport/style.css",
+                     "~/Content/docsupport/prism.css",
+                    "~/Content/chosen/chosen.css"));
         }
     }
 }

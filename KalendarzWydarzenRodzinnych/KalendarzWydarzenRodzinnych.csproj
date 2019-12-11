@@ -213,6 +213,7 @@
     <Compile Include="Controllers\PrzebiegController.cs" />
     <Compile Include="Controllers\UczestnicyController.cs" />
     <Compile Include="Controllers\UzytkownikController.cs" />
+    <Compile Include="Controllers\WiadomoscController.cs" />
     <Compile Include="Controllers\WpisController.cs" />
     <Compile Include="Controllers\WydarzenieController.cs" />
     <Compile Include="Controllers\ZadanieController.cs" />
@@ -253,10 +254,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>KWR.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Logowanie.cs">
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\Odebrane_Wiadomosc.cs">
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Powiadomienia.cs">
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
@@ -286,6 +288,9 @@
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Wydarzenie.cs">
+      <DependentUpon>KWR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Wyslane_Wiadomosc.cs">
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Wyswietl_Powiadomienia_Result.cs">
@@ -319,7 +324,13 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\chosen\chosen-sprite%402x.png" />
+    <Content Include="Content\chosen\chosen-sprite.png" />
+    <Content Include="Content\chosen\chosen.css" />
+    <Content Include="Content\chosen\chosen.min.css" />
     <Content Include="Content\dataTables.bootstrap.css" />
+    <Content Include="Content\dcsupport\prism.css" />
+    <Content Include="Content\dcsupport\style.css" />
     <Content Include="Content\ekko-lightbox.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\images\close.png" />
@@ -402,8 +413,12 @@
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\chosen\chosen.jquery.js" />
+    <Content Include="Scripts\chosen\chosen.jquery.min.js" />
     <Content Include="Scripts\dataTables.bootstrap.js" />
     <Content Include="Scripts\dataTables.bootstrap.min.js" />
+    <Content Include="Scripts\dcsupport\init.js" />
+    <Content Include="Scripts\dcsupport\prism.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
@@ -430,13 +445,6 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Account\NotConfirmEmail.cshtml" />
     <Content Include="Views\Account\ConfirmEmailInfo.cshtml" />
-    <EntityDeploy Include="Models\KWR.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>KWR.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\KWR.edmx.diagram">
-      <DependentUpon>KWR.edmx</DependentUpon>
-    </Content>
     <Content Include="Scripts\ekko-lightbox.js" />
     <Content Include="Scripts\ekko-lightbox.min.js" />
     <Content Include="Scripts\imageForm.js" />
@@ -517,6 +525,13 @@
     <Content Include="Content\bootstrap\alerts.less" />
     <Content Include="Content\_bootstrap-datetimepicker.less" />
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
+    <EntityDeploy Include="Models\KWR.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>KWR.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\KWR.edmx.diagram">
+      <DependentUpon>KWR.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -578,6 +593,8 @@
     <Content Include="Views\Grupa\Edit.cshtml" />
     <Content Include="Views\Grupa\Delete.cshtml" />
     <Content Include="Views\Grupa\AddGroupEvent.cshtml" />
+    <Content Include="Views\Wiadomosc\ListSend.cshtml" />
+    <Content Include="Views\Wiadomosc\SendMessage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

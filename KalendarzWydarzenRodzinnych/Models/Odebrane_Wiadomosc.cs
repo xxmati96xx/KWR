@@ -12,13 +12,16 @@ namespace KalendarzWydarzenRodzinnych.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Logowanie
+    public partial class Odebrane_Wiadomosc
     {
         public int id { get; set; }
-        public string Nazwa { get; set; }
-        public string Haslo { get; set; }
-        public Nullable<int> id_uzytkownik { get; set; }
+        public int id_wiadomosc { get; set; }
+        public int Od { get; set; }
+        public int Do { get; set; }
+        public Nullable<System.DateTime> Data { get; set; }
     
         public virtual Uzytkownik Uzytkownik { get; set; }
+        public virtual Uzytkownik Uzytkownik1 { get; set; }
+        public virtual Wiadomosc Wiadomosc { get; set; }
     }
 }

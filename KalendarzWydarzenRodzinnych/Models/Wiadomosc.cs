@@ -11,25 +11,30 @@ namespace KalendarzWydarzenRodzinnych.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Wiadomosc
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Wiadomosc()
         {
+            this.Odebrane_Wiadomosc = new HashSet<Odebrane_Wiadomosc>();
             this.Powiadomienia = new HashSet<Powiadomienia>();
+            this.Wyslane_Wiadomosc = new HashSet<Wyslane_Wiadomosc>();
         }
     
         public int id { get; set; }
-        public int Od { get; set; }
-        public int Do { get; set; }
         public string Temat { get; set; }
+        [Display(Name = "Treœæ")]
+        [DataType(DataType.MultilineText)]
         public string Tresc { get; set; }
         public bool Przeczytana { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Odebrane_Wiadomosc> Odebrane_Wiadomosc { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Powiadomienia> Powiadomienia { get; set; }
-        public virtual Uzytkownik Uzytkownik { get; set; }
-        public virtual Uzytkownik Uzytkownik1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Wyslane_Wiadomosc> Wyslane_Wiadomosc { get; set; }
     }
 }

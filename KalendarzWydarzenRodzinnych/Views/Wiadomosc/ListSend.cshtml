@@ -1,0 +1,78 @@
+﻿@model IEnumerable<KalendarzWydarzenRodzinnych.Models.Wyslane_Wiadomosc>
+
+@{
+    ViewBag.Title = "Wysłane";
+}
+
+<h2>Widomości wysłane</h2>
+@using (Html.BeginForm("DeleteMessageConfirm", "Wiadomosc", FormMethod.Post))
+{
+
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <div class="form-group ">
+        <div class="pull-right">
+            <input type="submit" value="Usuń wybrane wiadomości" class="btn btn-danger pull-right message-button-margin" />
+            @Html.ActionLink("Wyślij wiadomość", "SendMessage", null, new { @class = "btn btn-primary add-button  " })
+            </div>
+        </div>
+
+
+        <div class="navbar marnav">
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Odebrane", "ListReceived", "Widomosc", null, new { @class = "wmenu" })</li>
+                    <li>@Html.ActionLink("Wysłane", "ListSend", "Wiadomosc", null, new { @class = "wmenu" })</li>
+
+                </ul>
+            </div>
+
+        </div>
+        <table id="table" class="table">
+            <thead>
+                <tr>
+                    <th>
+
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Wiadomosc.Temat)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Do)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Data)
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <div class="form-group">
+                            <td>
+                                <input type="checkbox" class="chkCheckBoxId editWpisButtonpading  panel panel-danger" multiple="multiple" id="checkbox" value=@item.id name="checkbox" />
+                            </td>
+                        </div>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Wiadomosc.Temat)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Uzytkownik1.Imie) @Html.DisplayFor(modelItem => item.Uzytkownik1.Nazwisko)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Data)
+                        </td>
+
+                    </tr>
+                }
+    </div>
+
+    }
+    </tbody>
+    </table>

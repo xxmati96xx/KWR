@@ -18,17 +18,18 @@ namespace KalendarzWydarzenRodzinnych.Models
         public Uzytkownik()
         {
             this.Grupa = new HashSet<Grupa>();
-            this.Logowanie = new HashSet<Logowanie>();
+            this.Odebrane_Wiadomosc = new HashSet<Odebrane_Wiadomosc>();
+            this.Odebrane_Wiadomosc1 = new HashSet<Odebrane_Wiadomosc>();
             this.Powiadomienia = new HashSet<Powiadomienia>();
             this.Uczestnicy = new HashSet<Uczestnicy>();
             this.UzytkownicyWGrupie = new HashSet<UzytkownicyWGrupie>();
-            this.Wiadomosc = new HashSet<Wiadomosc>();
-            this.Wiadomosc1 = new HashSet<Wiadomosc>();
+            this.Wpis = new HashSet<Wpis>();
             this.Wydarzenie = new HashSet<Wydarzenie>();
+            this.Wyslane_Wiadomosc = new HashSet<Wyslane_Wiadomosc>();
+            this.Wyslane_Wiadomosc1 = new HashSet<Wyslane_Wiadomosc>();
             this.ZadanieUczestnik = new HashSet<ZadanieUczestnik>();
             this.Zaproszenie = new HashSet<Zaproszenie>();
             this.Zaproszenie1 = new HashSet<Zaproszenie>();
-            this.Wpis = new HashSet<Wpis>();
         }
     
         public int id { get; set; }
@@ -42,7 +43,9 @@ namespace KalendarzWydarzenRodzinnych.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Grupa> Grupa { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Logowanie> Logowanie { get; set; }
+        public virtual ICollection<Odebrane_Wiadomosc> Odebrane_Wiadomosc { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Odebrane_Wiadomosc> Odebrane_Wiadomosc1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Powiadomienia> Powiadomienia { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -50,18 +53,18 @@ namespace KalendarzWydarzenRodzinnych.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UzytkownicyWGrupie> UzytkownicyWGrupie { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Wiadomosc> Wiadomosc { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Wiadomosc> Wiadomosc1 { get; set; }
+        public virtual ICollection<Wpis> Wpis { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Wydarzenie> Wydarzenie { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Wyslane_Wiadomosc> Wyslane_Wiadomosc { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Wyslane_Wiadomosc> Wyslane_Wiadomosc1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ZadanieUczestnik> ZadanieUczestnik { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Zaproszenie> Zaproszenie { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Zaproszenie> Zaproszenie1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Wpis> Wpis { get; set; }
     }
 }
