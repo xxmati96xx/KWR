@@ -83,8 +83,11 @@
    will truncate terms that are too long to fit in the left column 
 */
 .dl-horizontal dt {
-    white-space: normal;
+    margin-left: 0px;
+   
 }
+
+
 
 .textareawpis {
    resize:none;

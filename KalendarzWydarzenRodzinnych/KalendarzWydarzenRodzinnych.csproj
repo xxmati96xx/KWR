@@ -595,6 +595,8 @@
     <Content Include="Views\Grupa\AddGroupEvent.cshtml" />
     <Content Include="Views\Wiadomosc\ListSend.cshtml" />
     <Content Include="Views\Wiadomosc\SendMessage.cshtml" />
+    <Content Include="Views\Wiadomosc\DetailsSend.cshtml" />
+    <Content Include="Views\Wiadomosc\DeleteMessageSend.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

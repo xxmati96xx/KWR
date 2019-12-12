@@ -15,64 +15,77 @@
         <div class="pull-right">
             <input type="submit" value="Usuń wybrane wiadomości" class="btn btn-danger pull-right message-button-margin" />
             @Html.ActionLink("Wyślij wiadomość", "SendMessage", null, new { @class = "btn btn-primary add-button  " })
-            </div>
+        </div>
+    </div>
+
+
+    <div class="navbar marnav">
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Odebrane", "ListReceived", "Widomosc", null, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Wysłane", "ListSend", "Wiadomosc", null, new { @class = "wmenu" })</li>
+
+            </ul>
         </div>
 
+    </div>
+    <table id="table" class="table">
+        <thead>
+            <tr>
+                <th>
 
-        <div class="navbar marnav">
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Odebrane", "ListReceived", "Widomosc", null, new { @class = "wmenu" })</li>
-                    <li>@Html.ActionLink("Wysłane", "ListSend", "Wiadomosc", null, new { @class = "wmenu" })</li>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Wiadomosc.Temat)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Do)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Data)
+                </th>
+                <th>
 
-                </ul>
-            </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
 
-        </div>
-        <table id="table" class="table">
-            <thead>
-                <tr>
-                    <th>
-
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Wiadomosc.Temat)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Do)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Data)
-                    </th>
-
-                </tr>
-            </thead>
-            <tbody>
-
-
+            <div class="form-group">
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <div class="form-group">
-                            <td>
-                                <input type="checkbox" class="chkCheckBoxId editWpisButtonpading  panel panel-danger" multiple="multiple" id="checkbox" value=@item.id name="checkbox" />
-                            </td>
-                        </div>
+
+                        <td>
+                            <input type="checkbox" class="chkCheckBoxId editWpisButtonpading  panel panel-danger" multiple="multiple" id="checkbox" value=@item.id name="checkbox" />
+                        </td>
+
                         <td>
                             @Html.DisplayFor(modelItem => item.Wiadomosc.Temat)
                         </td>
 
                         <td>
-                            @Html.DisplayFor(modelItem => item.Uzytkownik1.Imie) @Html.DisplayFor(modelItem => item.Uzytkownik1.Nazwisko)
+                            @Html.DisplayFor(modelItem => item.Uzytkownik.Imie) @Html.DisplayFor(modelItem => item.Uzytkownik.Nazwisko)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Data)
                         </td>
+                        <td>
 
+
+                            <a href="@Url.Action("Delete", "Widaomosc", new { id = item.id })" class="btn btn-danger btn-sm delete-button buttonmargin pull-right">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </a>
+                            <a href="@Url.Action("Details", "Wiadomosc",new { id = item.id, r = "s" })" class="btn btn-primary btn-sm pull-right ">
+                                <span class="glyphicon glyphicon glyphicon-file" aria-hidden="true"></span>
+                            </a>
+                        </td>
                     </tr>
                 }
-    </div>
+            </div>
+        </tbody>
+    </table>
+</div>
 
     }
-    </tbody>
-    </table>
+    
