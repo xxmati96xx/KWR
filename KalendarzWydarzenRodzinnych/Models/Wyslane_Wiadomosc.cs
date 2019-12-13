@@ -11,13 +11,15 @@ namespace KalendarzWydarzenRodzinnych.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
     public partial class Wyslane_Wiadomosc
     {
         public int id { get; set; }
         public int id_wiadomosc { get; set; }
         public int Od { get; set; }
         public int Do { get; set; }
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> Data { get; set; }
     
         public virtual Uzytkownik Uzytkownik { get; set; }

@@ -30,10 +30,14 @@
                 <td>
                     @if (ViewBag.id_uzytkownik == ViewBag.id_organizator_wydarzenie)
                     {
-                    <a href="@Url.Action("Delete", "Wydarzenie", new { id = item.id })" class="btn btn-danger btn-sm delete-button">
-                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                    </a>
+                        <a href="@Url.Action("Delete", "Wydarzenie", new { id = item.id })" class="btn btn-danger btn-sm pull-right delete-button">
+                            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                        </a>
+
                     }
+                    <a href="@Url.Action("SendMessage", "Wiadomosc", new { id = item.Uzytkownik.id })" class="btn btn-default btn-sm glyphicon glyphicon-envelope">
+
+                    </a>
                 </td>
 
 
@@ -48,5 +52,6 @@
 
     @Html.ActionLink("Dodaj uczestnika", "addUser", "Uzytkownik", new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default col-md-12" })
     @Html.ActionLink("Dodaj grupę", "AddGroupEvent", "Grupa", new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default col-md-12 h2Opis" })
+    @Html.ActionLink("Wyślij wiadomość do uczestników", "SendMessage", "Wiadomosc", new { idW = ViewBag.id_wydarzenie }, new { @class = "btn btn-default col-md-12 h2Opis" })
 </div>
 }

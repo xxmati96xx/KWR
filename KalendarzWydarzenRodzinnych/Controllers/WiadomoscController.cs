@@ -31,19 +31,41 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         }
 
         [HttpGet]
-        public ActionResult SendMessage()
+        public ActionResult SendMessage(int? id, int? idW)
         {
             var idUzytkownik = Convert.ToInt32(User.Identity.GetUzytkownikId());
             Message message = new Message();
-            message.UserColection = dbo.Uzytkownik.Where(u=>u.id != idUzytkownik).ToList();
-            var users = dbo.Uzytkownik
-                .Select(u => new
-                {
-                    id = u.id,
-                    user = u.Imie + " " + u.Nazwisko
-                }).Where(u => u.id != idUzytkownik).ToList();
-            ViewBag.Do = users;
-            return View(message);
+            if (dbo.Wydarzenie.Find(idW) != null)
+            {
+                message.DoGroup = (int)idW;
+                ViewBag.wydarzenie = "Uczestnicy wydarzenia " + dbo.Wydarzenie.Find(idW).Tytul;
+                return View(message);
+            }
+            if (dbo.Uzytkownik.Find(id) != null)
+            {
+               
+                    
+                    message.Do = (int)id;
+                    ViewBag.uzytkownik = dbo.Uzytkownik.Find(id).Imie + " " + dbo.Uzytkownik.Find(id).Nazwisko;
+                    return View(message);
+                
+            }
+            else
+            {
+
+
+                
+                
+                message.UserColection = dbo.Uzytkownik.Where(u => u.id != idUzytkownik).ToList();
+                var users = dbo.Uzytkownik
+                    .Select(u => new
+                    {
+                        id = u.id,
+                        user = u.Imie + " " + u.Nazwisko
+                    }).Where(u => u.id != idUzytkownik).ToList();
+                ViewBag.Do = users;
+                return View(message);
+            }
         }
 
         [HttpPost]
@@ -55,16 +77,26 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             }
             try
             {
+                if(message.DoGroup != 0){
+                    message.SelectedID = dbo.Uczestnicy.Where(u => u.id_wydarzenie == message.DoGroup).Select(u=>u.id_uzytkownik).ToArray();
+                }
                 Wiadomosc wiadomosc = message.wiadomosc;
                 dbo.Wiadomosc.Add(wiadomosc);
                 dbo.SaveChanges();
-                if (message.SelectedID.Length != 0)
+                
                     foreach (var item in message.SelectedID)
                     {
                         Wyslane_Wiadomosc send_message = new Wyslane_Wiadomosc();
                         send_message.id_wiadomosc = wiadomosc.id;
                         send_message.Od = Convert.ToInt32(User.Identity.GetUzytkownikId());
-                        send_message.Do = item;
+                        if (message.Do == 0)
+                        {
+                            send_message.Do = item;
+                        }
+                        else
+                        {
+                            send_message.Do = message.Do;
+                        }
                         dbo.Wyslane_Wiadomosc.Add(send_message);
                         dbo.SaveChanges();
 
@@ -72,8 +104,14 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                         received_message.id_wiadomosc = wiadomosc.id;
                         received_message.id = send_message.id;
                         received_message.Od = Convert.ToInt32(User.Identity.GetUzytkownikId());
-                        received_message.Do = item;
-                        
+                        if (message.Do == 0)
+                        {
+                            received_message.Do = item;
+                        }
+                        else
+                        {
+                            received_message.Do = message.Do;
+                        }
                         dbo.Odebrane_Wiadomosc.Add(received_message);
                         dbo.SaveChanges();
                     }

@@ -93,9 +93,9 @@
    resize:none;
 }
 
-#Do {
+#info {
     resize: none;
-    
+    max-width: initial;
 }
 
 #wiadomosc_Temat {

@@ -12,6 +12,8 @@ namespace KalendarzWydarzenRodzinnych.Models
 
         public int Do { get; set; }
 
+        public int DoGroup { get; set; }
+
         [NotMapped]
         public IEnumerable<Uzytkownik> UserColection { get; set; }
 

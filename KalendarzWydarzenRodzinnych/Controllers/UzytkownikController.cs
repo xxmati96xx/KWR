@@ -7,8 +7,11 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Net;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using System.Web.Security;
 using KalendarzWydarzenRodzinnych.Models;
 using KalendarzWydarzenRodzinnych.Extensions;
+using static KalendarzWydarzenRodzinnych.Controllers.ManageController;
 
 namespace KalendarzWydarzenRodzinnych.Controllers
 {
@@ -42,6 +45,32 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             return View(query.ToList());
         }
 
+        [HttpGet]
+        public ActionResult UserProfile(ManageMessageId? message)
+        {
+            ViewBag.StatusMessage =
+                message == ManageMessageId.ChangePasswordSuccess ? "Zmieniono hasło."
+                : message == ManageMessageId.SetPasswordSuccess ? "Ustawiono hasło."
+                : message == ManageMessageId.SetTwoFactorSuccess ? "Ustawiono dostawcę uwierzytelniania dwuetapowego."
+                : message == ManageMessageId.Error ? "Wystąpił błąd."
+                : message == ManageMessageId.AddPhoneSuccess ? "Dodano numer telefonu."
+                : message == ManageMessageId.RemovePhoneSuccess ? "Usunięto numer telefonu."
+                : "";
+            var userId = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            Uzytkownik user = dbo.Uzytkownik.Find(userId);
 
+            return View(user);
+
+        }
+
+        [HttpPost]
+        public ActionResult UserProfile(Uzytkownik user)
+        {
+
+            var userId = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            //Uzytkownik user = dbo.Uzytkownik.Find(userId);
+
+            return View(user);
+        }
     }
 }

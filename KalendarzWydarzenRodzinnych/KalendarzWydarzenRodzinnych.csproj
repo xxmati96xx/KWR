@@ -602,6 +602,7 @@
     <Content Include="Views\Wiadomosc\DetailsReceived.cshtml" />
     <Content Include="Views\Wiadomosc\DeleteMessageReceived.cshtml" />
     <Content Include="Views\Wiadomosc\DeleteMessageReceivedConfirm.cshtml" />
+    <Content Include="Views\Uzytkownik\UserProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

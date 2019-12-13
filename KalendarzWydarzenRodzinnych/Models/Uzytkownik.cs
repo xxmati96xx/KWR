@@ -11,7 +11,8 @@ namespace KalendarzWydarzenRodzinnych.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Web;
+    using System.ComponentModel.DataAnnotations;
     public partial class Uzytkownik
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -35,11 +36,19 @@ namespace KalendarzWydarzenRodzinnych.Models
         public int id { get; set; }
         public string Imie { get; set; }
         public string Nazwisko { get; set; }
+        [Display(Name = "Data urodzenia")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public System.DateTime DataUrodzenia { get; set; }
-        public string Zdjcie { get; set; }
+        [Display(Name = "Zdjêcie")]
+        public string Zdjcie { get; set; } //poprawiæ przy nastêpnym czytaniu bazy wszystkie zmienne zdjecie 
+        [Display(Name = "Numer telefonu")]
         public string NrTelefonu { get; set; }
+        [Display(Name = "Adres e-mail")]
         public string AdresEmail { get; set; }
-    
+        [Display(Name = "Wybierz zdjêcie:")]
+        public HttpPostedFileBase[] files { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Grupa> Grupa { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

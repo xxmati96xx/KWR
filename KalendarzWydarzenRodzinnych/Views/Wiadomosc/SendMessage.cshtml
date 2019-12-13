@@ -9,48 +9,67 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
+    
 <div class="form-horizontal">
     <h4>Message</h4>
     <hr />
-    
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(model => model.Do, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.ListBoxFor(model => model.SelectedID,  new MultiSelectList(ViewBag.Do, "id", "user"),new { htmlAttributes = new { @class = "form-control chosen-select", multiple = "multiple"} } )
-                    @Html.ValidationMessageFor(model => model.Do, "", new { @class = "text-danger" })
-                </div>
-           
-        </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.wiadomosc.Temat, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.wiadomosc.Temat, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
-                    @Html.ValidationMessageFor(model => model.wiadomosc.Temat, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.wiadomosc.Tresc, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.wiadomosc.Tresc, new { htmlAttributes = new { @class = "form-control", maxlength = "2000" } })
-                    @Html.ValidationMessageFor(model => model.wiadomosc.Tresc, "", new { @class = "text-danger" })
-                </div>
-            </div>
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Wyślij" class="btn btn-primary" />
-                </div>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Do)
+    @Html.HiddenFor(model => model.DoGroup)
+    <div class="form-group">
+        @Html.LabelFor(model => model.Do, htmlAttributes: new { @class = "control-label col-md-2" })
+        @if ((int)Model.DoGroup != 0)
+        {
+            <div class="col-md-10">
+
+                <input class="form-control text-box single-line" readonly="readonly" id="info" type="text" value="@ViewBag.wydarzenie">
             </div>
+        }
+        else if ((int)Model.Do != 0)
+        {
+            <div class="col-md-10">
+
+                <input class="form-control text-box single-line" readonly="readonly" id="info" type="text" value="@ViewBag.uzytkownik">
+            </div>
+        }
+        else
+        {
+            <div class="col-md-10">
+                @Html.ListBoxFor(model => model.SelectedID, new MultiSelectList(ViewBag.Do, "id", "user"), new { htmlAttributes = new { @class = "form-control chosen-select", multiple = "multiple" } })
+                @Html.ValidationMessageFor(model => model.Do, "", new { @class = "text-danger" })
+            </div>
+        }
+
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.wiadomosc.Temat, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.wiadomosc.Temat, new { htmlAttributes = new { @class = "form-control", maxlength = "100" } })
+            @Html.ValidationMessageFor(model => model.wiadomosc.Temat, "", new { @class = "text-danger" })
         </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.wiadomosc.Tresc, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.wiadomosc.Tresc, new { htmlAttributes = new { @class = "form-control", maxlength = "2000" } })
+            @Html.ValidationMessageFor(model => model.wiadomosc.Tresc, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Wyślij" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
         }
 
         @section Scripts {
             @Scripts.Render("~/bundles/jqueryval")
             @Scripts.Render("~/bundles/chosen")
             <script type="text/javascript">
-                $(document).ready(function () {
+                $(function () {
                     $("#SelectedID").chosen({
                         width: "100%"
                     });
