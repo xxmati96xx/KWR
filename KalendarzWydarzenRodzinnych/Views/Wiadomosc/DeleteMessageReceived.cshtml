@@ -1,0 +1,21 @@
+﻿@model KalendarzWydarzenRodzinnych.Models.Odebrane_Wiadomosc
+
+@{
+    ViewBag.Title = "Usuwanie wiadomości";
+}
+
+<h2>Usuwanie wiadomości</h2>
+
+<h3>Czy napewno chcesz usunąć wybraną wiadomość?</h3>
+<div>
+
+    @using (Html.BeginForm("DeleteMessageReceived", "Wiadomosc", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.id)
+        <div class="form-actions no-color">
+            <input type="submit" value="Usuń" class="btn btn-danger" />
+            @Html.ActionLink("Powrót do widomości", "ListReceived", null, new { @class = "btn btn-default" })
+        </div>
+    }
+</div>

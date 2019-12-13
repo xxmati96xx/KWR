@@ -70,6 +70,15 @@ namespace KalendarzWydarzenRodzinnych.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Grupa_Usun", par_IdGrupaParameter);
         }
     
+        public virtual int Wiadomosc_Przeczytana(Nullable<int> par_IdWiadomoscOdebrana)
+        {
+            var par_IdWiadomoscOdebranaParameter = par_IdWiadomoscOdebrana.HasValue ?
+                new ObjectParameter("Par_IdWiadomoscOdebrana", par_IdWiadomoscOdebrana) :
+                new ObjectParameter("Par_IdWiadomoscOdebrana", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Wiadomosc_Przeczytana", par_IdWiadomoscOdebranaParameter);
+        }
+    
         public virtual int Wydarzenie_Uczestnik(Nullable<int> par_id_wydarzenie, Nullable<int> par_id_uzytkownik)
         {
             var par_id_wydarzenieParameter = par_id_wydarzenie.HasValue ?

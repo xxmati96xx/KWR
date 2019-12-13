@@ -1,0 +1,32 @@
+﻿@model List<KalendarzWydarzenRodzinnych.Models.Wyslane_Wiadomosc>
+
+@{
+    ViewBag.Title = "Usuwanie wiadomości";
+}
+
+<h2>Usuwanie wiadomości</h2>
+
+<h3>Czy napewno chcesz usunąć wybrane wiadomości?</h3>
+<div>
+
+    @using (Html.BeginForm("DeleteListMessageSend", "Wiadomosc", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+
+        <hr />
+        <div class="form-group">
+            @foreach (var item in Model)
+            {
+
+                <input name="checkbox" multiple="multiple" type="number" hidden="hidden" value="@item.id" id="checkbox" />
+                
+            }
+        </div>
+        <div class="form-actions no-color">
+            <input type="submit" value="Usuń" class="btn btn-danger" />
+            @Html.ActionLink("Powrót do widomości", "ListSend", null, new { @class = "btn btn-default" })
+        </div>
+        </div>
+        }
+    </div>

@@ -1,0 +1,116 @@
+﻿@model IEnumerable<KalendarzWydarzenRodzinnych.Models.Odebrane_Wiadomosc>
+
+@{
+    ViewBag.Title = "Odebrane";
+}
+
+<h2>Widomości odebrane</h2>
+@using (Html.BeginForm("DeleteMessageReceivedConfirm", "Wiadomosc", FormMethod.Post))
+{
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="form-group ">
+            <div class="pull-right">
+                <input type="submit" value="Usuń wybrane wiadomości" class="btn btn-danger pull-right message-button-margin" />
+                @Html.ActionLink("Wyślij wiadomość", "SendMessage", null, new { @class = "btn btn-primary add-button  " })
+            </div>
+        </div>
+
+
+        <div class="navbar marnav">
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Odebrane", "ListReceived", "Wiadomosc", null, new { @class = "wmenu" })</li>
+                    <li>@Html.ActionLink("Wysłane", "ListSend", "Wiadomosc", null, new { @class = "wmenu" })</li>
+
+                </ul>
+            </div>
+
+        </div>
+        <table id="table" class="table">
+            <thead>
+                <tr>
+                    <th>
+
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Wiadomosc.Temat)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Od)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Data)
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <div class="form-group">
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+
+                        <td>
+                            <input type="checkbox" class="chkCheckBoxId editWpisButtonpading  panel panel-danger" multiple="multiple" id="checkbox" value=@item.id name="checkbox" />
+                        </td>
+                        @if ((bool)item.Przeczytana)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Wiadomosc.Temat)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Uzytkownik1.Imie) @Html.DisplayFor(modelItem => item.Uzytkownik1.Nazwisko)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Data)
+                            </td>
+                            <td>
+
+
+                                <a href="@Url.Action("DeleteMessage", "Wiadomosc", new { id = item.id, r = "r" })" class="btn btn-danger btn-sm delete-button buttonmargin pull-right">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </a>
+                                <a href="@Url.Action("Details", "Wiadomosc", new { id = item.id, r = "r" })" class="btn btn-primary btn-sm pull-right ">
+                                    <span class="glyphicon glyphicon glyphicon-file" aria-hidden="true"></span>
+                                </a>
+                            </td>
+                        }
+                        else
+                        {
+                            <td id="bold">
+                                @Html.DisplayFor(modelItem => item.Wiadomosc.Temat)
+                            </td>
+
+                            <td id="bold">
+                                @Html.DisplayFor(modelItem => item.Uzytkownik1.Imie) @Html.DisplayFor(modelItem => item.Uzytkownik1.Nazwisko)
+                            </td>
+                            <td id="bold">
+                                @Html.DisplayFor(modelItem => item.Data)
+                            </td>
+                            <td>
+
+
+                                <a href="@Url.Action("DeleteMessage", "Wiadomosc", new { id = item.id, r = "r" })" class="btn btn-danger btn-sm delete-button buttonmargin pull-right">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </a>
+                                <a href="@Url.Action("Details", "Wiadomosc", new { id = item.id, r = "r" })" class="btn btn-primary btn-sm pull-right ">
+                                    <span class="glyphicon glyphicon glyphicon-file" aria-hidden="true"></span>
+                                </a>
+                            </td>
+                        }
+                    </tr>
+                    }
+                </div>
+            </tbody>
+        </table>
+    </div>
+
+}
+

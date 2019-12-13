@@ -5,7 +5,7 @@
 }
 
 <h2>Widomości wysłane</h2>
-@using (Html.BeginForm("DeleteMessageConfirm", "Wiadomosc", FormMethod.Post))
+@using (Html.BeginForm("DeleteMessageSendConfirm", "Wiadomosc", FormMethod.Post))
 {
 
     @Html.AntiForgeryToken()
@@ -22,7 +22,7 @@
     <div class="navbar marnav">
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Odebrane", "ListReceived", "Widomosc", null, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Odebrane", "ListReceived", "Wiadomosc", null, new { @class = "wmenu" })</li>
                 <li>@Html.ActionLink("Wysłane", "ListSend", "Wiadomosc", null, new { @class = "wmenu" })</li>
 
             </ul>
@@ -73,7 +73,7 @@
                         <td>
 
 
-                            <a href="@Url.Action("Delete", "Widaomosc", new { id = item.id })" class="btn btn-danger btn-sm delete-button buttonmargin pull-right">
+                            <a href="@Url.Action("DeleteMessage", "Wiadomosc", new { id = item.id, r="s" })" class="btn btn-danger btn-sm delete-button buttonmargin pull-right">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                             </a>
                             <a href="@Url.Action("Details", "Wiadomosc",new { id = item.id, r = "s" })" class="btn btn-primary btn-sm pull-right ">

@@ -11,7 +11,8 @@ namespace KalendarzWydarzenRodzinnych.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Przebieg
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,8 +22,10 @@ namespace KalendarzWydarzenRodzinnych.Models
         }
     
         public int id { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Opis { get; set; }
         public int id_wydarzenie { get; set; }
+        [Display(Name = "Tytu³")]
         public string Tytul { get; set; }
     
         public virtual Wydarzenie Wydarzenie { get; set; }

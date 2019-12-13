@@ -28,7 +28,6 @@ namespace KalendarzWydarzenRodzinnych.Models
         [Display(Name = "Treœæ")]
         [DataType(DataType.MultilineText)]
         public string Tresc { get; set; }
-        public bool Przeczytana { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Odebrane_Wiadomosc> Odebrane_Wiadomosc { get; set; }

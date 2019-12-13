@@ -75,6 +75,7 @@
           <Property Name="Od" Type="int" Nullable="false" />
           <Property Name="Do" Type="int" Nullable="false" />
           <Property Name="Data" Type="datetime" />
+          <Property Name="Przeczytana" Type="bit" />
         </EntityType>
         <EntityType Name="Powiadomienia">
           <Key>
@@ -140,7 +141,6 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Temat" Type="varchar" MaxLength="50" />
           <Property Name="Tresc" Type="varchar" MaxLength="500" />
-          <Property Name="Przeczytana" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Wpis">
           <Key>
@@ -596,6 +596,9 @@
         <Function Name="Grupa_Usun" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdGrupa" Type="int" Mode="In" />
         </Function>
+        <Function Name="Wiadomosc_Przeczytana" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_IdWiadomoscOdebrana" Type="int" Mode="In" />
+        </Function>
         <Function Name="Wydarzenie_Uczestnik" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_id_wydarzenie" Type="int" Mode="In" />
           <Parameter Name="Par_id_uzytkownik" Type="int" Mode="In" />
@@ -858,6 +861,7 @@
           <Property Name="Od" Type="Int32" Nullable="false" />
           <Property Name="Do" Type="Int32" Nullable="false" />
           <Property Name="Data" Type="DateTime" Precision="3" />
+          <Property Name="Przeczytana" Type="Boolean" />
           <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Odebrane_Wiadomosc_Do" FromRole="Odebrane_Wiadomosc" ToRole="Uzytkownik" />
           <NavigationProperty Name="Uzytkownik1" Relationship="Self.FK_Odebrane_Wiadomosc_Od" FromRole="Odebrane_Wiadomosc" ToRole="Uzytkownik" />
           <NavigationProperty Name="Wiadomosc" Relationship="Self.FK_Odebrane_Wiadomosc_Wiadomosc" FromRole="Odebrane_Wiadomosc" ToRole="Wiadomosc" />
@@ -949,7 +953,6 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Temat" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Tresc" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="Przeczytana" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Odebrane_Wiadomosc" Relationship="Self.FK_Odebrane_Wiadomosc_Wiadomosc" FromRole="Wiadomosc" ToRole="Odebrane_Wiadomosc" />
           <NavigationProperty Name="Powiadomienia" Relationship="Self.FK_Powiadomienia_Wiadomosc" FromRole="Wiadomosc" ToRole="Powiadomienia" />
           <NavigationProperty Name="Wyslane_Wiadomosc" Relationship="Self.FK_Wyslane_Wiadomosc_Wiadomosc" FromRole="Wiadomosc" ToRole="Wyslane_Wiadomosc" />
@@ -1548,6 +1551,9 @@
           <FunctionImport Name="Grupa_Usun">
             <Parameter Name="Par_IdGrupa" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="Wiadomosc_Przeczytana">
+            <Parameter Name="Par_IdWiadomoscOdebrana" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="Wydarzenie_Uczestnik">
             <Parameter Name="Par_id_wydarzenie" Mode="In" Type="Int32" />
             <Parameter Name="Par_id_uzytkownik" Mode="In" Type="Int32" />
@@ -1695,6 +1701,7 @@
                 <ScalarProperty Name="Od" ColumnName="Od" />
                 <ScalarProperty Name="Do" ColumnName="Do" />
                 <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Przeczytana" ColumnName="Przeczytana" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1767,7 +1774,6 @@
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="Temat" ColumnName="Temat" />
                 <ScalarProperty Name="Tresc" ColumnName="Tresc" />
-                <ScalarProperty Name="Przeczytana" ColumnName="Przeczytana" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1855,6 +1861,7 @@
           </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="Dodaj_Uzytkownikow_Grupa" FunctionName="KWRModel.Store.Dodaj_Uzytkownikow_Grupa" />
           <FunctionImportMapping FunctionImportName="Grupa_Usun" FunctionName="KWRModel.Store.Grupa_Usun" />
+          <FunctionImportMapping FunctionImportName="Wiadomosc_Przeczytana" FunctionName="KWRModel.Store.Wiadomosc_Przeczytana" />
           <FunctionImportMapping FunctionImportName="Wydarzenie_Uczestnik" FunctionName="KWRModel.Store.Wydarzenie_Uczestnik" />
           <FunctionImportMapping FunctionImportName="Wydarzenie_Uczestnik_Usun" FunctionName="KWRModel.Store.Wydarzenie_Uczestnik_Usun" />
           <FunctionImportMapping FunctionImportName="Wyswietl_Powiadomienia" FunctionName="KWRModel.Store.Wyswietl_Powiadomienia">

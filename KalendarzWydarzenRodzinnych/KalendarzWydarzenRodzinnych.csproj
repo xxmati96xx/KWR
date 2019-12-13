@@ -597,6 +597,11 @@
     <Content Include="Views\Wiadomosc\SendMessage.cshtml" />
     <Content Include="Views\Wiadomosc\DetailsSend.cshtml" />
     <Content Include="Views\Wiadomosc\DeleteMessageSend.cshtml" />
+    <Content Include="Views\Wiadomosc\DeleteMessageSendConfirm.cshtml" />
+    <Content Include="Views\Wiadomosc\ListReceived.cshtml" />
+    <Content Include="Views\Wiadomosc\DetailsReceived.cshtml" />
+    <Content Include="Views\Wiadomosc\DeleteMessageReceived.cshtml" />
+    <Content Include="Views\Wiadomosc\DeleteMessageReceivedConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

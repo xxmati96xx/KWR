@@ -1,0 +1,53 @@
+﻿@model KalendarzWydarzenRodzinnych.Models.Odebrane_Wiadomosc
+
+@{
+    ViewBag.Title = "Wiadomość odebrana";
+}
+<div class="col-md-12">
+    <h2>Wiadomość wysłana</h2>
+    <h2>@Html.ActionLink("Usuń wiadomość", "DeleteMessage", "Wiadomosc", new { id = Model.id, r = "r" }, new { @class = "btn btn-danger pull-right col-md-2" })</h2>
+    <br />
+    <hr />
+</div>
+
+<div>
+
+
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Od)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Uzytkownik1.Imie) @Html.DisplayFor(model => model.Uzytkownik1.Nazwisko)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Do)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Uzytkownik.Imie) @Html.DisplayFor(model => model.Uzytkownik.Nazwisko)
+        </dd>
+        <br />
+        <dt>
+            @Html.DisplayNameFor(model => model.Wiadomosc.Temat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Wiadomosc.Temat)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Wiadomosc.Tresc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Wiadomosc.Tresc)
+        </dd>
+
+
+
+    </dl>
+</div>
+

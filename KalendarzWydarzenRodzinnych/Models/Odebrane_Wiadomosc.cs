@@ -19,6 +19,7 @@ namespace KalendarzWydarzenRodzinnych.Models
         public int Od { get; set; }
         public int Do { get; set; }
         public Nullable<System.DateTime> Data { get; set; }
+        public Nullable<bool> Przeczytana { get; set; }
     
         public virtual Uzytkownik Uzytkownik { get; set; }
         public virtual Uzytkownik Uzytkownik1 { get; set; }
