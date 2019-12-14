@@ -24,6 +24,8 @@ namespace KalendarzWydarzenRodzinnych.Models
             this.Odebrane_Wiadomosc = new HashSet<Odebrane_Wiadomosc>();
             this.Odebrane_Wiadomosc1 = new HashSet<Odebrane_Wiadomosc>();
             this.Powiadomienia = new HashSet<Powiadomienia>();
+            this.Powiadomienie = new HashSet<Powiadomienie>();
+            this.Powiadomienie1 = new HashSet<Powiadomienie>();
             this.Uczestnicy = new HashSet<Uczestnicy>();
             this.UzytkownicyWGrupie = new HashSet<UzytkownicyWGrupie>();
             this.Wpis = new HashSet<Wpis>();
@@ -51,7 +53,8 @@ namespace KalendarzWydarzenRodzinnych.Models
         [NotMapped]
         [Display(Name = "Wybierz zdjêcie:")]
         public HttpPostedFileBase[] files { get; set; }
-
+    
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Grupa> Grupa { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -60,6 +63,10 @@ namespace KalendarzWydarzenRodzinnych.Models
         public virtual ICollection<Odebrane_Wiadomosc> Odebrane_Wiadomosc1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Powiadomienia> Powiadomienia { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Powiadomienie> Powiadomienie { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Powiadomienie> Powiadomienie1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Uczestnicy> Uczestnicy { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

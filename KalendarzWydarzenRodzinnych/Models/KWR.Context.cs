@@ -205,5 +205,14 @@ namespace KalendarzWydarzenRodzinnych.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Zaproszenie_Potwierdz", par_id_wydarzenieParameter, par_id_uzytkownikParameter);
         }
+    
+        public virtual ObjectResult<Powiadomienie_Wyswietl_Result> Powiadomienie_Wyswietl(Nullable<int> par_IdUzytkownik)
+        {
+            var par_IdUzytkownikParameter = par_IdUzytkownik.HasValue ?
+                new ObjectParameter("Par_IdUzytkownik", par_IdUzytkownik) :
+                new ObjectParameter("Par_IdUzytkownik", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Powiadomienie_Wyswietl_Result>("Powiadomienie_Wyswietl", par_IdUzytkownikParameter);
+        }
     }
 }

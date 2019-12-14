@@ -4,27 +4,27 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="07735c4d0007474a96f1d7aaa1adee57" Name="Diagram1">
+      <Diagram DiagramId="5ccee317d5234715af22bd1fef1ca098" Name="Diagram1">
         <EntityTypeShape EntityType="KWRModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
         <EntityTypeShape EntityType="KWRModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="KWRModel.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="KWRModel.AspNetUsers" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Grupa" Width="1.5" PointX="3" PointY="12.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Odebrane_Wiadomosc" Width="1.5" PointX="3" PointY="16.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Powiadomienia" Width="1.5" PointX="5.25" PointY="23.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Powiadomienie" Width="1.5" PointX="5.25" PointY="28.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Przebieg" Width="1.5" PointX="5.25" PointY="31.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Uczestnicy" Width="1.5" PointX="8.25" PointY="23.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.UzytkownicyWGrupie" Width="1.5" PointX="5.25" PointY="15.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Uzytkownik" Width="1.5" PointX="0.75" PointY="15.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Wiadomosc" Width="1.5" PointX="0.75" PointY="11.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Wpis" Width="1.5" PointX="10.5" PointY="25.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.WpisZdjecia" Width="1.5" PointX="12.75" PointY="26.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Wydarzenie" Width="1.5" PointX="3" PointY="31" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Wyslane_Wiadomosc" Width="1.5" PointX="6" PointY="18.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Zadanie" Width="1.5" PointX="5.25" PointY="34.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.ZadanieUczestnik" Width="1.5" PointX="7.5" PointY="27" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Zaproszenie" Width="1.5" PointX="8.25" PointY="20.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Grupa" Width="1.5" PointX="3" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Odebrane_Wiadomosc" Width="1.5" PointX="3" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Powiadomienia" Width="1.5" PointX="5.25" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Powiadomienie" Width="1.5" PointX="8.25" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Przebieg" Width="1.5" PointX="5.25" PointY="34.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Uczestnicy" Width="1.5" PointX="5.25" PointY="30" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.UzytkownicyWGrupie" Width="1.5" PointX="5.25" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Uzytkownik" Width="1.5" PointX="0.75" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Wiadomosc" Width="1.5" PointX="3.75" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Wpis" Width="1.5" PointX="10.5" PointY="27.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.WpisZdjecia" Width="1.5" PointX="12.75" PointY="28.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Wydarzenie" Width="1.5" PointX="3" PointY="34.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Wyslane_Wiadomosc" Width="1.5" PointX="6" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Zadanie" Width="1.5" PointX="5.25" PointY="37.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.ZadanieUczestnik" Width="1.5" PointX="7.5" PointY="29.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Zaproszenie" Width="1.5" PointX="5.25" PointY="21.875" IsExpanded="true" />
         <AssociationConnector Association="KWRModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Grupa_Uzytkownik" ManuallyRouted="false" />
@@ -35,6 +35,8 @@
         <AssociationConnector Association="KWRModel.FK_Powiadomienia_Uzytkownik" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Powiadomienia_Wiadomosc" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Powiadomienia_Wydarzenie" ManuallyRouted="false" />
+        <AssociationConnector Association="KWRModel.FK_Powiadomienie_Organizator" ManuallyRouted="false" />
+        <AssociationConnector Association="KWRModel.FK_Powiadomienie_Uzytkownik" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Powiadomienie_Wydarzenie" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Przebieg_Wydarzenie" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Wpis_Przebieg" ManuallyRouted="false" />

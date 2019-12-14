@@ -210,6 +210,7 @@
     <Compile Include="Controllers\GrupaController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PowiadomieniaController.cs" />
+    <Compile Include="Controllers\PowiadomienieController.cs" />
     <Compile Include="Controllers\PrzebiegController.cs" />
     <Compile Include="Controllers\UczestnicyController.cs" />
     <Compile Include="Controllers\UzytkownikController.cs" />
@@ -263,6 +264,9 @@
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Powiadomienie.cs">
+      <DependentUpon>KWR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Powiadomienie_Wyswietl_Result.cs">
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Przebieg.cs">
@@ -603,6 +607,7 @@
     <Content Include="Views\Wiadomosc\DeleteMessageReceived.cshtml" />
     <Content Include="Views\Wiadomosc\DeleteMessageReceivedConfirm.cshtml" />
     <Content Include="Views\Uzytkownik\UserProfile.cshtml" />
+    <Content Include="Views\Powiadomienie\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
