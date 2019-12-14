@@ -12,6 +12,8 @@ using System.Web.Security;
 using KalendarzWydarzenRodzinnych.Models;
 using KalendarzWydarzenRodzinnych.Extensions;
 using static KalendarzWydarzenRodzinnych.Controllers.ManageController;
+using System.IO;
+using System.Web.Helpers;
 
 namespace KalendarzWydarzenRodzinnych.Controllers
 {
@@ -69,8 +71,35 @@ namespace KalendarzWydarzenRodzinnych.Controllers
 
             var userId = Convert.ToInt32(User.Identity.GetUzytkownikId());
             //Uzytkownik user = dbo.Uzytkownik.Find(userId);
+            foreach (HttpPostedFileBase image in user.files)
+            {
+                try
+                {
+                    if (image != null)
+                    {
+                        var InputFileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
 
-            return View(user);
+                        user.Zdjcie = InputFileName;
+                        dbo.Entry(user).State = EntityState.Modified;
+                        dbo.SaveChanges();
+                        WebImage img = new WebImage(image.InputStream);
+                        if (img.Width > 300)
+                            img.Resize(250, 250);
+                        img.Save("~/Image/profile/" + InputFileName);
+
+
+                    }
+                }
+                catch (Exception e)
+                {
+                    TempData["message"] = string.Format("Dodanie zdjęć nie powiodło się. Spróbuj ponownie lub skontaktuj się z administratorem aplikacji Błąd:" + e.ToString());
+                }
+
+
+
+
+            }
+            return RedirectToAction("UserProfile");
         }
     }
 }

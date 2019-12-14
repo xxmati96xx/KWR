@@ -6,6 +6,14 @@
     @Html.AntiForgeryToken()
 
     <ul class="nav navbar-nav navbar-right">
+       @* <li>
+        @if (Model.Zdjcie != null)
+        {
+            <div class="col-md-offset-2">
+                <img  height="50" src="~/Image/profile/@Model.Zdjcie" />
+            </div>
+        }
+        </li>*@
         <li>
             @Html.ActionLink("Witaj," + User.Identity.GetUserName() + "!", "UserProfile", "Uzytkownik", routeValues: null, htmlAttributes: new { title = "Manage" })
         </li>

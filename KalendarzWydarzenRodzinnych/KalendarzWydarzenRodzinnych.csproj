@@ -607,6 +607,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Image\orginal\" />
+    <Folder Include="Image\profile\" />
     <Folder Include="Image\thumb\" />
   </ItemGroup>
   <ItemGroup>

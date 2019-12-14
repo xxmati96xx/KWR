@@ -13,6 +13,8 @@ namespace KalendarzWydarzenRodzinnych.Models
     using System.Collections.Generic;
     using System.Web;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class Uzytkownik
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -46,6 +48,7 @@ namespace KalendarzWydarzenRodzinnych.Models
         public string NrTelefonu { get; set; }
         [Display(Name = "Adres e-mail")]
         public string AdresEmail { get; set; }
+        [NotMapped]
         [Display(Name = "Wybierz zdjêcie:")]
         public HttpPostedFileBase[] files { get; set; }
 
