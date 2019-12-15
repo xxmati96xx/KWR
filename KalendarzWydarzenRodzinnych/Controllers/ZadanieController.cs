@@ -192,20 +192,30 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         }
 
         [HttpGet]
-        public ActionResult Delete(int? id) //dokonczyyć i sprawdzić poprzednie
+        public ActionResult Delete(int? id) //sprawdzić działanie
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Wydarzenie");
             }
             Zadanie zadanie = dbo.Zadanie.Find(id);
             if (zadanie == null)
             {
-                return HttpNotFound();
+                TempData["message"] = string.Format("Błąd dostępu. Brak wybranego zadania");
+                return RedirectToAction("List", "Wydarzenie");
             }
+            var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            if (dbo.Wydarzenie.Find(zadanie.id_wydarzenie).id_organizator == id_user)
+            {
 
-            return View(zadanie);
-
+                return View(zadanie);
+            }
+            else
+            {
+                TempData["message"] = string.Format("Brak dostępu");
+                return RedirectToAction("List", "Zadanie", new { id = zadanie.id_wydarzenie });
+            }
 
         }
 

@@ -19,30 +19,53 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         private KWR dbo = new KWR();
         // GET: Przebieg
 
-        public ActionResult List(int? id)
+        public ActionResult List(int? id) //sprawdzić działanie
         {
-            IEnumerable<Przebieg> przebieg = dbo.Przebieg.Where(z => z.id_wydarzenie == id);
-            ViewBag.id_wydarzenie = id;
-            ViewBag.id_organizator = dbo.Wydarzenie.Find(id).id_organizator;
-            ViewBag.uczestnicy = dbo.Uczestnicy.Include(u => u.Uzytkownik).Where(u => u.id_wydarzenie == id);
-            ViewBag.id_uzytkownik = Convert.ToInt32(User.Identity.GetUzytkownikId());
-            return View(przebieg.ToList());
-            
+            if (id == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu do listy przebiegu");
+                return RedirectToAction("List", "Wydarzenie");
+            }
+            var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            if (dbo.Wydarzenie.Find(id).id_organizator == id_user || dbo.Uczestnicy.Where(u => u.id_wydarzenie == id && u.id_uzytkownik == id_user && u.decyzja == true).FirstOrDefault() != null)
+            {
+                IEnumerable<Przebieg> przebieg = dbo.Przebieg.Where(z => z.id_wydarzenie == id);
+                ViewBag.id_wydarzenie = id;
+                ViewBag.id_organizator = dbo.Wydarzenie.Find(id).id_organizator;
+                return View(przebieg.ToList());
+            }
+            else
+            {
+
+                TempData["message"] = string.Format("Błąd dostępu do listy przebiegu");
+                return RedirectToAction("List", "Wydarzenie");
+            }
         }
         [HttpGet]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
-                return View();
+                TempData["message"] = string.Format("Błąd dostępu do edycji zadania");
+                return RedirectToAction("List", "Wydarzenie");
             }
             Przebieg przebieg = dbo.Przebieg.Find(id);
             if (przebieg == null)
             {
-                return HttpNotFound();
+                TempData["message"] = string.Format("Błąd dostępu. Brak wybranego zadania");
+                return RedirectToAction("List", "Wydarzenie");
             }
-
-            return View(przebieg);
+            var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            if (dbo.Wydarzenie.Find(przebieg.id_wydarzenie).id_organizator == id_user)
+            {
+                return View(przebieg);
+            }
+            else
+            {
+                TempData["message"] = string.Format("Brak dostępu");
+                return RedirectToAction("List", "Zadanie", new { id = przebieg.id_wydarzenie });
+            }
+            
 
         }
 
