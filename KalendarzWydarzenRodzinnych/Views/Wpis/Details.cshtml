@@ -7,7 +7,7 @@
     <div class="navbar marnav">
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Opis", "dajOpis", "Wydarzenie", new { id = Model.id_wydarzenie }, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Opis", "GetOpis", "Wydarzenie", new { id = Model.id_wydarzenie }, new { @class = "wmenu" })</li>
                 <li>@Html.ActionLink("Zadania", "List", "Zadanie", new { id = Model.id_wydarzenie }, new { @class = "wmenu" })</li>
                 <li>@Html.ActionLink("Przebieg wydarzenia", "List", "Przebieg", new { id = Model.id_wydarzenie }, new { @class = "wmenu" })</li>
                 <li>@Html.ActionLink("Relacja z wydarzenia", "List", "Wpis", new { id = Model.id_wydarzenie }, new { @class = "wmenu" })</li>

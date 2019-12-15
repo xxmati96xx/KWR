@@ -570,7 +570,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Wydarzenie\List.cshtml" />
     <Content Include="Views\Wydarzenie\Edit.cshtml" />
-    <Content Include="Views\Wydarzenie\dajOpis.cshtml" />
+    <Content Include="Views\Wydarzenie\GetOpis.cshtml" />
     <Content Include="Views\Uzytkownik\addUser.cshtml" />
     <Content Include="Views\Zaproszenie\List.cshtml" />
     <Content Include="Views\Powiadomienia\List.cshtml" />
@@ -611,6 +611,7 @@
     <Content Include="Views\Powiadomienie\Edit.cshtml" />
     <Content Include="Views\Powiadomienie\AddNotification.cshtml" />
     <Content Include="Views\Powiadomienie\AddNotificationUsers.cshtml" />
+    <Content Include="Views\Wydarzenie\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

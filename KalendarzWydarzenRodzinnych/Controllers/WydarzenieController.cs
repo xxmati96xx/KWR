@@ -57,14 +57,25 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         {
             if (id == null)
             {
-                return View();
+                TempData["message"] = string.Format("Błąd dostępu do wydarzenia");
+                return RedirectToAction("List");
             }
             Wydarzenie wydarzenie = dbo.Wydarzenie.Find(id);
             if (wydarzenie == null)
             {
-                return HttpNotFound();
+                TempData["message"] = string.Format("Brak wybranego wydarzenia");
+                return RedirectToAction("List");
             }
-            return View(wydarzenie);
+           
+            if(wydarzenie.id_organizator == Convert.ToInt32(User.Identity.GetUzytkownikId()))
+            {
+                return View(wydarzenie);
+            }
+            else
+            {
+                TempData["message"] = string.Format("Brak dostępu");
+                return RedirectToAction("List");
+            }
 
         }
 
@@ -74,17 +85,12 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             if (wydarzenie.id == 0)
             {
                 
-                if (ModelState.IsValid)
-                {
+                
                     wydarzenie.id_organizator = Convert.ToInt32(User.Identity.GetUzytkownikId());
                     dbo.Wydarzenie.Add(wydarzenie);
                     dbo.SaveChanges();
                     return RedirectToAction("List");
-                }
-                else
-                {
-                    return View(wydarzenie);
-                }
+                
             }
             else
             {
@@ -105,40 +111,58 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         public ActionResult Create()
         {
             
-            return View("Edit",new Wydarzenie());  ///zmienić na create osobny formularz
+            return View(); 
         }
 
-        public ActionResult dajOpis(int? id)
+        public ActionResult GetOpis(int? id)
         {
             if (id == null)
             {
-                return HttpNotFound();
+                TempData["message"] = string.Format("Błąd dostępu do wydarzenia");
+                return RedirectToAction("List");
             }
             Wydarzenie wydarzenie = dbo.Wydarzenie.Find(id);
             if(wydarzenie == null)
             {
-                return HttpNotFound();
+                TempData["message"] = string.Format("Brak wybranego wydarzenia");
+                return RedirectToAction("List");
             }
-            
-            var idU = Convert.ToInt32(User.Identity.GetUzytkownikId());//Sprawdzić czy poprawnie 
-            ViewBag.id_organizator = idU;
-            ViewBag.uczestnicy = dbo.Uczestnicy.Include(u=>u.Uzytkownik).Where(u=>u.id_wydarzenie == id);//Wywalić wszystko
-            return View(wydarzenie);
+            var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            if (wydarzenie.id_organizator == id_user || dbo.Uczestnicy.Where(u=>u.id_wydarzenie == wydarzenie.id && u.id_uzytkownik == id_user && u.decyzja == true).FirstOrDefault() !=null)
+            {
+                return View(wydarzenie);
+            }
+            else
+            {
+                TempData["message"] = string.Format("Brak dostępu");
+                return RedirectToAction("List");
+            }
         }
 
         [HttpGet]
-        public ActionResult EditOpis(int? id)
+        public ActionResult EditOpis(int? id )
         {
             if (id == null)
             {
-                return View();
+                TempData["message"] = string.Format("Błąd dostępu do edycji opisu");
+                return RedirectToAction("List");
             }
             Wydarzenie wydarzenie = dbo.Wydarzenie.Find(id);
             if (wydarzenie == null)
             {
-                return HttpNotFound();
+                TempData["message"] = string.Format("Brak wybranego wydarzenia");
+                return RedirectToAction("GetOpis", new { id = wydarzenie.id });
             }
-            return View(wydarzenie);
+
+            if (wydarzenie.id_organizator == Convert.ToInt32(User.Identity.GetUzytkownikId()))
+            {
+                return View(wydarzenie);
+            }
+            else
+            {
+                TempData["message"] = string.Format("Brak dostępu");
+                return RedirectToAction("GetOpis", new { id = wydarzenie.id });
+            }
 
         }
         [HttpPost]
@@ -149,7 +173,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 {
                     dbo.Entry(wydarzenie).State = EntityState.Modified;
                     dbo.SaveChanges();
-                    return RedirectToAction("dajOpis",new { id=wydarzenie.id });
+                    return RedirectToAction("GetOpis",new { id=wydarzenie.id });
                 }
                 else
                 {

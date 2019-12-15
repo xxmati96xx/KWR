@@ -20,22 +20,51 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         // GET: Zadanie
         public ActionResult List(int? id)
         {
-            IEnumerable<Zadanie> zadania = dbo.Zadanie.Where(z => z.id_wydarzenie == id);
-            ViewBag.id_wydarzenie = id;
-            ViewBag.id_organizator = dbo.Wydarzenie.Find(id).id_organizator;
-            ViewBag.uczestnicy = dbo.Uczestnicy.Include(u => u.Uzytkownik).Where(u => u.id_wydarzenie == id);
-            ViewBag.zadanieUczestnik = dbo.ZadanieUczestnik.Include(zu=>zu.Uzytkownik).ToList();
-            ViewBag.id_uzytkownik = Convert.ToInt32(User.Identity.GetUzytkownikId());
-            return View(zadania.ToList());
+            if(id == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu do listy zadań");
+                return RedirectToAction("List","Wydarzenie");
+            }
+            var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            if (dbo.Wydarzenie.Find(id).id_organizator == id_user || dbo.Uczestnicy.Where(u => u.id_wydarzenie == id && u.id_uzytkownik == id_user && u.decyzja == true).FirstOrDefault() != null)
+            {
+                IEnumerable<Zadanie> zadania = dbo.Zadanie.Where(z => z.id_wydarzenie == id);
+                ViewBag.id_wydarzenie = id;
+                ViewBag.id_organizator = dbo.Wydarzenie.Find(id).id_organizator;
+                ViewBag.zadanieUczestnik = dbo.ZadanieUczestnik.Include(zu => zu.Uzytkownik).ToList();
+                return View(zadania.ToList());
+            }
+            else
+            {
+
+                TempData["message"] = string.Format("Błąd dostępu do listy zadań");
+                return RedirectToAction("List","Wydarzenie");
+            }
         }
         
-        public ActionResult addZadanieUczestnik(int idZ, int idW)
+        public ActionResult addZadanieUczestnik(int? idZ, int? idW)
         {
-            var idU = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            if (idZ == null || idW == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu do zadania");
+                return RedirectToAction("List", "Wydarzenie");
+            }
+            if(dbo.Zadanie.Find(idZ) == null || dbo.Wydarzenie.Find(idW) == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu. Podane wartości są nieprawidłowe");
+                return RedirectToAction("List", "Wydarzenie");
+            }
+            var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            if (dbo.ZadanieUczestnik.Where(zu=>zu.id_uzytkownik == id_user && zu.id_zadanie == idZ).FirstOrDefault() != null)
+            {
+                TempData["message"] = string.Format("Należysz już do zadania");
+                return RedirectToAction("List", "Zadanie", new { id = idW });
+            }
+            
             var liczba_uczstnikow = dbo.Zadanie.Find(idZ).liczba_uczestnikow;
             if (liczba_uczstnikow > 0)
             {
-                dbo.ZadanieUczestnik_Dodaj(idU, idZ);
+                dbo.ZadanieUczestnik_Dodaj(id_user, idZ);
             }
             else
             {
@@ -44,16 +73,31 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             }
             return RedirectToAction("List", "Zadanie", new { id = idW });
         }
-        public ActionResult deleteZadanieUczestnik(int idZ, int idW)
+        public ActionResult deleteZadanieUczestnik(int? idZ, int? idW)
         {
-            var idU = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            if (idZ == null || idW == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu do zadania");
+                return RedirectToAction("List", "Wydarzenie");
+            }
+            if (dbo.Zadanie.Find(idZ) == null || dbo.Wydarzenie.Find(idW) == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu. Podane wartości są nieprawidłowe");
+                return RedirectToAction("List", "Wydarzenie");
+            }
+            var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            if (dbo.ZadanieUczestnik.Where(zu => zu.id_uzytkownik == id_user && zu.id_zadanie == idZ).FirstOrDefault() == null)
+            {
+                TempData["message"] = string.Format("Nie należysz do wybranego zadania");
+                return RedirectToAction("List", "Zadanie", new { id = idW });
+            }
             try
             {
-                dbo.ZadanieUczestnik_Usun(idU, idZ);
+                dbo.ZadanieUczestnik_Usun(id_user, idZ);
             }
             catch (Exception ex)
             {
-                TempData["message"] = string.Format("Operacja niedozwolona. Skontaktuj się z administratorem aplikacji lub organizatorem wydarzenia");
+                TempData["message"] = string.Format("Nie należysz do wybranego zadania");
             }
 
 
@@ -65,16 +109,25 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         {
             if (id == null)
             {
-                return View();
+                TempData["message"] = string.Format("Błąd dostępu do edycji zadania");
+                return RedirectToAction("List", "Wydarzenie");
             }
             Zadanie zadanie = dbo.Zadanie.Find(id);
             if (zadanie == null)
             {
-                return HttpNotFound();
+                TempData["message"] = string.Format("Błąd dostępu. Brak wybranego zadania");
+                return RedirectToAction("List", "Wydarzenie");
+            }           
+            var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            if (dbo.Wydarzenie.Find(zadanie.id_wydarzenie).id_organizator == id_user)
+            {
+                return View(zadanie);
             }
-
-            return View(zadanie);
-
+            else
+            {
+                TempData["message"] = string.Format("Brak dostępu");
+                return RedirectToAction("List", "Zadanie",new { id = zadanie.id_wydarzenie});
+            }                         
         }
 
         [HttpPost]
@@ -112,13 +165,34 @@ namespace KalendarzWydarzenRodzinnych.Controllers
 
         public ActionResult Create(int? id_wydarzenie)
         {
-            ViewBag.id_wydarzenie = id_wydarzenie;
+            if (id_wydarzenie == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu do formularza");
+                return RedirectToAction("List", "Wydarzenie");
+            }
             
-            return View("Edit", new Zadanie());
+            if (dbo.Wydarzenie.Find(id_wydarzenie) == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu do formularza");
+                return RedirectToAction("List", "Wydarzenie");
+            }
+            var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            if (dbo.Wydarzenie.Find(id_wydarzenie).id_organizator == id_user)
+            {
+                ViewBag.id_wydarzenie = id_wydarzenie;
+
+                return View("Edit", new Zadanie());
+            }
+            else
+            {
+                TempData["message"] = string.Format("Brak dostępu");
+                return RedirectToAction("List", "Zadanie", new { id = id_wydarzenie });
+            }
+            
         }
 
         [HttpGet]
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id) //dokonczyyć i sprawdzić poprzednie
         {
             if (id == null)
             {

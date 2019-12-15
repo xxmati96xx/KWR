@@ -1,156 +1,156 @@
 ﻿@model IEnumerable<KalendarzWydarzenRodzinnych.Models.Zadanie>
-
+@using KalendarzWydarzenRodzinnych.Extensions
 @{
     ViewBag.Title = "Zadania";
 }
-    <div class="row">
-        <div class="navbar marnav">
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Opis", "dajOpis", "Wydarzenie", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
-                    <li>@Html.ActionLink("Zadania", "List", "Zadanie", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
-                    <li>@Html.ActionLink("Przebieg wydarzenia", "List", "Przebieg", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
-                    <li>@Html.ActionLink("Relacja z wydarzenia", "List", "Wpis", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
-                </ul>
-            </div>
-
+<div class="row">
+    <div class="navbar marnav">
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Opis", "GetOpis", "Wydarzenie", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Zadania", "List", "Zadanie", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Przebieg wydarzenia", "List", "Przebieg", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Relacja z wydarzenia", "List", "Wpis", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
+            </ul>
         </div>
-        <div class="col-md-9 panel panel-default">
-            @if (ViewBag.id_organizator == ViewBag.id_uzytkownik)
-            {
-                <p align="right" class="marnav">
-                    @Html.ActionLink("Dodaj zadanie", "Create", new { id_wydarzenie = ViewBag.id_wydarzenie }, new { @class = "btn btn-primary add-button" })
-                </p>
-            }
-            else
-            {
-                <p align="right" class="marnav">
 
-                </p>
-            }
-            <h2 class="h3Przebieg">Zadania</h2>
-            @if (TempData["message"] != null)
-            {
-                <div class="alert alert-danger">@TempData["message"]</div>
-            }
-            <table id="table" class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            Zadanie
-                        </th>
-                        <th>
-                            Uczestnicy
-                        </th>
-
-                        <th>
-
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        bool znak = false;
-                        if (item.liczba_uczestnikow > 0)
-                        {
-
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(itemmodel => item.Zadanie1)
-                                </td>
-                                <td>
-                                    @foreach (var ite in ViewBag.zadanieUczestnik)
-                                    {
-                                        if (item.id == ite.id_zadanie)
-                                        {
-                                            <p> @ite.Uzytkownik.Imie  @ite.Uzytkownik.Nazwisko </p>
-                                            if (ViewBag.id_uzytkownik == ite.Uzytkownik.id)
-                                            {
-                                                znak = true;
-                                            }
-
-                                        }
-                                    }
-                                </td>
-                                <td>
-                                    @if (!znak)
-                                    {
-                                        <a href="@Url.Action("addZadanieUczestnik", "Zadanie", new { @idZ = item.id, @idW = item.id_wydarzenie })" class="btn btn-success btn-sm success pull-right buttonmargin">
-                                            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a href="@Url.Action("deleteZadanieUczestnik", "Zadanie", new { @idZ = item.id, @idW = item.id_wydarzenie })" class="btn btn-danger btn-sm delete-button pull-right buttonmargin">
-                                            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                                        </a>
-                                    }
-                                    @if (ViewBag.id_organizator == ViewBag.id_uzytkownik)
-                                    {
-                                        <a href="@Url.Action("Edit", "Zadanie", new { id = item.id })" class="btn btn-warning btn-sm edit-button pull-right buttonmargin">
-                                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                                        </a>
-                                        <a href="@Url.Action("Delete", "Zadanie", new { id = item.id })" class="btn btn-danger btn-sm delete-button pull-right">
-                                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                        </a>
-                                    }
-                                </td>
-
-                            </tr>
-                        }
-                        else
-                        {
-                            <tr class="colorG">
-                                <td>
-                                    @Html.DisplayFor(itemmodel => item.Zadanie1)
-                                </td>
-                                <td>
-                                    @foreach (var ite in ViewBag.zadanieUczestnik)
-                                    {
-                                        if (item.id == ite.id_zadanie)
-                                        {
-                                            <p> @ite.Uzytkownik.Imie  @ite.Uzytkownik.Nazwisko </p>
-                                            if (ViewBag.id_uzytkownik == ite.Uzytkownik.id)
-                                            {
-                                                znak = true;
-                                            }
-
-                                        }
-                                    }
-                                </td>
-                                <td>
-                                    @if (!znak)
-                                    {
-                                        <a href="@Url.Action("addZadanieUczestnik", "Zadanie", new { @idZ = item.id, @idW = item.id_wydarzenie })" class="btn btn-success btn-sm success pull-right buttonmargin">
-                                            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a href="@Url.Action("deleteZadanieUczestnik", "Zadanie", new { @idZ = item.id, @idW = item.id_wydarzenie })" class="btn btn-danger btn-sm delete-button pull-right buttonmargin">
-                                            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                                        </a>
-                                    }
-                                    @if (ViewBag.id_organizator == ViewBag.id_uzytkownik)
-                                    {
-                                        <a href="@Url.Action("Edit", "Zadanie", new { id = item.id })" class="btn btn-warning btn-sm edit-button pull-right buttonmargin">
-                                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                                        </a>
-                                        <a href="@Url.Action("Delete", "Zadanie", new { id = item.id })" class="btn btn-danger btn-sm delete-button pull-right">
-                                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                        </a>
-                                    }
-                                </td>
-
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-3">
-            @Html.Action("GetUczestnicy", "Uczestnicy", new { id_wydarzenie = ViewBag.id_wydarzenie })
-
-        </div>
     </div>
+    <div class="col-md-9 panel panel-default">
+        @if (ViewBag.id_organizator == Convert.ToInt32(User.Identity.GetUzytkownikId()))
+        {
+            <p align="right" class="marnav">
+                @Html.ActionLink("Dodaj zadanie", "Create", new { id_wydarzenie = ViewBag.id_wydarzenie }, new { @class = "btn btn-primary add-button" })
+            </p>
+        }
+        else
+        {
+            <p align="right" class="marnav">
+
+            </p>
+        }
+        <h2 class="h3Przebieg">Zadania</h2>
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-danger">@TempData["message"]</div>
+        }
+        <table id="table" class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Zadanie
+                    </th>
+                    <th>
+                        Uczestnicy
+                    </th>
+
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    bool znak = false;
+                    if (item.liczba_uczestnikow > 0)
+                    {
+
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(itemmodel => item.Zadanie1)
+                            </td>
+                            <td>
+                                @foreach (var ite in ViewBag.zadanieUczestnik)
+                                {
+                                    if (item.id == ite.id_zadanie)
+                                    {
+                                        <p> @ite.Uzytkownik.Imie  @ite.Uzytkownik.Nazwisko </p>
+                                        if (Convert.ToInt32(User.Identity.GetUzytkownikId()) == ite.Uzytkownik.id)
+                                        {
+                                            znak = true;
+                                        }
+
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @if (!znak)
+                                {
+                                    <a href="@Url.Action("addZadanieUczestnik", "Zadanie", new { @idZ = item.id, @idW = item.id_wydarzenie })" class="btn btn-success btn-sm success pull-right buttonmargin">
+                                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("deleteZadanieUczestnik", "Zadanie", new { @idZ = item.id, @idW = item.id_wydarzenie })" class="btn btn-danger btn-sm delete-button pull-right buttonmargin">
+                                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                    </a>
+                                }
+                                @if (ViewBag.id_organizator == Convert.ToInt32(User.Identity.GetUzytkownikId()))
+                                {
+                                    <a href="@Url.Action("Edit", "Zadanie", new { id = item.id })" class="btn btn-warning btn-sm edit-button pull-right buttonmargin">
+                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                    </a>
+                                    <a href="@Url.Action("Delete", "Zadanie", new { id = item.id })" class="btn btn-danger btn-sm delete-button pull-right">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </a>
+                                }
+                            </td>
+
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr class="colorG">
+                            <td>
+                                @Html.DisplayFor(itemmodel => item.Zadanie1)
+                            </td>
+                            <td>
+                                @foreach (var ite in ViewBag.zadanieUczestnik)
+                                {
+                                    if (item.id == ite.id_zadanie)
+                                    {
+                                        <p> @ite.Uzytkownik.Imie  @ite.Uzytkownik.Nazwisko </p>
+                                        if (Convert.ToInt32(User.Identity.GetUzytkownikId()) == ite.Uzytkownik.id)
+                                        {
+                                            znak = true;
+                                        }
+
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @if (!znak)
+                                {
+                                    <a href="@Url.Action("addZadanieUczestnik", "Zadanie", new { @idZ = item.id, @idW = item.id_wydarzenie })" class="btn btn-success btn-sm success pull-right buttonmargin">
+                                        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("deleteZadanieUczestnik", "Zadanie", new { @idZ = item.id, @idW = item.id_wydarzenie })" class="btn btn-danger btn-sm delete-button pull-right buttonmargin">
+                                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                    </a>
+                                }
+                                @if (ViewBag.id_organizator == Convert.ToInt32(User.Identity.GetUzytkownikId()))
+                                {
+                                    <a href="@Url.Action("Edit", "Zadanie", new { id = item.id })" class="btn btn-warning btn-sm edit-button pull-right buttonmargin">
+                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                    </a>
+                                    <a href="@Url.Action("Delete", "Zadanie", new { id = item.id })" class="btn btn-danger btn-sm delete-button pull-right">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </a>
+                                }
+                            </td>
+
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-3">
+        @Html.Action("GetUczestnicy", "Uczestnicy", new { id_wydarzenie = ViewBag.id_wydarzenie })
+
+    </div>
+</div>
