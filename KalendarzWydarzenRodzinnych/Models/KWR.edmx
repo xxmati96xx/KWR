@@ -96,7 +96,9 @@
           <Property Name="id_wydarzenie" Type="int" Nullable="false" />
           <Property Name="id_uzytkownik" Type="int" Nullable="false" />
           <Property Name="Tresc" Type="varchar" MaxLength="400" />
+          <Property Name="identyfier" Type="varchar" MaxLength="500" />
           <Property Name="id_organizator" Type="int" />
+          <Property Name="rodzaj" Type="varchar" MaxLength="30" Nullable="false" />
         </EntityType>
         <EntityType Name="Przebieg">
           <Key>
@@ -622,8 +624,16 @@
         <Function Name="Grupa_Usun" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdGrupa" Type="int" Mode="In" />
         </Function>
+        <Function Name="Powiadomienie_Usun" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_identyfier" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="Powiadomienie_Wyswietl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdUzytkownik" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Powiadomienie_Zmiana" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_DataPowiadomienia" Type="datetime" Mode="In" />
+          <Parameter Name="Par_Tresc" Type="varchar" Mode="In" />
+          <Parameter Name="Par_identyfier" Type="varchar" Mode="In" />
         </Function>
         <Function Name="Wiadomosc_Przeczytana" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdWiadomoscOdebrana" Type="int" Mode="In" />
@@ -924,7 +934,9 @@
           <Property Name="id_wydarzenie" Type="Int32" Nullable="false" />
           <Property Name="id_uzytkownik" Type="Int32" Nullable="false" />
           <Property Name="Tresc" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
+          <Property Name="identyfier" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="id_organizator" Type="Int32" />
+          <Property Name="rodzaj" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Powiadomienie_Organizator" FromRole="Powiadomienie" ToRole="Uzytkownik" />
           <NavigationProperty Name="Uzytkownik1" Relationship="Self.FK_Powiadomienie_Uzytkownik" FromRole="Powiadomienie" ToRole="Uzytkownik" />
           <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Powiadomienie_Wydarzenie" FromRole="Powiadomienie" ToRole="Wydarzenie" />
@@ -1625,6 +1637,9 @@
           <FunctionImport Name="Grupa_Usun">
           <Parameter Name="Par_IdGrupa" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="Powiadomienie_Wyswietl" ReturnType="Collection(KWRModel.Powiadomienie_Wyswietl_Result)">
+          <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="Wiadomosc_Przeczytana">
           <Parameter Name="Par_IdWiadomoscOdebrana" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -1668,10 +1683,23 @@
             <Parameter Name="Par_id_wydarzenie" Mode="In" Type="Int32" />
             <Parameter Name="Par_id_uzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="Powiadomienie_Wyswietl" ReturnType="Collection(KWRModel.Powiadomienie_Wyswietl_Result)">
-            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
+          <FunctionImport Name="Powiadomienie_Usun">
+            <Parameter Name="Par_identyfier" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Powiadomienie_Zmiana">
+            <Parameter Name="Par_DataPowiadomienia" Mode="In" Type="DateTime" />
+            <Parameter Name="Par_Tresc" Mode="In" Type="String" />
+            <Parameter Name="Par_identyfier" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="Powiadomienie_Wyswietl_Result">
+          <Property Type="Int32" Name="id" Nullable="true" />
+          <Property Type="DateTime" Name="DataPowiadomienia" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Tresc" Nullable="true" MaxLength="400" />
+          <Property Type="String" Name="Tytul" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="identyfier" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="rodzaj" Nullable="false" MaxLength="30" />
+        </ComplexType>
         <ComplexType Name="Wyswietl_Powiadomienia_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
           <Property Type="Int32" Name="id_uzytkownik" Nullable="false" />
@@ -1707,10 +1735,6 @@
           <Property Type="DateTime" Name="DataRozpoczencia" Nullable="false" Precision="23" />
           <Property Type="DateTime" Name="DataZakonczenia" Nullable="false" Precision="23" />
           <Property Type="Int32" Name="id_organizator" Nullable="false" />
-        </ComplexType>
-        <ComplexType Name="Powiadomienie_Wyswietl_Result">
-          <Property Type="DateTime" Name="DataPowiadomienia" Nullable="false" Precision="23" />
-          <Property Type="String" Name="Tresc" Nullable="true" MaxLength="400" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1805,7 +1829,9 @@
                 <ScalarProperty Name="id_wydarzenie" ColumnName="id_wydarzenie" />
                 <ScalarProperty Name="id_uzytkownik" ColumnName="id_uzytkownik" />
                 <ScalarProperty Name="Tresc" ColumnName="Tresc" />
+                <ScalarProperty Name="identyfier" ColumnName="identyfier" />
                 <ScalarProperty Name="id_organizator" ColumnName="id_organizator" />
+                <ScalarProperty Name="rodzaj" ColumnName="rodzaj" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1944,6 +1970,18 @@
           </AssociationSetMapping>
           <FunctionImportMapping FunctionImportName="Dodaj_Uzytkownikow_Grupa" FunctionName="KWRModel.Store.Dodaj_Uzytkownikow_Grupa" />
           <FunctionImportMapping FunctionImportName="Grupa_Usun" FunctionName="KWRModel.Store.Grupa_Usun" />
+          <FunctionImportMapping FunctionImportName="Powiadomienie_Wyswietl" FunctionName="KWRModel.Store.Powiadomienie_Wyswietl">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="KWRModel.Powiadomienie_Wyswietl_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="DataPowiadomienia" ColumnName="DataPowiadomienia" />
+                <ScalarProperty Name="Tresc" ColumnName="Tresc" />
+                <ScalarProperty Name="Tytul" ColumnName="Tytul" />
+                <ScalarProperty Name="identyfier" ColumnName="identyfier" />
+                <ScalarProperty Name="rodzaj" ColumnName="rodzaj" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="Wiadomosc_Przeczytana" FunctionName="KWRModel.Store.Wiadomosc_Przeczytana" />
           <FunctionImportMapping FunctionImportName="Wydarzenie_Uczestnik" FunctionName="KWRModel.Store.Wydarzenie_Uczestnik" />
           <FunctionImportMapping FunctionImportName="Wydarzenie_Uczestnik_Usun" FunctionName="KWRModel.Store.Wydarzenie_Uczestnik_Usun" />
@@ -2004,14 +2042,8 @@
           <FunctionImportMapping FunctionImportName="ZadanieUczestnik_Usun" FunctionName="KWRModel.Store.ZadanieUczestnik_Usun" />
           <FunctionImportMapping FunctionImportName="Zaproszenie_Anuluj" FunctionName="KWRModel.Store.Zaproszenie_Anuluj" />
           <FunctionImportMapping FunctionImportName="Zaproszenie_Potwierdz" FunctionName="KWRModel.Store.Zaproszenie_Potwierdz" />
-          <FunctionImportMapping FunctionImportName="Powiadomienie_Wyswietl" FunctionName="KWRModel.Store.Powiadomienie_Wyswietl">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="KWRModel.Powiadomienie_Wyswietl_Result">
-                <ScalarProperty Name="DataPowiadomienia" ColumnName="DataPowiadomienia" />
-                <ScalarProperty Name="Tresc" ColumnName="Tresc" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Powiadomienie_Usun" FunctionName="KWRModel.Store.Powiadomienie_Usun" />
+          <FunctionImportMapping FunctionImportName="Powiadomienie_Zmiana" FunctionName="KWRModel.Store.Powiadomienie_Zmiana" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

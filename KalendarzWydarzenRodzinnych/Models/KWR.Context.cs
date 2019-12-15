@@ -70,6 +70,15 @@ namespace KalendarzWydarzenRodzinnych.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Grupa_Usun", par_IdGrupaParameter);
         }
     
+        public virtual ObjectResult<Powiadomienie_Wyswietl_Result> Powiadomienie_Wyswietl(Nullable<int> par_IdUzytkownik)
+        {
+            var par_IdUzytkownikParameter = par_IdUzytkownik.HasValue ?
+                new ObjectParameter("Par_IdUzytkownik", par_IdUzytkownik) :
+                new ObjectParameter("Par_IdUzytkownik", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Powiadomienie_Wyswietl_Result>("Powiadomienie_Wyswietl", par_IdUzytkownikParameter);
+        }
+    
         public virtual int Wiadomosc_Przeczytana(Nullable<int> par_IdWiadomoscOdebrana)
         {
             var par_IdWiadomoscOdebranaParameter = par_IdWiadomoscOdebrana.HasValue ?
@@ -206,13 +215,30 @@ namespace KalendarzWydarzenRodzinnych.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Zaproszenie_Potwierdz", par_id_wydarzenieParameter, par_id_uzytkownikParameter);
         }
     
-        public virtual ObjectResult<Powiadomienie_Wyswietl_Result> Powiadomienie_Wyswietl(Nullable<int> par_IdUzytkownik)
+        public virtual int Powiadomienie_Usun(string par_identyfier)
         {
-            var par_IdUzytkownikParameter = par_IdUzytkownik.HasValue ?
-                new ObjectParameter("Par_IdUzytkownik", par_IdUzytkownik) :
-                new ObjectParameter("Par_IdUzytkownik", typeof(int));
+            var par_identyfierParameter = par_identyfier != null ?
+                new ObjectParameter("Par_identyfier", par_identyfier) :
+                new ObjectParameter("Par_identyfier", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Powiadomienie_Wyswietl_Result>("Powiadomienie_Wyswietl", par_IdUzytkownikParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Powiadomienie_Usun", par_identyfierParameter);
+        }
+    
+        public virtual int Powiadomienie_Zmiana(Nullable<System.DateTime> par_DataPowiadomienia, string par_Tresc, string par_identyfier)
+        {
+            var par_DataPowiadomieniaParameter = par_DataPowiadomienia.HasValue ?
+                new ObjectParameter("Par_DataPowiadomienia", par_DataPowiadomienia) :
+                new ObjectParameter("Par_DataPowiadomienia", typeof(System.DateTime));
+    
+            var par_TrescParameter = par_Tresc != null ?
+                new ObjectParameter("Par_Tresc", par_Tresc) :
+                new ObjectParameter("Par_Tresc", typeof(string));
+    
+            var par_identyfierParameter = par_identyfier != null ?
+                new ObjectParameter("Par_identyfier", par_identyfier) :
+                new ObjectParameter("Par_identyfier", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Powiadomienie_Zmiana", par_DataPowiadomieniaParameter, par_TrescParameter, par_identyfierParameter);
         }
     }
 }

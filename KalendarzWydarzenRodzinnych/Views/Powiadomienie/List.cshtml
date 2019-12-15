@@ -1,57 +1,72 @@
-﻿@model IEnumerable<KalendarzWydarzenRodzinnych.Models.Powiadomienie>
+﻿@model IEnumerable<KalendarzWydarzenRodzinnych.Models.Powiadomienie_Wyswietl_Result>
 
 @{
-    ViewBag.Title = "List";
+    ViewBag.Title = "Przypomnienia";
 }
 
-<h2>List</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.DataPowiadomienia)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.id_wydarzenie)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.id_uzytkownik)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Tresc)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.id_organizator)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.DataPowiadomienia)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.id_wydarzenie)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.id_uzytkownik)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Tresc)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.id_organizator)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
+<h2>Przypomnienia</h2>
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-danger">@TempData["message"]</div>
 }
 
+<table id="table" class="table">
+    <thead>
+        <tr>
+            <th>
+
+                @Html.DisplayNameFor(model => model.DataPowiadomienia)
+            </th>
+
+
+            <th>
+
+                @Html.DisplayNameFor(model => model.Tresc)
+            </th>
+
+
+            <th>
+
+                @Html.DisplayNameFor(model => model.Tytul)
+            </th>
+            <th>
+
+                @Html.DisplayNameFor(model => model.rodzaj)
+            </th>
+
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+
+                @Html.DisplayFor(itemmodel => item.DataPowiadomienia)
+            </td>
+
+
+            <td>
+                @Html.DisplayFor(itemmodel => item.Tresc)
+            </td>
+            <td>
+                @Html.DisplayFor(itemmodel => item.Tytul)
+            </td>
+            <td>
+                @Html.DisplayFor(itemmodel => item.rodzaj)
+            </td>
+
+            <td>
+                <a href="@Url.Action("Delete", "Powiadomienie", new { id = item.id })" class="btn btn-danger btn-sm delete-button pull-right buttonmargin">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </a>
+                <a href="@Url.Action("Edit", "Powiadomienie", new { id = item.id })" class="btn btn-warning btn-sm edit-button pull-right buttonmargin">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                </a>
+            </td>
+        </tr>
+        }
+    </tbody>
 </table>

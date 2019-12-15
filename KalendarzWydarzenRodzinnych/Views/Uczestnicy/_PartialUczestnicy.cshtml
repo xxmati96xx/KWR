@@ -53,5 +53,7 @@
     @Html.ActionLink("Dodaj uczestnika", "addUser", "Uzytkownik", new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default col-md-12" })
     @Html.ActionLink("Dodaj grupę", "AddGroupEvent", "Grupa", new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default col-md-12 h2Opis" })
     @Html.ActionLink("Wyślij wiadomość do uczestników", "SendMessage", "Wiadomosc", new { idW = ViewBag.id_wydarzenie }, new { @class = "btn btn-default col-md-12 h2Opis" })
+    @Html.ActionLink("Dodaj przypomnienie", "AddNotification", "Powiadomienie", new { idW = ViewBag.id_wydarzenie, r="u" }, new { @class = "btn btn-default col-md-12 h2Opis" })
+    @Html.ActionLink("Dodaj przypomnienie dla uczestników", "AddNotification", "Powiadomienie", new { idW = ViewBag.id_wydarzenie }, new { @class = "btn btn-default col-md-12 h2Opis" })
 </div>
 }

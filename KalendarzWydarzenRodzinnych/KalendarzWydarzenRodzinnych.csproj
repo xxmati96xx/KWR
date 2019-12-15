@@ -241,14 +241,14 @@
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\KWR.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>KWR.Context.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Models\KWR.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>KWR.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Models\KWR.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -405,13 +405,16 @@
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Models\KWR.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>KWR.edmx</DependentUpon>
       <LastGenOutput>KWR.Context.cs</LastGenOutput>
+      <DependentUpon>KWR.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\KWR.edmx.diagram">
+      <DependentUpon>KWR.edmx</DependentUpon>
     </Content>
     <Content Include="Models\KWR.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>KWR.edmx</DependentUpon>
       <LastGenOutput>KWR.cs</LastGenOutput>
+      <DependentUpon>KWR.edmx</DependentUpon>
     </Content>
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
@@ -533,9 +536,6 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>KWR.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\KWR.edmx.diagram">
-      <DependentUpon>KWR.edmx</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -608,6 +608,9 @@
     <Content Include="Views\Wiadomosc\DeleteMessageReceivedConfirm.cshtml" />
     <Content Include="Views\Uzytkownik\UserProfile.cshtml" />
     <Content Include="Views\Powiadomienie\List.cshtml" />
+    <Content Include="Views\Powiadomienie\Edit.cshtml" />
+    <Content Include="Views\Powiadomienie\AddNotification.cshtml" />
+    <Content Include="Views\Powiadomienie\AddNotificationUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

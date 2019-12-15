@@ -13,7 +13,11 @@ namespace KalendarzWydarzenRodzinnych.Models
     
     public partial class Powiadomienie_Wyswietl_Result
     {
+        public Nullable<int> id { get; set; }
         public System.DateTime DataPowiadomienia { get; set; }
         public string Tresc { get; set; }
+        public string Tytul { get; set; }
+        public string identyfier { get; set; }
+        public string rodzaj { get; set; }
     }
 }

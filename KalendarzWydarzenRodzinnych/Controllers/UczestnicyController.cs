@@ -52,5 +52,6 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             
             return RedirectToAction("AddGroupEvent", "Grupa", new { id = idW });
         }
+
     }
 }
