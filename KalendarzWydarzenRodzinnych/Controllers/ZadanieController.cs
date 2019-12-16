@@ -25,6 +25,11 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 TempData["message"] = string.Format("Błąd dostępu do listy zadań");
                 return RedirectToAction("List","Wydarzenie");
             }
+            if(dbo.Wydarzenie.Find(id) == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu. Brak wybranego wydarzenia");
+                return RedirectToAction("List", "Wydarzenie");
+            }
             var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
             if (dbo.Wydarzenie.Find(id).id_organizator == id_user || dbo.Uczestnicy.Where(u => u.id_wydarzenie == id && u.id_uzytkownik == id_user && u.decyzja == true).FirstOrDefault() != null)
             {

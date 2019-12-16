@@ -26,6 +26,11 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 TempData["message"] = string.Format("Błąd dostępu do listy przebiegu");
                 return RedirectToAction("List", "Wydarzenie");
             }
+            if (dbo.Wydarzenie.Find(id) == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu. Brak wybranego wydarzenia");
+                return RedirectToAction("List", "Wydarzenie");
+            }
             var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
             if (dbo.Wydarzenie.Find(id).id_organizator == id_user || dbo.Uczestnicy.Where(u => u.id_wydarzenie == id && u.id_uzytkownik == id_user && u.decyzja == true).FirstOrDefault() != null)
             {
@@ -63,7 +68,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             else
             {
                 TempData["message"] = string.Format("Brak dostępu");
-                return RedirectToAction("List", "Zadanie", new { id = przebieg.id_wydarzenie });
+                return RedirectToAction("List", "Przebieg", new { id = przebieg.id_wydarzenie });
             }
             
 
@@ -103,9 +108,31 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         }
         public ActionResult Create(int? id_wydarzenie)
         {
-            ViewBag.id_wydarzenie = id_wydarzenie;
+            if (id_wydarzenie == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu do formularza");
+                return RedirectToAction("List", "Wydarzenie");
+            }
+            if (dbo.Wydarzenie.Find(id_wydarzenie) == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu do formularza");
+                return RedirectToAction("List", "Wydarzenie");
+            }
+            var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            if (dbo.Wydarzenie.Find(id_wydarzenie).id_organizator == id_user)
+            {
+                ViewBag.id_wydarzenie = id_wydarzenie;
 
-            return View("Edit", new Przebieg());
+                return View("Edit", new Przebieg());
+            }
+            else
+            {
+
+            
+            TempData["message"] = string.Format("Brak dostępu");
+            return RedirectToAction("List", "Zadanie", new { id = id_wydarzenie });
+            }
+            
         }
 
         [HttpGet]
@@ -113,16 +140,26 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Wydarzenie");
             }
             Przebieg przebieg = dbo.Przebieg.Find(id);
             if (przebieg == null)
             {
-                return HttpNotFound();
+                TempData["message"] = string.Format("Błąd dostępu. Brak wybranego przebiegu");
+                return RedirectToAction("List", "Wydarzenie");
             }
+            var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            if (dbo.Wydarzenie.Find(przebieg.id_wydarzenie).id_organizator == id_user)
+            {
 
-            return View(przebieg);
-
+                return View(przebieg);
+            }
+            else
+            {
+                TempData["message"] = string.Format("Brak dostępu");
+                return RedirectToAction("List", "Przebieg", new { id = przebieg.id_wydarzenie });
+            }
 
         }
 

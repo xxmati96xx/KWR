@@ -24,7 +24,7 @@
         @if (ViewBag.id_organizator == Convert.ToInt32(User.Identity.GetUzytkownikId()))
         {
             <p align="right" class="marnav">
-                @Html.ActionLink("Dodaj", "Create", new { id_wydarzenie = ViewBag.id_wydarzenie }, new { @class = "btn btn-primary add-button" })
+                @Html.ActionLink("Dodaj przebieg", "Create", new { id_wydarzenie = ViewBag.id_wydarzenie }, new { @class = "btn btn-primary add-button" })
             </p>
         }
         else
@@ -34,6 +34,10 @@
             </p>
         }
         <h2 class="h3Przebieg">Przebieg wydarzenia</h2>
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-danger">@TempData["message"]</div>
+        }
         <table id="table" class="table">
             <thead>
                 <tr>

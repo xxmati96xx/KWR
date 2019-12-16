@@ -122,6 +122,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 if(notification.id_uzytkownik == id_user)
                 {
                     dbo.Powiadomienie.Remove(notification);
+                    dbo.SaveChanges();
                     return RedirectToAction("List");
                 }
                 else 

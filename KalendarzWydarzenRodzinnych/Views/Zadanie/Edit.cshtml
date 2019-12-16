@@ -1,10 +1,21 @@
 ﻿@model KalendarzWydarzenRodzinnych.Models.Zadanie
 
-@{
-    ViewBag.Title = "Edit";
-}
+@if (Model.id > 0)
+{
+    {
+        ViewBag.Title = "Edycja zadania";
+    }
 
-<h2>Edit</h2>
+    <h2>Edytuj zadanie</h2>
+}
+else
+{
+    {
+        ViewBag.Title = "Dodaj zadanie";
+    }
+
+    <h2>Dodaj zadanie</h2>
+}
 
 
 
@@ -14,7 +25,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Zadanie</h4>
+       
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.id)
@@ -38,7 +49,15 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Dodaj" class="btn btn-primary" />
+                @if (Model.id > 0)
+                {
+                    <input type="submit" value="Zapisz" class="btn btn-primary" />
+                }
+                else
+                {
+                    <input type="submit" value="Dodaj" class="btn btn-primary" />
+                }
+
                 @if (Model.id_wydarzenie > 0)
                 {
 

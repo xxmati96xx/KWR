@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<KalendarzWydarzenRodzinnych.Models.Wpis>
-
+@using KalendarzWydarzenRodzinnych.Extensions
 @{
     ViewBag.Title = "Relacja";
 }
@@ -18,9 +18,9 @@
 
     </div>
     <div class="col-md-9 opis panel panel-default">
-        @Html.ActionLink("Test", "Download", new { @class = "btn btn-primary add-button" })
+        
         @Html.Action("form", new { id_wydarzenie = ViewBag.id_wydarzenie })
-        @if (ViewBag.id_organizator == ViewBag.id_uzytkownik)
+        @if (ViewBag.id_organizator == Convert.ToInt32(User.Identity.GetUzytkownikId()))
         {
 
         }
@@ -50,15 +50,25 @@
                 {
                     <tr>
                         <td>
-                            <a href="@Url.Action("Delete", "Wpis", new { id = item.id })" class="btn btn-danger btn-sm delete-button pull-right buttonmargin">
-                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                            </a>
-                            <a href="@Url.Action("Edit", "Wpis", new { id = item.id })" class="btn btn-warning btn-sm edit-button pull-right buttonmargin">
-                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                            </a>
+                            @if (ViewBag.id_organizator == Convert.ToInt32(User.Identity.GetUzytkownikId()) || item.id_uzytkownik == Convert.ToInt32(User.Identity.GetUzytkownikId()))
+                            {
+                                <a href="@Url.Action("Delete", "Wpis", new { id = item.id })" class="btn btn-danger btn-sm delete-button pull-right buttonmargin">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </a>
+                            }
+                            @if (item.id_uzytkownik == Convert.ToInt32(User.Identity.GetUzytkownikId()))
+                            {
+                                
+                                <a href="@Url.Action("Edit", "Wpis", new { id = item.id })" class="btn btn-warning btn-sm edit-button pull-right buttonmargin">
+                                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                </a>
+
+                            }
+
                             <a href="@Url.Action("Details", "Wpis", new { id = item.id })" class="btn btn-primary btn-sm  pull-right buttonmargin">
                                 <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
                             </a>
+
                             <p>
                                 @Html.DisplayFor(itemmodel => item.Uzytkownik.Imie) @Html.DisplayFor(itemmodel => item.Uzytkownik.Nazwisko) @Html.DisplayFor(itemmodel => item.data_dodania)
 
@@ -101,12 +111,12 @@
 @section Scripts {
 
     @Scripts.Render("~/bundles/ekko")
-   
 
-        @Scripts.Render("~/bundles/img")
-        @Scripts.Render("~/bundles/jqueryval")
 
-    
+    @Scripts.Render("~/bundles/img")
+    @Scripts.Render("~/bundles/jqueryval")
+
+
     <script>
         $(document).ready(function ($) {
 

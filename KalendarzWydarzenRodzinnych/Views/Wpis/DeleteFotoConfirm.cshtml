@@ -17,7 +17,9 @@
     {
         @Html.AntiForgeryToken()
         <div class="form-horizontal">
-           
+            <div class="form-group">
+                <input name="id_wpis" id="id_wpis" value="@ViewBag.id_wpis" type="number" hidden />
+            </div>
             <hr />
             <div class="form-group">
                 @foreach (var item in Model)
