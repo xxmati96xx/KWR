@@ -69,7 +69,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         public ActionResult UserProfile(Uzytkownik user)
         {
 
-            var userId = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            var userId = Convert.ToInt32(User.Identity.GetUzytkownikId()); //poprawić warunki bo bez zdjęcia nie wchodzi
             //Uzytkownik user = dbo.Uzytkownik.Find(userId);
             foreach (HttpPostedFileBase image in user.files)
             {
@@ -80,6 +80,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                         var InputFileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
 
                         user.Zdjcie = InputFileName;
+                    
                         dbo.Entry(user).State = EntityState.Modified;
                         dbo.SaveChanges();
                         WebImage img = new WebImage(image.InputStream);

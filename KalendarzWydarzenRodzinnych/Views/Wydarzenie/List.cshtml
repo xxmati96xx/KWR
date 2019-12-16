@@ -42,6 +42,9 @@
                         @if (item.id_organizator == Convert.ToInt32(User.Identity.GetUzytkownikId()))
 
                         {
+                            <a href="@Url.Action("Edit", "Wydarzenie", new { id = item.id })" class="btn btn-danger btn-sm delete-button  buttonmargin pull-right">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </a>
                             <a href="@Url.Action("Edit", "Wydarzenie", new { id = item.id })" class="btn btn-warning btn-sm edit-button  buttonmargin pull-right">
                                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                             </a>

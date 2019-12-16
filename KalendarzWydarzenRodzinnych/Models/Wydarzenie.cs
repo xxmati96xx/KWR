@@ -31,9 +31,11 @@ namespace KalendarzWydarzenRodzinnych.Models
         public string Tytul { get; set; }
         [DataType(DataType.MultilineText)]
         public string Opis { get; set; }
+        [Display(Name = "Data rozpoczêcia")]
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
         public System.DateTime DataRozpoczencia { get; set; }
+        [Display(Name = "Data zakoñczenia")]
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
         public System.DateTime DataZakonczenia { get; set; }
