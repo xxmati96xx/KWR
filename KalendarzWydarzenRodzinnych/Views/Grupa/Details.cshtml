@@ -7,7 +7,7 @@
 <h2>@Model.Nazwa</h2>
 
 <div>
-    <h4>Grupa</h4>
+  
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -29,13 +29,12 @@
 
 
     </dl>
-    @Html.ActionLink("Dodaj użytkownika", "AddUserGrupa", "Uzytkownik", new { id = Model.id }, new { @class = "btn btn-success wpismarginrelacja pull-right" })
+    @Html.ActionLink("Dodaj użytkowników", "AddUserGrupa", "Uzytkownik", new { id = Model.id }, new { @class = "btn btn-success wpismarginrelacja pull-right" })
 </div>
 <div>
     @Html.Action("GetUzytkownicyWGrupie",new { id_grupa = Model.id })
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Wróć do listy grup", "List", "Grupa", new { @class = "btn btn-default" })
 </p>
 

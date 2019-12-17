@@ -21,7 +21,7 @@
         {
             <div class="alert alert-danger">@TempData["message"]</div>
         }
-        @if (Model.Wydarzenie.id_organizator == Convert.ToInt32(User.Identity.GetUzytkownikId()))
+        @if (Model.Wydarzenie.id_organizator == Convert.ToInt32(User.Identity.GetUzytkownikId()) || Model.id_uzytkownik == Convert.ToInt32(User.Identity.GetUzytkownikId()))
         {
             <p align="right" class="marnav">
                 @Html.ActionLink("Edytuj wpis", "Edit", new { id = Model.id }, new { @class = "btn btn-warning btn-sm edit-button" })
@@ -31,7 +31,7 @@
         else
         {
             <p align="right" class="marnav">
-                @Html.ActionLink("Popierz wszystkie zdjęcia wpisu", "Download", new { id = Model.id }, new { @class = "btn btn-primary btn-sm add-button" })
+                @Html.ActionLink("Pobierz wszystkie zdjęcia wpisu", "Download", new { id = Model.id }, new { @class = "btn btn-primary btn-sm add-button" })
             </p>
         }
 
