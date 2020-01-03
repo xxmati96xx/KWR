@@ -22,7 +22,15 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             var id = Convert.ToInt32(User.Identity.GetUzytkownikId());
             SqlParameter idUzytkownik = new SqlParameter("@Par_IdUzytkownik", id);
             var query = dbo.Wyswietl_Powiadomienia(id);
-            return View(query.ToList());
+            return View(query);
+        }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                dbo.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

@@ -232,5 +232,13 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             dbo.SaveChanges();
             return RedirectToAction("List", new { id = zadanie.id_wydarzenie });
         }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                dbo.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

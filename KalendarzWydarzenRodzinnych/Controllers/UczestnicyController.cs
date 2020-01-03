@@ -52,6 +52,14 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             
             return RedirectToAction("AddGroupEvent", "Grupa", new { id = idW });
         }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                dbo.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
     }
 }

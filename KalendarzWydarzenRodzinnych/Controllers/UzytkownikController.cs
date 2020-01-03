@@ -102,5 +102,13 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             }
             return RedirectToAction("UserProfile");
         }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                dbo.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

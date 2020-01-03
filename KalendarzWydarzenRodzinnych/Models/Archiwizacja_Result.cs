@@ -10,18 +10,11 @@
 namespace KalendarzWydarzenRodzinnych.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Powiadomienia
+    public partial class Archiwizacja_Result
     {
-        public int id { get; set; }
-        public int id_uzytkownik { get; set; }
-        public Nullable<int> id_wydarzenie { get; set; }
-        public Nullable<int> rodzaj { get; set; }
-        public Nullable<System.DateTime> Data { get; set; }
-        public bool Przeczytana { get; set; }
-    
-        public virtual Uzytkownik Uzytkownik { get; set; }
-        public virtual Wydarzenie Wydarzenie { get; set; }
+        public Nullable<bool> has_server_access { get; set; }
+        public Nullable<bool> is_sysadmin { get; set; }
+        public string actual_login_name { get; set; }
     }
 }

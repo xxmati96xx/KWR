@@ -20,6 +20,7 @@ namespace KalendarzWydarzenRodzinnych.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Uzytkownik()
         {
+            this.Archiwum = new HashSet<Archiwum>();
             this.Grupa = new HashSet<Grupa>();
             this.Odebrane_Wiadomosc = new HashSet<Odebrane_Wiadomosc>();
             this.Odebrane_Wiadomosc1 = new HashSet<Odebrane_Wiadomosc>();
@@ -45,7 +46,8 @@ namespace KalendarzWydarzenRodzinnych.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public System.DateTime DataUrodzenia { get; set; }
         [Display(Name = "Zdjêcie")]
-        public string Zdjcie { get; set; } //poprawiæ przy nastêpnym czytaniu bazy wszystkie zmienne zdjecie 
+
+        public string Zdjcie { get; set; }
         [Display(Name = "Numer telefonu")]
         public string NrTelefonu { get; set; }
         [Display(Name = "Adres e-mail")]
@@ -53,8 +55,10 @@ namespace KalendarzWydarzenRodzinnych.Models
         [NotMapped]
         [Display(Name = "Wybierz zdjêcie:")]
         public HttpPostedFileBase[] files { get; set; }
-    
-    
+
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Archiwum> Archiwum { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Grupa> Grupa { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

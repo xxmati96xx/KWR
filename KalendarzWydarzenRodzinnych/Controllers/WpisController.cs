@@ -519,6 +519,14 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 return RedirectToAction("List", new { id = id });
             }
         }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                dbo.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
     }
 }

@@ -161,5 +161,14 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             IEnumerable<Grupa> grupa = dbo.Grupa;
             return View(grupa.ToList());
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                dbo.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

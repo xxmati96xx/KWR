@@ -39,5 +39,13 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             dbo.Zaproszenie_Anuluj(id, idU);
             return RedirectToAction("List");
         }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                dbo.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

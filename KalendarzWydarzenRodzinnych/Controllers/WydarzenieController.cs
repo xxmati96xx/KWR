@@ -52,6 +52,29 @@ namespace KalendarzWydarzenRodzinnych.Controllers
 
 
         }
+
+        public ActionResult ListArchiwum()
+        {
+            
+            var id = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            ViewBag.id_organizator = id;
+            SqlParameter idUzytkownik = new SqlParameter("@Par_IdUzytkownik", id);
+            IEnumerable<Archiwum> query = dbo.Archiwum.SqlQuery("Wyswietl_Wydarzenia_Archiwum @Par_IdUzytkownik", idUzytkownik);
+            return View(query.ToList<Archiwum>());
+
+
+        }
+        public ActionResult ListAll()
+        {
+
+            var id = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            ViewBag.id_organizator = id;
+            SqlParameter idUzytkownik = new SqlParameter("@Par_IdUzytkownik", id);
+            IEnumerable<Wydarzenie> query = dbo.Wydarzenie.SqlQuery("Wyswietl_Wydarzenia_ALL @Par_IdUzytkownik", idUzytkownik);
+            return View(query.ToList<Wydarzenie>());
+
+
+        }
         [HttpGet]
         public ActionResult Edit(int? id)
         {
@@ -181,6 +204,39 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                     return View(wydarzenie);
                 }
          
+        }
+
+        public ActionResult Archiwizacja(int? id)
+        {
+            if (id == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu do wydarzenia");
+                return RedirectToAction("List");
+            }
+            Wydarzenie wydarzenie = dbo.Wydarzenie.Find(id);
+            if (wydarzenie == null)
+            {
+                TempData["message"] = string.Format("Brak wybranego wydarzenia");
+                return RedirectToAction("GetOpis", new { id = wydarzenie.id });
+            }
+            if (wydarzenie.id_organizator == Convert.ToInt32(User.Identity.GetUzytkownikId()))
+            {
+                dbo.Archiwizacja(id);
+                return RedirectToAction("ListArchwium");
+            }
+            else
+            {
+                TempData["message"] = string.Format("Brak dostępu");
+                return RedirectToAction("GetOpis", new { id = wydarzenie.id });
+            }
+        }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                dbo.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
     }

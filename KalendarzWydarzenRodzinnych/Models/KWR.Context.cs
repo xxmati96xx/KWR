@@ -27,6 +27,7 @@ namespace KalendarzWydarzenRodzinnych.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Archiwum> Archiwum { get; set; }
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
@@ -47,6 +48,15 @@ namespace KalendarzWydarzenRodzinnych.Models
         public virtual DbSet<Zadanie> Zadanie { get; set; }
         public virtual DbSet<ZadanieUczestnik> ZadanieUczestnik { get; set; }
         public virtual DbSet<Zaproszenie> Zaproszenie { get; set; }
+    
+        public virtual ObjectResult<Archiwizacja_Result> Archiwizacja(Nullable<int> par_IdWydarzenie)
+        {
+            var par_IdWydarzenieParameter = par_IdWydarzenie.HasValue ?
+                new ObjectParameter("Par_IdWydarzenie", par_IdWydarzenie) :
+                new ObjectParameter("Par_IdWydarzenie", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Archiwizacja_Result>("Archiwizacja", par_IdWydarzenieParameter);
+        }
     
         public virtual int Dodaj_Uzytkownikow_Grupa(Nullable<int> par_IdGrupa, Nullable<int> par_IdUzytkownik)
         {
@@ -70,6 +80,15 @@ namespace KalendarzWydarzenRodzinnych.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Grupa_Usun", par_IdGrupaParameter);
         }
     
+        public virtual int Powiadomienie_Usun(string par_identyfier)
+        {
+            var par_identyfierParameter = par_identyfier != null ?
+                new ObjectParameter("Par_identyfier", par_identyfier) :
+                new ObjectParameter("Par_identyfier", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Powiadomienie_Usun", par_identyfierParameter);
+        }
+    
         public virtual ObjectResult<Powiadomienie_Wyswietl_Result> Powiadomienie_Wyswietl(Nullable<int> par_IdUzytkownik)
         {
             var par_IdUzytkownikParameter = par_IdUzytkownik.HasValue ?
@@ -77,6 +96,28 @@ namespace KalendarzWydarzenRodzinnych.Models
                 new ObjectParameter("Par_IdUzytkownik", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Powiadomienie_Wyswietl_Result>("Powiadomienie_Wyswietl", par_IdUzytkownikParameter);
+        }
+    
+        public virtual int Powiadomienie_Zmiana(Nullable<System.DateTime> par_DataPowiadomienia, string par_Tresc, string par_identyfier)
+        {
+            var par_DataPowiadomieniaParameter = par_DataPowiadomienia.HasValue ?
+                new ObjectParameter("Par_DataPowiadomienia", par_DataPowiadomienia) :
+                new ObjectParameter("Par_DataPowiadomienia", typeof(System.DateTime));
+    
+            var par_TrescParameter = par_Tresc != null ?
+                new ObjectParameter("Par_Tresc", par_Tresc) :
+                new ObjectParameter("Par_Tresc", typeof(string));
+    
+            var par_identyfierParameter = par_identyfier != null ?
+                new ObjectParameter("Par_identyfier", par_identyfier) :
+                new ObjectParameter("Par_identyfier", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Powiadomienie_Zmiana", par_DataPowiadomieniaParameter, par_TrescParameter, par_identyfierParameter);
+        }
+    
+        public virtual int SendNotification()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("SendNotification");
         }
     
         public virtual int Wiadomosc_Przeczytana(Nullable<int> par_IdWiadomoscOdebrana)
@@ -114,13 +155,13 @@ namespace KalendarzWydarzenRodzinnych.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Wydarzenie_Uczestnik_Usun", par_id_wydarzenieParameter, par_id_uzytkownikParameter);
         }
     
-        public virtual ObjectResult<Wyswietl_Powiadomienia_Result> Wyswietl_Powiadomienia(Nullable<int> par_IdUzytkownik)
+        public virtual int Wyswietl_Powiadomienia(Nullable<int> par_IdUzytkownik)
         {
             var par_IdUzytkownikParameter = par_IdUzytkownik.HasValue ?
                 new ObjectParameter("Par_IdUzytkownik", par_IdUzytkownik) :
                 new ObjectParameter("Par_IdUzytkownik", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Wyswietl_Powiadomienia_Result>("Wyswietl_Powiadomienia", par_IdUzytkownikParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Wyswietl_Powiadomienia", par_IdUzytkownikParameter);
         }
     
         public virtual ObjectResult<Wyswietl_Uzytkownikow_Result> Wyswietl_Uzytkownikow(Nullable<int> par_IdWydarzenie)
@@ -215,30 +256,22 @@ namespace KalendarzWydarzenRodzinnych.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Zaproszenie_Potwierdz", par_id_wydarzenieParameter, par_id_uzytkownikParameter);
         }
     
-        public virtual int Powiadomienie_Usun(string par_identyfier)
+        public virtual ObjectResult<Wyswietl_Wydarzenia_ALL_Result> Wyswietl_Wydarzenia_ALL(Nullable<int> par_IdUzytkownik)
         {
-            var par_identyfierParameter = par_identyfier != null ?
-                new ObjectParameter("Par_identyfier", par_identyfier) :
-                new ObjectParameter("Par_identyfier", typeof(string));
+            var par_IdUzytkownikParameter = par_IdUzytkownik.HasValue ?
+                new ObjectParameter("Par_IdUzytkownik", par_IdUzytkownik) :
+                new ObjectParameter("Par_IdUzytkownik", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Powiadomienie_Usun", par_identyfierParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Wyswietl_Wydarzenia_ALL_Result>("Wyswietl_Wydarzenia_ALL", par_IdUzytkownikParameter);
         }
     
-        public virtual int Powiadomienie_Zmiana(Nullable<System.DateTime> par_DataPowiadomienia, string par_Tresc, string par_identyfier)
+        public virtual ObjectResult<Wyswietl_Wydarzenia_Archiwum_Result> Wyswietl_Wydarzenia_Archiwum(Nullable<int> par_IdUzytkownik)
         {
-            var par_DataPowiadomieniaParameter = par_DataPowiadomienia.HasValue ?
-                new ObjectParameter("Par_DataPowiadomienia", par_DataPowiadomienia) :
-                new ObjectParameter("Par_DataPowiadomienia", typeof(System.DateTime));
+            var par_IdUzytkownikParameter = par_IdUzytkownik.HasValue ?
+                new ObjectParameter("Par_IdUzytkownik", par_IdUzytkownik) :
+                new ObjectParameter("Par_IdUzytkownik", typeof(int));
     
-            var par_TrescParameter = par_Tresc != null ?
-                new ObjectParameter("Par_Tresc", par_Tresc) :
-                new ObjectParameter("Par_Tresc", typeof(string));
-    
-            var par_identyfierParameter = par_identyfier != null ?
-                new ObjectParameter("Par_identyfier", par_identyfier) :
-                new ObjectParameter("Par_identyfier", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Powiadomienie_Zmiana", par_DataPowiadomieniaParameter, par_TrescParameter, par_identyfierParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Wyswietl_Wydarzenia_Archiwum_Result>("Wyswietl_Wydarzenia_Archiwum", par_IdUzytkownikParameter);
         }
     }
 }

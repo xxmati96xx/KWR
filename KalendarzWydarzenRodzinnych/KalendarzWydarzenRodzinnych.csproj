@@ -224,6 +224,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Archiwizacja_Result.cs">
+      <DependentUpon>KWR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Archiwum.cs">
+      <DependentUpon>KWR.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AspNetRoles.cs">
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
@@ -241,14 +247,14 @@
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\KWR.Context.cs">
-      <DependentUpon>KWR.Context.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KWR.Context.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\KWR.cs">
-      <DependentUpon>KWR.tt</DependentUpon>
-      <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\KWR.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -297,13 +303,16 @@
     <Compile Include="Models\Wyslane_Wiadomosc.cs">
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Wyswietl_Powiadomienia_Result.cs">
-      <DependentUpon>KWR.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Wyswietl_Uzytkownikow_Grupa_Result.cs">
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Wyswietl_Uzytkownikow_Result.cs">
+      <DependentUpon>KWR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Wyswietl_Wydarzenia_ALL_Result.cs">
+      <DependentUpon>KWR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Wyswietl_Wydarzenia_Archiwum_Result.cs">
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Wyswietl_Wydarzenia_Result.cs">
@@ -405,16 +414,13 @@
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Models\KWR.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>KWR.edmx</DependentUpon>
       <LastGenOutput>KWR.Context.cs</LastGenOutput>
-      <DependentUpon>KWR.edmx</DependentUpon>
-    </Content>
-    <Content Include="Models\KWR.edmx.diagram">
-      <DependentUpon>KWR.edmx</DependentUpon>
     </Content>
     <Content Include="Models\KWR.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>KWR.cs</LastGenOutput>
       <DependentUpon>KWR.edmx</DependentUpon>
+      <LastGenOutput>KWR.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
@@ -536,6 +542,9 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>KWR.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <Content Include="Models\KWR.edmx.diagram">
+      <DependentUpon>KWR.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -612,6 +621,8 @@
     <Content Include="Views\Powiadomienie\AddNotification.cshtml" />
     <Content Include="Views\Powiadomienie\AddNotificationUsers.cshtml" />
     <Content Include="Views\Wydarzenie\Create.cshtml" />
+    <Content Include="Views\Wydarzenie\ListAll.cshtml" />
+    <Content Include="Views\Wydarzenie\ListArchiwum.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
