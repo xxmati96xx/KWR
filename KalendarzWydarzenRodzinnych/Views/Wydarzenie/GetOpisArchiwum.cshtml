@@ -1,0 +1,51 @@
+﻿@model KalendarzWydarzenRodzinnych.Models.Wydarzenie
+@using KalendarzWydarzenRodzinnych.Extensions
+@{
+    ViewBag.Title = "Opis";
+}
+
+
+
+<div class="row">
+    <div class="navbar marnav">
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Opis", "GetOpis", "Wydarzenie", new { id = Model.id }, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Zadania", "List", "Zadanie", new { id = Model.id }, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Przebieg wydarzenia", "List", "Przebieg", new { id = Model.id }, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Relacja z wydarzenia", "List", "Wpis", new { id = Model.id }, new { @class = "wmenu" })</li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="col-md-9 opis panel panel-default">
+
+
+        <p align="right" class="marnav">
+
+        </p>
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-danger">@TempData["message"]</div>
+        }
+        <h2 class="text-center h2Opis">@Html.DisplayFor(model => model.Tytul)</h2>
+
+
+        <h4>Opis wydarzenia:</h4>
+        <p>
+
+            @Html.DisplayFor(model => model.Opis)
+
+        </p>
+
+
+    </div>
+
+
+
+    <div class="col-md-3">
+        @Html.Action("GetUczestnicy", "Uczestnicy", new { id_wydarzenie = Model.id })
+    </div>
+</div>
+
+

@@ -59,8 +59,8 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             var id = Convert.ToInt32(User.Identity.GetUzytkownikId());
             ViewBag.id_organizator = id;
             SqlParameter idUzytkownik = new SqlParameter("@Par_IdUzytkownik", id);
-            IEnumerable<Archiwum> query = dbo.Archiwum.SqlQuery("Wyswietl_Wydarzenia_Archiwum @Par_IdUzytkownik", idUzytkownik);
-            return View(query.ToList<Archiwum>());
+            IEnumerable<Wydarzenie> query = dbo.Wydarzenie.SqlQuery("Wyswietl_Wydarzenia_Archiwum @Par_IdUzytkownik", idUzytkownik);
+            return View(query.ToList<Wydarzenie>());
 
 
         }
@@ -150,6 +150,10 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 TempData["message"] = string.Format("Brak wybranego wydarzenia");
                 return RedirectToAction("List");
             }
+            if(wydarzenie.DataArchiwizacji != null)
+            {
+                return View("GetOpisArchiwum", wydarzenie);
+            }
             var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
             if (wydarzenie.id_organizator == id_user || dbo.Uczestnicy.Where(u=>u.id_wydarzenie == wydarzenie.id && u.id_uzytkownik == id_user && u.decyzja == true).FirstOrDefault() !=null)
             {
@@ -179,6 +183,11 @@ namespace KalendarzWydarzenRodzinnych.Controllers
 
             if (wydarzenie.id_organizator == Convert.ToInt32(User.Identity.GetUzytkownikId()))
             {
+                if(wydarzenie.DataArchiwizacji != null)
+                {
+                    TempData["message"] = string.Format("Brak dostępu");
+                    return RedirectToAction("GetOpis", new { id = wydarzenie.id });
+                }
                 return View(wydarzenie);
             }
             else

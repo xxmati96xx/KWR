@@ -10,6 +10,16 @@
 {
     <div class="alert alert-danger">@TempData["message"]</div>
 }
+Wyświetl:
+<select name="forma" onchange="location = this.value;">
+    <option value="@Url.Action("ListAll", null, new { @class = "btn btn-default" })" class="btn btn-default btn-sm pull-right">
+        
+            Aktualne
+       
+    </option>
+    <option value="@Url.Action("ListArchiwum", null, new { @class = "btn btn-default" })" class="btn btn-default btn-sm pull-right">Archiwum</option>
+
+</select>
 <p align="right">
     @Html.ActionLink("Utwórz wydarzenie", "Create", null, new { @class = "btn btn-primary add-button" })
 </p>

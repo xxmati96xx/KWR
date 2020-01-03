@@ -190,6 +190,8 @@
           <Property Name="DataRozpoczencia" Type="datetime" Nullable="false" />
           <Property Name="DataZakonczenia" Type="datetime" Nullable="false" />
           <Property Name="id_organizator" Type="int" Nullable="false" />
+          <Property Name="DataArchiwizacji" Type="date" />
+          <Property Name="Status_Archwizacji" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Wyslane_Wiadomosc">
           <Key>
@@ -1093,6 +1095,8 @@
           <NavigationProperty Name="Wpis" Relationship="Self.FK_Wpis_Wydarzenie" FromRole="Wydarzenie" ToRole="Wpis" />
           <NavigationProperty Name="Zadanie" Relationship="Self.FK_Zadanie_Wydarzenie" FromRole="Wydarzenie" ToRole="Zadanie" />
           <NavigationProperty Name="Zaproszenie" Relationship="Self.FK_Zaproszenie_Wydarzenie" FromRole="Wydarzenie" ToRole="Zaproszenie" />
+          <Property Name="DataArchiwizacji" Type="DateTime" Precision="0" />
+          <Property Name="Status_Archwizacji" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Wyslane_Wiadomosc">
           <Key>
@@ -1989,6 +1993,8 @@
           <EntitySetMapping Name="Wydarzenie">
             <EntityTypeMapping TypeName="KWRModel.Wydarzenie">
               <MappingFragment StoreEntitySet="Wydarzenie">
+                <ScalarProperty Name="Status_Archwizacji" ColumnName="Status_Archwizacji" />
+                <ScalarProperty Name="DataArchiwizacji" ColumnName="DataArchiwizacji" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="Tytul" ColumnName="Tytul" />
                 <ScalarProperty Name="Opis" ColumnName="Opis" />

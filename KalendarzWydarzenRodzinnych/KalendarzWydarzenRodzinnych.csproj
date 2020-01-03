@@ -623,6 +623,7 @@
     <Content Include="Views\Wydarzenie\Create.cshtml" />
     <Content Include="Views\Wydarzenie\ListAll.cshtml" />
     <Content Include="Views\Wydarzenie\ListArchiwum.cshtml" />
+    <Content Include="Views\Wydarzenie\GetOpisArchiwum.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

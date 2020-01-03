@@ -29,8 +29,12 @@
             else
             {
                 <p align="right" class="marnav">
-                    
+
                 </p>
+            }
+            @if (TempData["message"] != null)
+            {
+                <div class="alert alert-danger">@TempData["message"]</div>
             }
             <h2 class="text-center h2Opis">@Html.DisplayFor(model => model.Tytul)</h2>
 

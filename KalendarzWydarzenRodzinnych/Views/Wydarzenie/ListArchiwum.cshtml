@@ -1,4 +1,4 @@
-﻿@model IEnumerable<KalendarzWydarzenRodzinnych.Models.Archiwum>
+﻿@model IEnumerable<KalendarzWydarzenRodzinnych.Models.Wydarzenie>
 @using KalendarzWydarzenRodzinnych.Extensions
 
 @{
@@ -10,7 +10,17 @@
 {
     <div class="alert alert-danger">@TempData["message"]</div>
 }
+Wyświetl:
+<select name="forma" onchange="location = this.value;">
+    <option value="@Url.Action("ListArchiwum", null, new { @class = "btn btn-default" })" class="btn btn-default btn-sm pull-right">Archiwum</option>
+    <option value="@Url.Action("ListAll", null, new { @class = "btn btn-default" })" class="btn btn-default btn-sm pull-right">
 
+        Aktualne
+
+    </option>
+
+
+</select>
 <table id="table" class="table">
     <thead>
         <tr>
@@ -21,6 +31,12 @@
                 Data wydarzenia
             </th>
             <th>
+                Data archwizacji
+            </th>
+            <th>
+                Status archiwizacji
+            </th>
+            <th>
 
             </th>
         </tr>
@@ -28,32 +44,38 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(itemmodel => item.Tytul)
-                </td>
-                <td>
-                    @Html.DisplayFor(itemmodel => item.DataRozpoczencia) -  @Html.DisplayFor(itemmodel => item.DataZakonczenia)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(itemmodel => item.Tytul)
+            </td>
+            <td>
+                @Html.DisplayFor(itemmodel => item.DataRozpoczencia) -  @Html.DisplayFor(itemmodel => item.DataZakonczenia)
+            </td>
 
-                <td>
-                    @if (item.id_organizator == Convert.ToInt32(User.Identity.GetUzytkownikId()))
+            <td>
+                @Html.DisplayFor(itemmodel => item.DataArchiwizacji)
+            </td>
+            <td>
+                @Html.DisplayFor(itemmodel => item.Status_Archwizacji) 
+            </td>
+            <td>
+                @if (item.id_organizator == Convert.ToInt32(User.Identity.GetUzytkownikId()))
 
-                    {
-                        <a href="@Url.Action("CancelArchiwizacja", "Wydarzenie", new { id = item.id })" class="btn btn-danger btn-sm delete-button  buttonmargin pull-right">
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                        </a>
-                        
-                    }
-                    <a href="@Url.Action("GetOpis", "Wydarzenie",new { id = item.id })" class="btn btn-primary btn-sm pull-right">
-                        <span class="glyphicon glyphicon glyphicon-file" aria-hidden="true"></span>
+                {
+                    <a href="@Url.Action("CancelArchiwizacja", "Wydarzenie", new { id = item.id })" class="btn btn-danger btn-sm delete-button  buttonmargin pull-right">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     </a>
 
+                }
+                <a href="@Url.Action("GetOpis", "Wydarzenie",new { id = item.id })" class="btn btn-primary btn-sm pull-right">
+                    <span class="glyphicon glyphicon glyphicon-file" aria-hidden="true"></span>
+                </a>
 
 
-                </td>
 
-            </tr>
+            </td>
+
+        </tr>
         }
     </tbody>
 </table>

@@ -40,6 +40,8 @@ namespace KalendarzWydarzenRodzinnych.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
         public System.DateTime DataZakonczenia { get; set; }
         public int id_organizator { get; set; }
+        public Nullable<System.DateTime> DataArchiwizacji { get; set; }
+        public string Status_Archwizacji { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Powiadomienia> Powiadomienia { get; set; }
