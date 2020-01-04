@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="KWRModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="KWRModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -625,6 +625,9 @@
         <Function Name="Powiadomienia_Edit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdWydarzenie" Type="int" Mode="In" />
         </Function>
+        <Function Name="Powiadomienia_Usun" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_IdPowiadomienia" Type="int" Mode="In" />
+        </Function>
         <Function Name="Powiadomienia_Wyswietl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdUzytkownik" Type="int" Mode="In" />
         </Function>
@@ -842,8 +845,7 @@
             <End Role="Zaproszenie" EntitySet="Zaproszenie" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="KWRModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1627,29 +1629,29 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
           <FunctionImport Name="Archiwizacja_Cancel">
-            <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
+          <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Archiwizacja_Wydarzenia">
-            <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
+          <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Dodaj_Uzytkownikow_Grupa">
             <Parameter Name="Par_IdGrupa" Mode="In" Type="Int32" />
             <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Grupa_Usun">
-            <Parameter Name="Par_IdGrupa" Mode="In" Type="Int32" />
+          <Parameter Name="Par_IdGrupa" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Powiadomienia_Edit">
-            <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
+          <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Powiadomienia_Wyswietl" ReturnType="Collection(KWRModel.Powiadomienia_Wyswietl_Result)">
-            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
+          <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Powiadomienie_Usun">
-            <Parameter Name="Par_identyfier" Mode="In" Type="String" />
+          <Parameter Name="Par_identyfier" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Powiadomienie_Wyswietl" ReturnType="Collection(KWRModel.Powiadomienie_Wyswietl_Result)">
-            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
+          <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Powiadomienie_Zmiana">
             <Parameter Name="Par_DataPowiadomienia" Mode="In" Type="DateTime" />
@@ -1657,13 +1659,13 @@
             <Parameter Name="Par_identyfier" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Przebieg_Delete">
-            <Parameter Name="Par_IdPrzebieg" Mode="In" Type="Int32" />
+          <Parameter Name="Par_IdPrzebieg" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Wiadomosc_Przeczytana">
-            <Parameter Name="Par_IdWiadomoscOdebrana" Mode="In" Type="Int32" />
+          <Parameter Name="Par_IdWiadomoscOdebrana" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Wpis_Delete">
-            <Parameter Name="Par_IdWpis" Mode="In" Type="Int32" />
+          <Parameter Name="Par_IdWpis" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Wydarzenie_Uczestnik">
             <Parameter Name="Par_id_wydarzenie" Mode="In" Type="Int32" />
@@ -1674,23 +1676,23 @@
             <Parameter Name="Par_id_uzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Wyswietl_Uzytkownikow" ReturnType="Collection(KWRModel.Wyswietl_Uzytkownikow_Result)">
-            <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
+          <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Wyswietl_Uzytkownikow_Grupa" ReturnType="Collection(KWRModel.Wyswietl_Uzytkownikow_Grupa_Result)">
             <Parameter Name="Par_IdGrupa" Mode="In" Type="Int32" />
             <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Wyswietl_Wydarzenia" ReturnType="Collection(KWRModel.Wyswietl_Wydarzenia_Result)">
-            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
+          <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Wyswietl_Wydarzenia_ALL" ReturnType="Collection(KWRModel.Wyswietl_Wydarzenia_ALL_Result)">
-            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
+          <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Wyswietl_Wydarzenia_Archiwum" ReturnType="Collection(KWRModel.Wyswietl_Wydarzenia_Archiwum_Result)">
-            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
+          <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Zadanie_Usun">
-            <Parameter Name="Par_IdZadanie" Mode="In" Type="Int32" />
+          <Parameter Name="Par_IdZadanie" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ZadanieUczestnik_Dodaj">
             <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
@@ -1707,6 +1709,9 @@
           <FunctionImport Name="Zaproszenie_Potwierdz">
             <Parameter Name="Par_id_wydarzenie" Mode="In" Type="Int32" />
             <Parameter Name="Par_id_uzytkownik" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Powiadomienia_Usun">
+            <Parameter Name="Par_IdPowiadomienia" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="Powiadomienia_Wyswietl_Result">
@@ -2120,6 +2125,7 @@
           <FunctionImportMapping FunctionImportName="ZadanieUczestnik_Usun" FunctionName="KWRModel.Store.ZadanieUczestnik_Usun" />
           <FunctionImportMapping FunctionImportName="Zaproszenie_Anuluj" FunctionName="KWRModel.Store.Zaproszenie_Anuluj" />
           <FunctionImportMapping FunctionImportName="Zaproszenie_Potwierdz" FunctionName="KWRModel.Store.Zaproszenie_Potwierdz" />
+          <FunctionImportMapping FunctionImportName="Powiadomienia_Usun" FunctionName="KWRModel.Store.Powiadomienia_Usun" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

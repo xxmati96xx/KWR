@@ -43,6 +43,9 @@
                 @Html.DisplayFor(itemmodel => item.Data)
             </td>
             <td>
+                <a href="@Url.Action("Delete", "Powiadomienia", new { id = item.id })" class="btn btn-danger btn-sm delete-button pull-right buttonmargin">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </a>
             </td>
 
         </tr>

@@ -25,6 +25,33 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             
             return View(query.ToList());
         }
+
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List");
+            }
+            if (dbo.Powiadomienia.Find(id) == null)
+            {
+                TempData["message"] = string.Format("Brak wybranej grupy");
+                return RedirectToAction("List");
+            }
+            var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            if (dbo.Powiadomienia.Find(id).id_uzytkownik == id_user)
+            {
+                dbo.Powiadomienia_Usun(id);
+                dbo.SaveChanges();
+                TempData["message"] = string.Format("Brak wybranej grupy");
+                return RedirectToAction("List");
+            }
+            else
+            {
+                TempData["message"] = string.Format("Brak wybranej grupy");
+                return RedirectToAction("List");
+            }
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

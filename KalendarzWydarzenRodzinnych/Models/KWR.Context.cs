@@ -303,5 +303,14 @@ namespace KalendarzWydarzenRodzinnych.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Zaproszenie_Potwierdz", par_id_wydarzenieParameter, par_id_uzytkownikParameter);
         }
+    
+        public virtual int Powiadomienia_Usun(Nullable<int> par_IdPowiadomienia)
+        {
+            var par_IdPowiadomieniaParameter = par_IdPowiadomienia.HasValue ?
+                new ObjectParameter("Par_IdPowiadomienia", par_IdPowiadomienia) :
+                new ObjectParameter("Par_IdPowiadomienia", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Powiadomienia_Usun", par_IdPowiadomieniaParameter);
+        }
     }
 }
