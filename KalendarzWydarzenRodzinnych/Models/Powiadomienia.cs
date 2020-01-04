@@ -20,6 +20,7 @@ namespace KalendarzWydarzenRodzinnych.Models
         public Nullable<int> rodzaj { get; set; }
         public Nullable<System.DateTime> Data { get; set; }
         public bool Przeczytana { get; set; }
+        public Nullable<int> tmp { get; set; }
     
         public virtual Uzytkownik Uzytkownik { get; set; }
         public virtual Wydarzenie Wydarzenie { get; set; }

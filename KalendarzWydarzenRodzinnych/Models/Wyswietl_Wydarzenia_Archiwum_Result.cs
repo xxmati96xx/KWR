@@ -19,7 +19,7 @@ namespace KalendarzWydarzenRodzinnych.Models
         public System.DateTime DataRozpoczencia { get; set; }
         public System.DateTime DataZakonczenia { get; set; }
         public int id_organizator { get; set; }
-        public System.DateTime DataArchiwizacji { get; set; }
+        public Nullable<System.DateTime> DataArchiwizacji { get; set; }
         public string Status_Archwizacji { get; set; }
     }
 }

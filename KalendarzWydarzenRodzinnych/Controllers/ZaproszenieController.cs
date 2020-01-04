@@ -26,18 +26,54 @@ namespace KalendarzWydarzenRodzinnych.Controllers
 
         public ActionResult Accept(int? id)
         {
-            
-            var idU = Convert.ToInt32(User.Identity.GetUzytkownikId());
-            dbo.Zaproszenie_Potwierdz(id, idU);
-            return RedirectToAction("List");
+            if(id == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List");
+            }
+            Zaproszenie zaproszenie = dbo.Zaproszenie.Find(id);
+            if(zaproszenie == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List");
+            }
+            var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            if (zaproszenie.Do == id_user)
+            {
+                dbo.Zaproszenie_Potwierdz(id, id_user);
+                return RedirectToAction("List");
+            }
+            else
+            {
+                TempData["message"] = string.Format("Błąd dostępu do relacji");
+                return RedirectToAction("List");
+            }
         }
 
         public ActionResult Cancel(int? id)
         {
-            
-            var idU = Convert.ToInt32(User.Identity.GetUzytkownikId());
-            dbo.Zaproszenie_Anuluj(id, idU);
-            return RedirectToAction("List");
+            if (id == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List");
+            }
+            Zaproszenie zaproszenie = dbo.Zaproszenie.Find(id);
+            if (zaproszenie == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List");
+            }
+            var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            if (zaproszenie.Do == id_user)
+            {
+                dbo.Zaproszenie_Anuluj(id, id_user);
+                return RedirectToAction("List");
+            }
+            else
+            {
+                TempData["message"] = string.Format("Błąd dostępu do relacji");
+                return RedirectToAction("List");
+            }
         }
         protected override void Dispose(bool disposing)
         {

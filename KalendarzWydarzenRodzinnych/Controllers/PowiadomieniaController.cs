@@ -21,8 +21,9 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         {
             var id = Convert.ToInt32(User.Identity.GetUzytkownikId());
             SqlParameter idUzytkownik = new SqlParameter("@Par_IdUzytkownik", id);
-            var query = dbo.Wyswietl_Powiadomienia(id);
-            return View(query);
+            IEnumerable<Powiadomienia_Wyswietl_Result> query = dbo.Database.SqlQuery<Powiadomienia_Wyswietl_Result>("Powiadomienia_Wyswietl @Par_IdUzytkownik", idUzytkownik);
+            
+            return View(query.ToList());
         }
         protected override void Dispose(bool disposing)
         {

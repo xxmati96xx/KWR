@@ -224,12 +224,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Archiwizacja_Result.cs">
-      <DependentUpon>KWR.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Archiwum.cs">
-      <DependentUpon>KWR.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\AspNetRoles.cs">
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
@@ -267,6 +261,9 @@
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Powiadomienia.cs">
+      <DependentUpon>KWR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Powiadomienia_Wyswietl_Result.cs">
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Powiadomienie.cs">

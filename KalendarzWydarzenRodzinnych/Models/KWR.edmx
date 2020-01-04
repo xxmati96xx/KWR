@@ -4,20 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="KWRModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="Archiwum">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" Nullable="false" />
-          <Property Name="Tytul" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="Opis" Type="varchar" MaxLength="8000" />
-          <Property Name="DataRozpoczencia" Type="datetime" Nullable="false" />
-          <Property Name="DataZakonczenia" Type="datetime" Nullable="false" />
-          <Property Name="id_organizator" Type="int" Nullable="false" />
-          <Property Name="DataArchiwizacji" Type="date" Nullable="false" />
-          <Property Name="Status_Archwizacji" Type="varchar" MaxLength="50" Nullable="false" />
-        </EntityType>
+      <Schema Namespace="KWRModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -100,6 +87,7 @@
           <Property Name="rodzaj" Type="int" />
           <Property Name="Data" Type="date" />
           <Property Name="Przeczytana" Type="bit" Nullable="false" />
+          <Property Name="tmp" Type="int" />
         </EntityType>
         <EntityType Name="Powiadomienie">
           <Key>
@@ -229,18 +217,6 @@
           <Property Name="Do" Type="int" Nullable="false" />
           <Property Name="id_wydarzenie" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="FK_Archiwum_Uzytkownik">
-          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
-          <End Role="Archiwum" Type="Self.Archiwum" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Uzytkownik">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Archiwum">
-              <PropertyRef Name="id_organizator" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -633,9 +609,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="Archiwizacja" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Par_IdWydarzenie" Type="int" Mode="In" />
-        </Function>
         <Function Name="Archiwizacja_Cancel" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdWydarzenie" Type="int" Mode="In" />
         </Function>
@@ -648,6 +621,12 @@
         </Function>
         <Function Name="Grupa_Usun" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdGrupa" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Powiadomienia_Edit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_IdWydarzenie" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Powiadomienia_Wyswietl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_IdUzytkownik" Type="int" Mode="In" />
         </Function>
         <Function Name="Powiadomienie_Usun" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_identyfier" Type="varchar" Mode="In" />
@@ -663,7 +642,6 @@
         <Function Name="Przebieg_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdPrzebieg" Type="int" Mode="In" />
         </Function>
-        <Function Name="SendNotification" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Wiadomosc_Przeczytana" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdWiadomoscOdebrana" Type="int" Mode="In" />
         </Function>
@@ -677,9 +655,6 @@
         <Function Name="Wydarzenie_Uczestnik_Usun" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_id_wydarzenie" Type="int" Mode="In" />
           <Parameter Name="Par_id_uzytkownik" Type="int" Mode="In" />
-        </Function>
-        <Function Name="Wyswietl_Powiadomienia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Par_IdUzytkownik" Type="int" Mode="In" />
         </Function>
         <Function Name="Wyswietl_Uzytkownikow" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdWydarzenie" Type="int" Mode="In" />
@@ -717,7 +692,6 @@
           <Parameter Name="Par_id_uzytkownik" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="KWRModelStoreContainer">
-          <EntitySet Name="Archiwum" EntityType="Self.Archiwum" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
@@ -739,10 +713,6 @@
           <EntitySet Name="Zadanie" EntityType="Self.Zadanie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ZadanieUczestnik" EntityType="Self.ZadanieUczestnik" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Zaproszenie" EntityType="Self.Zaproszenie" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Archiwum_Uzytkownik" Association="Self.FK_Archiwum_Uzytkownik">
-            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
-            <End Role="Archiwum" EntitySet="Archiwum" />
-          </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -872,24 +842,11 @@
             <End Role="Zaproszenie" EntitySet="Zaproszenie" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="KWRModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Archiwum">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
-          <Property Name="Tytul" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Opis" Type="String" MaxLength="8000" FixedLength="false" Unicode="false" />
-          <Property Name="DataRozpoczencia" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DataZakonczenia" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="id_organizator" Type="Int32" Nullable="false" />
-          <Property Name="DataArchiwizacji" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Status_Archwizacji" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Archiwum_Uzytkownik" FromRole="Archiwum" ToRole="Uzytkownik" />
-        </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -975,6 +932,7 @@
           <Property Name="rodzaj" Type="Int32" />
           <Property Name="Data" Type="DateTime" Precision="0" />
           <Property Name="Przeczytana" Type="Boolean" Nullable="false" />
+          <Property Name="tmp" Type="Int32" />
           <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Powiadomienia_Uzytkownik" FromRole="Powiadomienia" ToRole="Uzytkownik" />
           <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Powiadomienia_Wydarzenie" FromRole="Powiadomienia" ToRole="Wydarzenie" />
         </EntityType>
@@ -1037,7 +995,6 @@
           <Property Name="Zdjcie" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="NrTelefonu" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
           <Property Name="AdresEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Archiwum" Relationship="Self.FK_Archiwum_Uzytkownik" FromRole="Uzytkownik" ToRole="Archiwum" />
           <NavigationProperty Name="Grupa" Relationship="Self.FK_Grupa_Uzytkownik" FromRole="Uzytkownik" ToRole="Grupa" />
           <NavigationProperty Name="Odebrane_Wiadomosc" Relationship="Self.FK_Odebrane_Wiadomosc_Do" FromRole="Uzytkownik" ToRole="Odebrane_Wiadomosc" />
           <NavigationProperty Name="Odebrane_Wiadomosc1" Relationship="Self.FK_Odebrane_Wiadomosc_Od" FromRole="Uzytkownik" ToRole="Odebrane_Wiadomosc" />
@@ -1099,6 +1056,8 @@
           <Property Name="DataRozpoczencia" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="DataZakonczenia" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="id_organizator" Type="Int32" Nullable="false" />
+          <Property Name="DataArchiwizacji" Type="DateTime" Precision="0" />
+          <Property Name="Status_Archwizacji" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Powiadomienia" Relationship="Self.FK_Powiadomienia_Wydarzenie" FromRole="Wydarzenie" ToRole="Powiadomienia" />
           <NavigationProperty Name="Powiadomienie" Relationship="Self.FK_Powiadomienie_Wydarzenie" FromRole="Wydarzenie" ToRole="Powiadomienie" />
           <NavigationProperty Name="Przebieg" Relationship="Self.FK_Przebieg_Wydarzenie" FromRole="Wydarzenie" ToRole="Przebieg" />
@@ -1107,8 +1066,6 @@
           <NavigationProperty Name="Wpis" Relationship="Self.FK_Wpis_Wydarzenie" FromRole="Wydarzenie" ToRole="Wpis" />
           <NavigationProperty Name="Zadanie" Relationship="Self.FK_Zadanie_Wydarzenie" FromRole="Wydarzenie" ToRole="Zadanie" />
           <NavigationProperty Name="Zaproszenie" Relationship="Self.FK_Zaproszenie_Wydarzenie" FromRole="Wydarzenie" ToRole="Zaproszenie" />
-          <Property Name="DataArchiwizacji" Type="DateTime" Precision="0" />
-          <Property Name="Status_Archwizacji" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Wyslane_Wiadomosc">
           <Key>
@@ -1156,18 +1113,6 @@
           <NavigationProperty Name="Uzytkownik1" Relationship="Self.FK_Zaproszenie_Od" FromRole="Zaproszenie" ToRole="Uzytkownik" />
           <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Zaproszenie_Wydarzenie" FromRole="Zaproszenie" ToRole="Wydarzenie" />
         </EntityType>
-        <Association Name="FK_Archiwum_Uzytkownik">
-          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
-          <End Role="Archiwum" Type="Self.Archiwum" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Uzytkownik">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Archiwum">
-              <PropertyRef Name="id_organizator" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1537,7 +1482,6 @@
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
         </Association>
         <EntityContainer Name="KWR" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Archiwum" EntityType="Self.Archiwum" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" />
@@ -1558,10 +1502,6 @@
           <EntitySet Name="Zadanie" EntityType="Self.Zadanie" />
           <EntitySet Name="ZadanieUczestnik" EntityType="Self.ZadanieUczestnik" />
           <EntitySet Name="Zaproszenie" EntityType="Self.Zaproszenie" />
-          <AssociationSet Name="FK_Archiwum_Uzytkownik" Association="Self.FK_Archiwum_Uzytkownik">
-            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
-            <End Role="Archiwum" EntitySet="Archiwum" />
-          </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -1686,30 +1626,44 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <FunctionImport Name="Archiwizacja" ReturnType="Collection(KWRModel.Archiwizacja_Result)">
-          <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
+          <FunctionImport Name="Archiwizacja_Cancel">
+            <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Archiwizacja_Wydarzenia">
+            <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Dodaj_Uzytkownikow_Grupa">
             <Parameter Name="Par_IdGrupa" Mode="In" Type="Int32" />
             <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Grupa_Usun">
-          <Parameter Name="Par_IdGrupa" Mode="In" Type="Int32" />
+            <Parameter Name="Par_IdGrupa" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Powiadomienia_Edit">
+            <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Powiadomienia_Wyswietl" ReturnType="Collection(KWRModel.Powiadomienia_Wyswietl_Result)">
+            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Powiadomienie_Usun">
-          <Parameter Name="Par_identyfier" Mode="In" Type="String" />
+            <Parameter Name="Par_identyfier" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Powiadomienie_Wyswietl" ReturnType="Collection(KWRModel.Powiadomienie_Wyswietl_Result)">
-          <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
+            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Powiadomienie_Zmiana">
             <Parameter Name="Par_DataPowiadomienia" Mode="In" Type="DateTime" />
             <Parameter Name="Par_Tresc" Mode="In" Type="String" />
             <Parameter Name="Par_identyfier" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="SendNotification" />
+          <FunctionImport Name="Przebieg_Delete">
+            <Parameter Name="Par_IdPrzebieg" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="Wiadomosc_Przeczytana">
-          <Parameter Name="Par_IdWiadomoscOdebrana" Mode="In" Type="Int32" />
+            <Parameter Name="Par_IdWiadomoscOdebrana" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Wpis_Delete">
+            <Parameter Name="Par_IdWpis" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Wydarzenie_Uczestnik">
             <Parameter Name="Par_id_wydarzenie" Mode="In" Type="Int32" />
@@ -1719,21 +1673,24 @@
             <Parameter Name="Par_id_wydarzenie" Mode="In" Type="Int32" />
             <Parameter Name="Par_id_uzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="Wyswietl_Powiadomienia">
-          <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="Wyswietl_Uzytkownikow" ReturnType="Collection(KWRModel.Wyswietl_Uzytkownikow_Result)">
-          <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
+            <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Wyswietl_Uzytkownikow_Grupa" ReturnType="Collection(KWRModel.Wyswietl_Uzytkownikow_Grupa_Result)">
             <Parameter Name="Par_IdGrupa" Mode="In" Type="Int32" />
             <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Wyswietl_Wydarzenia" ReturnType="Collection(KWRModel.Wyswietl_Wydarzenia_Result)">
-          <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
+            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Wyswietl_Wydarzenia_ALL" ReturnType="Collection(KWRModel.Wyswietl_Wydarzenia_ALL_Result)">
+            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Wyswietl_Wydarzenia_Archiwum" ReturnType="Collection(KWRModel.Wyswietl_Wydarzenia_Archiwum_Result)">
+            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Zadanie_Usun">
-          <Parameter Name="Par_IdZadanie" Mode="In" Type="Int32" />
+            <Parameter Name="Par_IdZadanie" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ZadanieUczestnik_Dodaj">
             <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
@@ -1751,29 +1708,15 @@
             <Parameter Name="Par_id_wydarzenie" Mode="In" Type="Int32" />
             <Parameter Name="Par_id_uzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="Wyswietl_Wydarzenia_ALL" ReturnType="Collection(KWRModel.Wyswietl_Wydarzenia_ALL_Result)">
-          <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="Wyswietl_Wydarzenia_Archiwum" ReturnType="Collection(KWRModel.Wyswietl_Wydarzenia_Archiwum_Result)">
-          <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="Archiwizacja_Cancel">
-          <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="Archiwizacja_Wydarzenia">
-          <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="Przebieg_Delete">
-            <Parameter Name="Par_IdPrzebieg" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="Wpis_Delete">
-            <Parameter Name="Par_IdWpis" Mode="In" Type="Int32" />
-          </FunctionImport>
         </EntityContainer>
-        <ComplexType Name="Archiwizacja_Result">
-          <Property Type="Boolean" Name="has_server_access" Nullable="true" />
-          <Property Type="Boolean" Name="is_sysadmin" Nullable="true" />
-          <Property Type="String" Name="actual_login_name" Nullable="true" MaxLength="128" />
+        <ComplexType Name="Powiadomienia_Wyswietl_Result">
+          <Property Type="Int32" Name="id" Nullable="true" />
+          <Property Type="String" Name="Tytul" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="rodzaj" Nullable="true" />
+          <Property Type="DateTime" Name="Data" Nullable="true" />
+          <Property Type="Boolean" Name="Przeczytana" Nullable="false" />
+          <Property Type="String" Name="Imie" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="Nazwisko" Nullable="true" MaxLength="50" />
         </ComplexType>
         <ComplexType Name="Powiadomienie_Wyswietl_Result">
           <Property Type="Int32" Name="id" Nullable="true" />
@@ -1808,6 +1751,8 @@
           <Property Type="DateTime" Name="DataRozpoczencia" Nullable="false" Precision="23" />
           <Property Type="DateTime" Name="DataZakonczenia" Nullable="false" Precision="23" />
           <Property Type="Int32" Name="id_organizator" Nullable="false" />
+          <Property Type="DateTime" Name="DataArchiwizacji" Nullable="true" />
+          <Property Type="String" Name="Status_Archwizacji" Nullable="true" MaxLength="100" />
         </ComplexType>
         <ComplexType Name="Wyswietl_Wydarzenia_ALL_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
@@ -1816,6 +1761,8 @@
           <Property Type="DateTime" Name="DataRozpoczencia" Nullable="false" Precision="23" />
           <Property Type="DateTime" Name="DataZakonczenia" Nullable="false" Precision="23" />
           <Property Type="Int32" Name="id_organizator" Nullable="false" />
+          <Property Type="DateTime" Name="DataArchiwizacji" Nullable="true" />
+          <Property Type="String" Name="Status_Archwizacji" Nullable="true" MaxLength="100" />
         </ComplexType>
         <ComplexType Name="Wyswietl_Wydarzenia_Archiwum_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
@@ -1824,8 +1771,8 @@
           <Property Type="DateTime" Name="DataRozpoczencia" Nullable="false" Precision="23" />
           <Property Type="DateTime" Name="DataZakonczenia" Nullable="false" Precision="23" />
           <Property Type="Int32" Name="id_organizator" Nullable="false" />
-          <Property Type="DateTime" Name="DataArchiwizacji" Nullable="false" />
-          <Property Type="String" Name="Status_Archwizacji" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="DataArchiwizacji" Nullable="true" />
+          <Property Type="String" Name="Status_Archwizacji" Nullable="true" MaxLength="100" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1833,20 +1780,6 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="KWRModelStoreContainer" CdmEntityContainer="KWR">
-          <EntitySetMapping Name="Archiwum">
-            <EntityTypeMapping TypeName="KWRModel.Archiwum">
-              <MappingFragment StoreEntitySet="Archiwum">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="Tytul" ColumnName="Tytul" />
-                <ScalarProperty Name="Opis" ColumnName="Opis" />
-                <ScalarProperty Name="DataRozpoczencia" ColumnName="DataRozpoczencia" />
-                <ScalarProperty Name="DataZakonczenia" ColumnName="DataZakonczenia" />
-                <ScalarProperty Name="id_organizator" ColumnName="id_organizator" />
-                <ScalarProperty Name="DataArchiwizacji" ColumnName="DataArchiwizacji" />
-                <ScalarProperty Name="Status_Archwizacji" ColumnName="Status_Archwizacji" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="AspNetRoles">
             <EntityTypeMapping TypeName="KWRModel.AspNetRoles">
               <MappingFragment StoreEntitySet="AspNetRoles">
@@ -1924,6 +1857,7 @@
                 <ScalarProperty Name="rodzaj" ColumnName="rodzaj" />
                 <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="Przeczytana" ColumnName="Przeczytana" />
+                <ScalarProperty Name="tmp" ColumnName="tmp" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2017,14 +1951,14 @@
           <EntitySetMapping Name="Wydarzenie">
             <EntityTypeMapping TypeName="KWRModel.Wydarzenie">
               <MappingFragment StoreEntitySet="Wydarzenie">
-                <ScalarProperty Name="Status_Archwizacji" ColumnName="Status_Archwizacji" />
-                <ScalarProperty Name="DataArchiwizacji" ColumnName="DataArchiwizacji" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="Tytul" ColumnName="Tytul" />
                 <ScalarProperty Name="Opis" ColumnName="Opis" />
                 <ScalarProperty Name="DataRozpoczencia" ColumnName="DataRozpoczencia" />
                 <ScalarProperty Name="DataZakonczenia" ColumnName="DataZakonczenia" />
                 <ScalarProperty Name="id_organizator" ColumnName="id_organizator" />
+                <ScalarProperty Name="DataArchiwizacji" ColumnName="DataArchiwizacji" />
+                <ScalarProperty Name="Status_Archwizacji" ColumnName="Status_Archwizacji" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2076,17 +2010,24 @@
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
-          <FunctionImportMapping FunctionImportName="Archiwizacja" FunctionName="KWRModel.Store.Archiwizacja">
+          <FunctionImportMapping FunctionImportName="Archiwizacja_Cancel" FunctionName="KWRModel.Store.Archiwizacja_Cancel" />
+          <FunctionImportMapping FunctionImportName="Archiwizacja_Wydarzenia" FunctionName="KWRModel.Store.Archiwizacja_Wydarzenia" />
+          <FunctionImportMapping FunctionImportName="Dodaj_Uzytkownikow_Grupa" FunctionName="KWRModel.Store.Dodaj_Uzytkownikow_Grupa" />
+          <FunctionImportMapping FunctionImportName="Grupa_Usun" FunctionName="KWRModel.Store.Grupa_Usun" />
+          <FunctionImportMapping FunctionImportName="Powiadomienia_Edit" FunctionName="KWRModel.Store.Powiadomienia_Edit" />
+          <FunctionImportMapping FunctionImportName="Powiadomienia_Wyswietl" FunctionName="KWRModel.Store.Powiadomienia_Wyswietl">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="KWRModel.Archiwizacja_Result">
-                <ScalarProperty Name="has_server_access" ColumnName="has_server_access" />
-                <ScalarProperty Name="is_sysadmin" ColumnName="is_sysadmin" />
-                <ScalarProperty Name="actual_login_name" ColumnName="actual_login_name" />
+              <ComplexTypeMapping TypeName="KWRModel.Powiadomienia_Wyswietl_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Tytul" ColumnName="Tytul" />
+                <ScalarProperty Name="rodzaj" ColumnName="rodzaj" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Przeczytana" ColumnName="Przeczytana" />
+                <ScalarProperty Name="Imie" ColumnName="Imie" />
+                <ScalarProperty Name="Nazwisko" ColumnName="Nazwisko" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="Dodaj_Uzytkownikow_Grupa" FunctionName="KWRModel.Store.Dodaj_Uzytkownikow_Grupa" />
-          <FunctionImportMapping FunctionImportName="Grupa_Usun" FunctionName="KWRModel.Store.Grupa_Usun" />
           <FunctionImportMapping FunctionImportName="Powiadomienie_Usun" FunctionName="KWRModel.Store.Powiadomienie_Usun" />
           <FunctionImportMapping FunctionImportName="Powiadomienie_Wyswietl" FunctionName="KWRModel.Store.Powiadomienie_Wyswietl">
             <ResultMapping>
@@ -2101,11 +2042,11 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="Powiadomienie_Zmiana" FunctionName="KWRModel.Store.Powiadomienie_Zmiana" />
-          <FunctionImportMapping FunctionImportName="SendNotification" FunctionName="KWRModel.Store.SendNotification" />
+          <FunctionImportMapping FunctionImportName="Przebieg_Delete" FunctionName="KWRModel.Store.Przebieg_Delete" />
           <FunctionImportMapping FunctionImportName="Wiadomosc_Przeczytana" FunctionName="KWRModel.Store.Wiadomosc_Przeczytana" />
+          <FunctionImportMapping FunctionImportName="Wpis_Delete" FunctionName="KWRModel.Store.Wpis_Delete" />
           <FunctionImportMapping FunctionImportName="Wydarzenie_Uczestnik" FunctionName="KWRModel.Store.Wydarzenie_Uczestnik" />
           <FunctionImportMapping FunctionImportName="Wydarzenie_Uczestnik_Usun" FunctionName="KWRModel.Store.Wydarzenie_Uczestnik_Usun" />
-          <FunctionImportMapping FunctionImportName="Wyswietl_Powiadomienia" FunctionName="KWRModel.Store.Wyswietl_Powiadomienia" />
           <FunctionImportMapping FunctionImportName="Wyswietl_Uzytkownikow" FunctionName="KWRModel.Store.Wyswietl_Uzytkownikow">
             <ResultMapping>
               <ComplexTypeMapping TypeName="KWRModel.Wyswietl_Uzytkownikow_Result">
@@ -2141,14 +2082,11 @@
                 <ScalarProperty Name="DataRozpoczencia" ColumnName="DataRozpoczencia" />
                 <ScalarProperty Name="DataZakonczenia" ColumnName="DataZakonczenia" />
                 <ScalarProperty Name="id_organizator" ColumnName="id_organizator" />
+                <ScalarProperty Name="DataArchiwizacji" ColumnName="DataArchiwizacji" />
+                <ScalarProperty Name="Status_Archwizacji" ColumnName="Status_Archwizacji" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="Zadanie_Usun" FunctionName="KWRModel.Store.Zadanie_Usun" />
-          <FunctionImportMapping FunctionImportName="ZadanieUczestnik_Dodaj" FunctionName="KWRModel.Store.ZadanieUczestnik_Dodaj" />
-          <FunctionImportMapping FunctionImportName="ZadanieUczestnik_Usun" FunctionName="KWRModel.Store.ZadanieUczestnik_Usun" />
-          <FunctionImportMapping FunctionImportName="Zaproszenie_Anuluj" FunctionName="KWRModel.Store.Zaproszenie_Anuluj" />
-          <FunctionImportMapping FunctionImportName="Zaproszenie_Potwierdz" FunctionName="KWRModel.Store.Zaproszenie_Potwierdz" />
           <FunctionImportMapping FunctionImportName="Wyswietl_Wydarzenia_ALL" FunctionName="KWRModel.Store.Wyswietl_Wydarzenia_ALL">
             <ResultMapping>
               <ComplexTypeMapping TypeName="KWRModel.Wyswietl_Wydarzenia_ALL_Result">
@@ -2158,6 +2096,8 @@
                 <ScalarProperty Name="DataRozpoczencia" ColumnName="DataRozpoczencia" />
                 <ScalarProperty Name="DataZakonczenia" ColumnName="DataZakonczenia" />
                 <ScalarProperty Name="id_organizator" ColumnName="id_organizator" />
+                <ScalarProperty Name="DataArchiwizacji" ColumnName="DataArchiwizacji" />
+                <ScalarProperty Name="Status_Archwizacji" ColumnName="Status_Archwizacji" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -2175,10 +2115,11 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="Archiwizacja_Cancel" FunctionName="KWRModel.Store.Archiwizacja_Cancel" />
-          <FunctionImportMapping FunctionImportName="Archiwizacja_Wydarzenia" FunctionName="KWRModel.Store.Archiwizacja_Wydarzenia" />
-          <FunctionImportMapping FunctionImportName="Przebieg_Delete" FunctionName="KWRModel.Store.Przebieg_Delete" />
-          <FunctionImportMapping FunctionImportName="Wpis_Delete" FunctionName="KWRModel.Store.Wpis_Delete" />
+          <FunctionImportMapping FunctionImportName="Zadanie_Usun" FunctionName="KWRModel.Store.Zadanie_Usun" />
+          <FunctionImportMapping FunctionImportName="ZadanieUczestnik_Dodaj" FunctionName="KWRModel.Store.ZadanieUczestnik_Dodaj" />
+          <FunctionImportMapping FunctionImportName="ZadanieUczestnik_Usun" FunctionName="KWRModel.Store.ZadanieUczestnik_Usun" />
+          <FunctionImportMapping FunctionImportName="Zaproszenie_Anuluj" FunctionName="KWRModel.Store.Zaproszenie_Anuluj" />
+          <FunctionImportMapping FunctionImportName="Zaproszenie_Potwierdz" FunctionName="KWRModel.Store.Zaproszenie_Potwierdz" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

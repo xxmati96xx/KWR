@@ -55,7 +55,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
 
         public ActionResult ListArchiwum()
         {
-            
+           
             var id = Convert.ToInt32(User.Identity.GetUzytkownikId());
             ViewBag.id_organizator = id;
             SqlParameter idUzytkownik = new SqlParameter("@Par_IdUzytkownik", id);
@@ -241,6 +241,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                     TempData["message"] = string.Format("Brak dostępu");
                     return RedirectToAction("ListArchiwum");
                 }
+                
                 dbo.Archiwizacja_Wydarzenia(id);
                 return RedirectToAction("ListArchiwum");
             }
@@ -269,6 +270,11 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 {
                     TempData["message"] = string.Format("Brak dostępu");
                     return RedirectToAction("ListAll");
+                }
+                if(wydarzenie.DataArchiwizacji < DateTime.Now)
+                {
+                    TempData["message"] = string.Format("Brak możliwości anulowania archiwizacji");
+                    return RedirectToAction("ListArchiwum");
                 }
                 dbo.Archiwizacja_Cancel(id);
 

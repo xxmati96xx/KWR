@@ -1,4 +1,4 @@
-﻿
+﻿@model IEnumerable<KalendarzWydarzenRodzinnych.Models.Powiadomienia_Wyswietl_Result>
 
 @{
     ViewBag.Title = "Powiadomienia";
@@ -13,34 +13,39 @@
                 Powiadomienia
             </th>
             <th>
+                Data powiadomienia
+            </th>
+            <th>
 
-               </th>
-            
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @if (item.rodzaj == 1)
-                    {
-                    <p>
-                        Użytkownik
-                        @item.Imie @item.Nazwisko
-                        zaprosił(a) cię do wydarzenia
-                        <a href="@Url.Action("GetOpis", "Wydarzenie",new { id = item.id_wydarzenie })" class="">@item.Tytul
-                           
-                        </a>
+        <tr>
+            <td>
+                @if (item.rodzaj == (int)1)
+                {
+                <p>
+                    Organizator
+                    @Html.DisplayFor(itemmodel => item.Imie) @Html.DisplayFor(itemmodel => item.Nazwisko)
+                    edytował wydarzenie "
+                    @Html.DisplayFor(itemmodel => item.Tytul)
+                    " do którego należysz
 
-                    </p>    
-                    }
-                </td>
-                <td>
-                   
-                </td>
 
-            </tr>
+
+                </p>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(itemmodel => item.Data)
+            </td>
+            <td>
+            </td>
+
+        </tr>
         }
     </tbody>
 </table>

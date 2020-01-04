@@ -20,7 +20,7 @@ namespace KalendarzWydarzenRodzinnych.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Uzytkownik()
         {
-            this.Archiwum = new HashSet<Archiwum>();
+           
             this.Grupa = new HashSet<Grupa>();
             this.Odebrane_Wiadomosc = new HashSet<Odebrane_Wiadomosc>();
             this.Odebrane_Wiadomosc1 = new HashSet<Odebrane_Wiadomosc>();
@@ -57,8 +57,7 @@ namespace KalendarzWydarzenRodzinnych.Models
         public HttpPostedFileBase[] files { get; set; }
 
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Archiwum> Archiwum { get; set; }
+        
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Grupa> Grupa { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

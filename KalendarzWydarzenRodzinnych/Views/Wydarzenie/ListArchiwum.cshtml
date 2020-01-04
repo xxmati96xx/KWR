@@ -62,10 +62,12 @@ Wyświetl:
                 @if (item.id_organizator == Convert.ToInt32(User.Identity.GetUzytkownikId()))
 
                 {
+                    if (item.DataArchiwizacji > DateTime.Now)
+                    {
                     <a href="@Url.Action("CancelArchiwizacja", "Wydarzenie", new { id = item.id })" class="btn btn-danger btn-sm delete-button  buttonmargin pull-right">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     </a>
-
+                    }
                 }
                 <a href="@Url.Action("GetOpis", "Wydarzenie",new { id = item.id })" class="btn btn-primary btn-sm pull-right">
                     <span class="glyphicon glyphicon glyphicon-file" aria-hidden="true"></span>
