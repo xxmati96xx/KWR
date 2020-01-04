@@ -28,13 +28,7 @@
 
                 </td>
                 <td>
-                    @if (ViewBag.id_uzytkownik == ViewBag.id_organizator_wydarzenie)
-                    {
-                        <a href="@Url.Action("DeleteUser", "Uczestnicy", new { id = item.Uzytkownik.id, @idW = ViewBag.id_wydarzenie})" class="btn btn-danger btn-sm pull-right delete-button">
-                            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                        </a>
-
-                    }
+                    
                     <a href="@Url.Action("SendMessage", "Wiadomosc", new { id = item.Uzytkownik.id })" class="btn btn-default btn-sm glyphicon glyphicon-envelope">
 
                     </a>
@@ -48,14 +42,13 @@
 <br />
 @if (ViewBag.id_uzytkownik == ViewBag.id_organizator_wydarzenie)
 {
-<div class="col-md-12">
+    <div class="col-md-12">
 
-    @Html.ActionLink("Dodaj uczestnika", "addUser", "Uzytkownik", new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default col-md-12" })
-    @Html.ActionLink("Dodaj grupę", "AddGroupEvent", "Grupa", new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default col-md-12 h2Opis" })
-    @Html.ActionLink("Wyślij wiadomość do uczestników", "SendMessage", "Wiadomosc", new { idW = ViewBag.id_wydarzenie }, new { @class = "btn btn-default col-md-12 h2Opis" })
-    @Html.ActionLink("Dodaj przypomnienie", "AddNotification", "Powiadomienie", new { idW = ViewBag.id_wydarzenie, r = "u" }, new { @class = "btn btn-default col-md-12 h2Opis" })
-    @Html.ActionLink("Dodaj przypomnienie wydarzenia", "AddNotification", "Powiadomienie", new { idW = ViewBag.id_wydarzenie }, new { @class = "btn btn-default col-md-12 h2Opis" })
-</div>
+        
+        @Html.ActionLink("Wyślij wiadomość do uczestników", "SendMessage", "Wiadomosc", new { idW = ViewBag.id_wydarzenie }, new { @class = "btn btn-default col-md-12 h2Opis" })
+        @Html.ActionLink("Dodaj przypomnienie", "AddNotification", "Powiadomienie", new { idW = ViewBag.id_wydarzenie, r = "u" }, new { @class = "btn btn-default col-md-12 h2Opis" })
+        @Html.ActionLink("Dodaj przypomnienie wydarzenia", "AddNotification", "Powiadomienie", new { idW = ViewBag.id_wydarzenie }, new { @class = "btn btn-default col-md-12 h2Opis" })
+    </div>
 }
 else
 {

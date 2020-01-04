@@ -1,0 +1,120 @@
+﻿@model IEnumerable<KalendarzWydarzenRodzinnych.Models.Wpis>
+@using KalendarzWydarzenRodzinnych.Extensions
+@{
+    ViewBag.Title = "Relacja";
+}
+
+<div class="row">
+    <div class="navbar marnav">
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Opis", "GetOpis", "Wydarzenie", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Zadania", "List", "Zadanie", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Przebieg wydarzenia", "List", "Przebieg", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Relacja z wydarzenia", "List", "Wpis", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
+
+            </ul>
+        </div>
+
+    </div>
+    <div class="col-md-9 opis panel panel-default">
+
+        
+        
+            <p align="right" class="marnav">
+
+            </p>
+        
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-danger">@TempData["message"]</div>
+        }
+        <h2 class="h3Przebieg">Relacja z wydarzenia</h2>
+        <table id="table" class="table">
+            <thead>
+                <tr>
+
+                    <th>
+
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+
+
+                            <a href="@Url.Action("Details", "Wpis", new { id = item.id })" class="btn btn-primary btn-sm  pull-right buttonmargin">
+                                <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+                            </a>
+
+                            <p>
+                                @Html.DisplayFor(itemmodel => item.Uzytkownik.Imie) @Html.DisplayFor(itemmodel => item.Uzytkownik.Nazwisko) @Html.DisplayFor(itemmodel => item.data_dodania)
+
+                            </p>
+                            <p>
+                                @Html.DisplayFor(itemmodel => item.Relacja)
+
+                            </p>
+                            @{
+                                var licznik = 0;
+                            }
+                            @foreach (var img in ViewBag.zdjecia)
+                            {
+
+                                if (item.id == img.id_wpis && licznik < 3)
+                                {
+                                    if (ViewBag.czyArchiwum)
+                                    {
+                                        licznik++;
+                                        <a href="~/Image/orginal/@img.zdjecie" data-toggle="lightbox" data-gallery="gallery-@item.id">
+                                            <img class="imgmargin" src="~/Image/thumb/@img.zdjecie" />
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        licznik++;
+                                    
+                                        <img class="imgmargin" src="~/Image/thumb/@img.zdjecie" />
+                                   
+                                    }
+                                }
+                            }
+                            @{licznik = 0;}
+                        </td>
+
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-3">
+        @Html.Action("GetUczestnicy", "Uczestnicy", new { id_wydarzenie = ViewBag.id_wydarzenie })
+
+    </div>
+
+</div>
+@section Scripts {
+
+    @Scripts.Render("~/bundles/ekko")
+
+
+    @Scripts.Render("~/bundles/img")
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+    <script>
+        $(document).ready(function ($) {
+
+            $(document).on('click', '[data-toggle="lightbox"]:not([data-gallery="navigateTo"])', function (event) {
+                event.preventDefault();
+                return $(this).ekkoLightbox();
+            });
+        });
+    </script>
+}

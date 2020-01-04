@@ -19,6 +19,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         // GET: Grupa
         public ActionResult List()
         {
+
             var idUzytkownik = Convert.ToInt32(User.Identity.GetUzytkownikId());
             IEnumerable<Grupa> grupa = dbo.Grupa.Where(g => g.id_uzytkownik == idUzytkownik);
             return View(grupa.ToList());
@@ -28,60 +29,141 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         {
             if (id == null)
             {
-                return HttpNotFound();
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Grupa");
             }
             Grupa grupa = dbo.Grupa.Find(id);
             if (grupa == null)
             {
-                return HttpNotFound();
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Grupa");
             }
-            return View(grupa);
+            if(dbo.Grupa.Find(id).id_uzytkownik == Convert.ToInt32(User.Identity.GetUzytkownikId()))
+            {
+                return View(grupa);
+            }
+            else
+            {
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Grupa");
+            }
         }
 
         public ActionResult GetUzytkownicyWGrupie(int? id_grupa)
         {
-            
-            IEnumerable<UzytkownicyWGrupie> uzytkownicyWGrupie = dbo.UzytkownicyWGrupie.Include(u => u.Uzytkownik).Where(u => u.id_grupa == id_grupa);
-            return PartialView("_PartialUzytkownicyWGrupie", uzytkownicyWGrupie.ToList());
+            if (id_grupa == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Grupa");
+            }
+            Grupa grupa = dbo.Grupa.Find(id_grupa);
+            if (grupa == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Grupa");
+            }
+            if (dbo.Grupa.Find(id_grupa).id_uzytkownik == Convert.ToInt32(User.Identity.GetUzytkownikId()))
+            {
+                IEnumerable<UzytkownicyWGrupie> uzytkownicyWGrupie = dbo.UzytkownicyWGrupie.Include(u => u.Uzytkownik).Where(u => u.id_grupa == id_grupa);
+                return PartialView("_PartialUzytkownicyWGrupie", uzytkownicyWGrupie.ToList());
+            }
+            else
+            {
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Grupa");
+            }
         }
 
         public ActionResult DeleteUser(int? id_uzytkownik, int? id_grupa)
         {
             if (id_uzytkownik == null || id_grupa == null)
             {
-                return HttpNotFound();
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Grupa");
             }
-            UzytkownicyWGrupie user = dbo.UzytkownicyWGrupie.Where(u=>u.id_uzytkownik ==id_uzytkownik).FirstOrDefault();
-            dbo.UzytkownicyWGrupie.Remove(user);
-            dbo.SaveChanges();
+            if(dbo.Grupa.Find(id_grupa) == null  )
+            {
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Grupa");
+            }
+            if (dbo.Grupa.Find(id_grupa).id_uzytkownik == Convert.ToInt32(User.Identity.GetUzytkownikId()))
+            {
+                if (dbo.UzytkownicyWGrupie.Where(u => u.id_grupa == id_grupa).Where(u => u.id_uzytkownik == id_uzytkownik).FirstOrDefault() != null)
+                {
+                    UzytkownicyWGrupie user = dbo.UzytkownicyWGrupie.Where(u => u.id_uzytkownik == id_uzytkownik).FirstOrDefault();
+                    dbo.UzytkownicyWGrupie.Remove(user);
+                    dbo.SaveChanges();
 
-            return RedirectToAction("Details", new { id = id_grupa });
+                    return RedirectToAction("Details", new { id = id_grupa });
+                }
+                else
+                {
+                    TempData["message"] = string.Format("Błąd usuwania użytkownika");
+                    return RedirectToAction("List", "Grupa");
+                }
+            }
+            else{
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Grupa");
+            }
         }
 
         public ActionResult AddUserGrup(int? id_uzytkownik, int? id_grupa)
         {
             if (id_uzytkownik == null || id_grupa == null)
             {
-                return HttpNotFound();
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Grupa");
             }
-            dbo.Dodaj_Uzytkownikow_Grupa(id_grupa, id_uzytkownik);
-            dbo.SaveChanges();
-            
-            return RedirectToAction("AddUserGrupa", "Uzytkownik", new { id = id_grupa });
+            if(dbo.Grupa.Find(id_grupa) == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Grupa");
+            }
+            if (dbo.Grupa.Find(id_grupa).id_uzytkownik == Convert.ToInt32(User.Identity.GetUzytkownikId()))
+            {
+                if (dbo.UzytkownicyWGrupie.Where(u => u.id_grupa == id_grupa).Where(u => u.id_uzytkownik == id_uzytkownik).FirstOrDefault() == null)
+                {
+                    dbo.Dodaj_Uzytkownikow_Grupa(id_grupa, id_uzytkownik);
+                    dbo.SaveChanges();
+
+                    return RedirectToAction("AddUserGrupa", "Uzytkownik", new { id = id_grupa });
+                }
+                else
+                {
+                    TempData["message"] = string.Format("Użytkownik jest już w grupie");
+                    return RedirectToAction("List", "Grupa");
+                }
+            }
+            else
+            {
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Grupa");
+            }
         }
         [HttpGet]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
-                return View();
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Grupa");
             }
             Grupa grupa = dbo.Grupa.Find(id);
             if (grupa == null)
             {
-                return HttpNotFound();
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Grupa");
             }
-            return View(grupa);
+            if (dbo.Grupa.Find(id).id_uzytkownik == Convert.ToInt32(User.Identity.GetUzytkownikId()))
+            {
+                return View(grupa);
+            }
+            else
+            {
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Grupa");
+            }
 
         }
 
@@ -130,15 +212,25 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Grupa");
             }
             Grupa grupa = dbo.Grupa.Find(id);
             if (grupa == null)
             {
-                return HttpNotFound();
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Grupa");
             }
+            if (dbo.Grupa.Find(id).id_uzytkownik == Convert.ToInt32(User.Identity.GetUzytkownikId()))
+            {
 
-            return View(grupa);
+                return View(grupa);
+            }
+            else
+            {
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Grupa");
+            }
 
 
         }
@@ -155,11 +247,35 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         [HttpGet]
         public ActionResult AddGroupEvent(int? id)  
         {
-
-            var idU = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            if (id == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Wydarzenie");
+            }
+            Wydarzenie wydarzenie = dbo.Wydarzenie.Find(id);
+            if(wydarzenie == null) 
+            {
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Wydarzenie");
+            }
+            var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
             ViewBag.id_wydarzenie = id;
-            IEnumerable<Grupa> grupa = dbo.Grupa;
-            return View(grupa.ToList());
+            if(wydarzenie.id_organizator == id_user)
+            {
+                if (dbo.Wydarzenie.Find(id).DataArchiwizacji != null)
+                {
+                    TempData["message"] = string.Format("Błąd dostępu");
+                    return RedirectToAction("ListArchiwum", "Wydarzenie");
+                }
+                IEnumerable<Grupa> grupa = dbo.Grupa.Where(g => g.id_uzytkownik == id_user);
+                return View(grupa.ToList());
+            }
+            else
+            {
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Wydarzenie");
+            }
+            
         }
 
         protected override void Dispose(bool disposing)

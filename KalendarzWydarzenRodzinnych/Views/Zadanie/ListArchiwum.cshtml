@@ -1,0 +1,80 @@
+﻿@model IEnumerable<KalendarzWydarzenRodzinnych.Models.Zadanie>
+@using KalendarzWydarzenRodzinnych.Extensions
+@{
+    ViewBag.Title = "Zadania";
+}
+<div class="row">
+    <div class="navbar marnav">
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Opis", "GetOpis", "Wydarzenie", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Zadania", "List", "Zadanie", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Przebieg wydarzenia", "List", "Przebieg", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Relacja z wydarzenia", "List", "Wpis", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="col-md-9 panel panel-default">
+       
+            <p align="right" class="marnav">
+
+            </p>
+        
+        <h2 class="h3Przebieg">Zadania</h2>
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-danger">@TempData["message"]</div>
+        }
+        <table id="table" class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Zadanie
+                    </th>
+                    <th>
+                        Uczestnicy
+                    </th>
+
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    
+                    
+
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(itemmodel => item.Zadanie1)
+                            </td>
+                            <td>
+                                @foreach (var ite in ViewBag.zadanieUczestnik)
+                                {
+                                    if (item.id == ite.id_zadanie)
+                                    {
+                                        <p> @ite.Uzytkownik.Imie  @ite.Uzytkownik.Nazwisko </p>
+                                      
+
+                                    }
+                                }
+                            </td>
+                            <td>
+                               
+                            </td>
+
+                        </tr>
+                    
+                  
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-3">
+        @Html.Action("GetUczestnicy", "Uczestnicy", new { id_wydarzenie = ViewBag.id_wydarzenie })
+
+    </div>
+</div>

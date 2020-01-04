@@ -1,0 +1,70 @@
+﻿@model IEnumerable<KalendarzWydarzenRodzinnych.Models.Przebieg>
+@using KalendarzWydarzenRodzinnych.Extensions
+@{
+    ViewBag.Title = "Przebieg wydarzenia";
+}
+
+
+
+<div class="row">
+
+
+    <div class="navbar marnav">
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Opis", "GetOpis", "Wydarzenie", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Zadania", "List", "Zadanie", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Przebieg wydarzenia", "List", "Przebieg", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
+                <li>@Html.ActionLink("Relacja z wydarzenia", "List", "Wpis", new { id = ViewBag.id_wydarzenie }, new { @class = "wmenu" })</li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="col-md-9 opis panel panel-default">
+       
+            <p align="right" class="marnav">
+
+            </p>
+       
+        <h2 class="h3Przebieg">Przebieg wydarzenia</h2>
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-danger">@TempData["message"]</div>
+        }
+        <table id="table" class="table">
+            <thead>
+                <tr>
+
+                    <th>
+
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            
+                            <a href="@Url.Action("ListWpisPrzebieg", "Wpis", new { id = item.id })" class="btn btn-primary btn-sm success pull-right buttonmargin">
+                                <span class="glyphicon  glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+                            </a>
+                            
+
+                            <h3 class="h3Przebieg"> @Html.DisplayFor(itemmodel => item.Tytul) </h3>
+                            <p class="pPrzebieg ">@Html.DisplayFor(itemmodel => item.Opis)</p>
+                        </td>
+
+
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-3">
+        @Html.Action("GetUczestnicy", "Uczestnicy", new { id_wydarzenie = ViewBag.id_wydarzenie })
+    </div>
+
+</div>

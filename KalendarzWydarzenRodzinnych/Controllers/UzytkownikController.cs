@@ -25,26 +25,66 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         [HttpGet]
         public ActionResult addUser(int? id)  
         {
-            
-            var idU = Convert.ToInt32(User.Identity.GetUzytkownikId());
-            ViewBag.id_wydarzenie = id;
-            ViewBag.id_organizator = idU;
-            ViewBag.uczestnicy = dbo.Uczestnicy.Include(u => u.Uzytkownik).Where(u => u.id_wydarzenie == id);
-            SqlParameter idWydarzenie = new SqlParameter("@Par_IdWydarzenie", id);
-            IEnumerable<Uzytkownik> query = dbo.Uzytkownik.SqlQuery("Wyswietl_Uzytkownikow @Par_IdWydarzenie", idWydarzenie);
-            return View(query.ToList());
+            if (id == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu ");
+                return RedirectToAction("List", "Wydarzenie");
+            }
+            if (dbo.Wydarzenie.Find(id) == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu. Brak wybranego wydarzenia");
+                return RedirectToAction("List", "Wydarzenie");
+            }
+            var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            if (dbo.Wydarzenie.Find(id).id_organizator == id_user)
+            {
+                if (dbo.Wydarzenie.Find(id).DataArchiwizacji != null)
+                {
+                    TempData["message"] = string.Format("Błąd dostępu");
+                    return RedirectToAction("ListArchiwum","Wydarzenie");
+                }
+                ViewBag.id_wydarzenie = id;
+                ViewBag.id_organizator = id_user;
+                ViewBag.uczestnicy = dbo.Uczestnicy.Include(u => u.Uzytkownik).Where(u => u.id_wydarzenie == id);
+                SqlParameter idWydarzenie = new SqlParameter("@Par_IdWydarzenie", id);
+                IEnumerable<Uzytkownik> query = dbo.Uzytkownik.SqlQuery("Wyswietl_Uzytkownikow @Par_IdWydarzenie", idWydarzenie);
+                return View(query.ToList());
+            }
+            else{
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Wydarzenie");
+            }
         }
 
         [HttpGet]
         public ActionResult AddUserGrupa(int? id)
         {
-            ViewBag.id_grupa = id;
-            var idU = Convert.ToInt32(User.Identity.GetUzytkownikId());           
-            SqlParameter idGrupa = new SqlParameter("@Par_IdGrupa", id);
-            SqlParameter idUzytkownik = new SqlParameter("@Par_IdUzytkownik", idU);
+            if (id == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu ");
+                return RedirectToAction("List", "Grupa");
+            }
+            if (dbo.Grupa.Find(id) == null)
+            {
+                TempData["message"] = string.Format("Brak wybranej grupy");
+                return RedirectToAction("List", "Grupa");
+            }
 
-            IEnumerable<Uzytkownik> query = dbo.Uzytkownik.SqlQuery("Wyswietl_Uzytkownikow_Grupa @Par_IdGrupa, @Par_IdUzytkownik", idGrupa, idUzytkownik);
-            return View(query.ToList());
+            ViewBag.id_grupa = id;
+            var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            if (dbo.Grupa.Find(id).id_uzytkownik == id_user)
+            {
+                SqlParameter idGrupa = new SqlParameter("@Par_IdGrupa", id);
+                SqlParameter idUzytkownik = new SqlParameter("@Par_IdUzytkownik", id_user);
+
+                IEnumerable<Uzytkownik> query = dbo.Uzytkownik.SqlQuery("Wyswietl_Uzytkownikow_Grupa @Par_IdGrupa, @Par_IdUzytkownik", idGrupa, idUzytkownik);
+                return View(query.ToList());
+            }
+            else
+            {
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Grupa");
+            }
         }
 
         [HttpGet]

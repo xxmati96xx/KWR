@@ -30,10 +30,21 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 TempData["message"] = string.Format("Błąd dostępu. Brak wybranego wydarzenia");
                 return RedirectToAction("List", "Wydarzenie");
             }
+            
             var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
             if (dbo.Wydarzenie.Find(id).id_organizator == id_user || dbo.Uczestnicy.Where(u => u.id_wydarzenie == id && u.id_uzytkownik == id_user && u.decyzja == true).FirstOrDefault() != null)
             {
                 IEnumerable<Zadanie> zadania = dbo.Zadanie.Where(z => z.id_wydarzenie == id);
+                if (dbo.Wydarzenie.Find(id).DataArchiwizacji != null)
+                {
+                    
+                    ViewBag.id_wydarzenie = id;
+                    ViewBag.id_organizator = dbo.Wydarzenie.Find(id).id_organizator;
+                    ViewBag.zadanieUczestnik = dbo.ZadanieUczestnik.Include(zu => zu.Uzytkownik).ToList();
+                    return View("ListArchiwum", zadania.ToList());
+
+                }
+                
                 ViewBag.id_wydarzenie = id;
                 ViewBag.id_organizator = dbo.Wydarzenie.Find(id).id_organizator;
                 ViewBag.zadanieUczestnik = dbo.ZadanieUczestnik.Include(zu => zu.Uzytkownik).ToList();
@@ -59,9 +70,15 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 TempData["message"] = string.Format("Błąd dostępu. Podane wartości są nieprawidłowe");
                 return RedirectToAction("List", "Wydarzenie");
             }
+            
             var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
             if (dbo.ZadanieUczestnik.Where(zu=>zu.id_uzytkownik == id_user && zu.id_zadanie == idZ).FirstOrDefault() != null)
             {
+                if (dbo.Wydarzenie.Find(idW).DataArchiwizacji != null)
+                {
+                    TempData["message"] = string.Format("Brak dostępu");
+                    return RedirectToAction("List", new { id = idW });
+                }
                 TempData["message"] = string.Format("Należysz już do zadania");
                 return RedirectToAction("List", "Zadanie", new { id = idW });
             }
@@ -69,6 +86,11 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             var liczba_uczstnikow = dbo.Zadanie.Find(idZ).liczba_uczestnikow;
             if (liczba_uczstnikow > 0)
             {
+                if (dbo.Wydarzenie.Find(idW).DataArchiwizacji != null)
+                {
+                    TempData["message"] = string.Format("Brak dostępu");
+                    return RedirectToAction("List", new { id = idW });
+                }
                 dbo.ZadanieUczestnik_Dodaj(id_user, idZ);
             }
             else
@@ -90,14 +112,25 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 TempData["message"] = string.Format("Błąd dostępu. Podane wartości są nieprawidłowe");
                 return RedirectToAction("List", "Wydarzenie");
             }
+            
             var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
             if (dbo.ZadanieUczestnik.Where(zu => zu.id_uzytkownik == id_user && zu.id_zadanie == idZ).FirstOrDefault() == null)
             {
+                if (dbo.Wydarzenie.Find(idW).DataArchiwizacji != null)
+                {
+                    TempData["message"] = string.Format("Brak dostępu");
+                    return RedirectToAction("List", new { id = idW });
+                }
                 TempData["message"] = string.Format("Nie należysz do wybranego zadania");
                 return RedirectToAction("List", "Zadanie", new { id = idW });
             }
             try
             {
+                if (dbo.Wydarzenie.Find(idW).DataArchiwizacji != null)
+                {
+                    TempData["message"] = string.Format("Brak dostępu");
+                    return RedirectToAction("List", new { id = idW });
+                }
                 dbo.ZadanieUczestnik_Usun(id_user, idZ);
             }
             catch (Exception ex)
@@ -126,6 +159,11 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
             if (dbo.Wydarzenie.Find(zadanie.id_wydarzenie).id_organizator == id_user)
             {
+                if (dbo.Wydarzenie.Find(id).DataArchiwizacji != null)
+                {
+                    TempData["message"] = string.Format("Brak dostępu");
+                    return RedirectToAction("List", new { id = id });
+                }
                 return View(zadanie);
             }
             else
@@ -184,6 +222,11 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
             if (dbo.Wydarzenie.Find(id_wydarzenie).id_organizator == id_user)
             {
+                if (dbo.Wydarzenie.Find(id_wydarzenie).DataArchiwizacji != null)
+                {
+                    TempData["message"] = string.Format("Brak dostępu");
+                    return RedirectToAction("List", new { id = id_wydarzenie });
+                }
                 ViewBag.id_wydarzenie = id_wydarzenie;
 
                 return View("Edit", new Zadanie());
@@ -213,7 +256,11 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
             if (dbo.Wydarzenie.Find(zadanie.id_wydarzenie).id_organizator == id_user)
             {
-
+                if (dbo.Wydarzenie.Find(id).DataArchiwizacji != null)
+                {
+                    TempData["message"] = string.Format("Brak dostępu");
+                    return RedirectToAction("List",new { id = id });
+                }
                 return View(zadanie);
             }
             else

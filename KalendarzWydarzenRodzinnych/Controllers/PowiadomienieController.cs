@@ -150,6 +150,11 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         [HttpGet]
         public ActionResult AddNotification(int? idW, string r)
         {
+            if(idW == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List");
+            }
             if (dbo.Wydarzenie.Find(idW) == null)
             {
                 TempData["message"] = string.Format("Brak wydarzenia do kórego próbowano dodać powiadomienie");

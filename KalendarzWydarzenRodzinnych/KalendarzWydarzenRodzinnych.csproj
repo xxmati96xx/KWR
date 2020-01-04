@@ -624,6 +624,11 @@
     <Content Include="Views\Wydarzenie\ListAll.cshtml" />
     <Content Include="Views\Wydarzenie\ListArchiwum.cshtml" />
     <Content Include="Views\Wydarzenie\GetOpisArchiwum.cshtml" />
+    <Content Include="Views\Zadanie\ListArchiwum.cshtml" />
+    <Content Include="Views\Przebieg\ListArchiwum.cshtml" />
+    <Content Include="Views\Wpis\ListArchiwum.cshtml" />
+    <Content Include="Views\Wpis\DetailsArchiwum.cshtml" />
+    <Content Include="Views\Uczestnicy\_PartialUczestnicyArchiwum.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

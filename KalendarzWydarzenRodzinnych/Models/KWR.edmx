@@ -636,6 +636,12 @@
         <Function Name="Archiwizacja" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdWydarzenie" Type="int" Mode="In" />
         </Function>
+        <Function Name="Archiwizacja_Cancel" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_IdWydarzenie" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Archiwizacja_Wydarzenia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_IdWydarzenie" Type="int" Mode="In" />
+        </Function>
         <Function Name="Dodaj_Uzytkownikow_Grupa" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdGrupa" Type="int" Mode="In" />
           <Parameter Name="Par_IdUzytkownik" Type="int" Mode="In" />
@@ -654,9 +660,15 @@
           <Parameter Name="Par_Tresc" Type="varchar" Mode="In" />
           <Parameter Name="Par_identyfier" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="Przebieg_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_IdPrzebieg" Type="int" Mode="In" />
+        </Function>
         <Function Name="SendNotification" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Wiadomosc_Przeczytana" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdWiadomoscOdebrana" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Wpis_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_IdWpis" Type="int" Mode="In" />
         </Function>
         <Function Name="Wydarzenie_Uczestnik" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_id_wydarzenie" Type="int" Mode="In" />
@@ -1745,6 +1757,18 @@
           <FunctionImport Name="Wyswietl_Wydarzenia_Archiwum" ReturnType="Collection(KWRModel.Wyswietl_Wydarzenia_Archiwum_Result)">
           <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="Archiwizacja_Cancel">
+          <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Archiwizacja_Wydarzenia">
+          <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Przebieg_Delete">
+            <Parameter Name="Par_IdPrzebieg" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Wpis_Delete">
+            <Parameter Name="Par_IdWpis" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="Archiwizacja_Result">
           <Property Type="Boolean" Name="has_server_access" Nullable="true" />
@@ -2151,6 +2175,10 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Archiwizacja_Cancel" FunctionName="KWRModel.Store.Archiwizacja_Cancel" />
+          <FunctionImportMapping FunctionImportName="Archiwizacja_Wydarzenia" FunctionName="KWRModel.Store.Archiwizacja_Wydarzenia" />
+          <FunctionImportMapping FunctionImportName="Przebieg_Delete" FunctionName="KWRModel.Store.Przebieg_Delete" />
+          <FunctionImportMapping FunctionImportName="Wpis_Delete" FunctionName="KWRModel.Store.Wpis_Delete" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

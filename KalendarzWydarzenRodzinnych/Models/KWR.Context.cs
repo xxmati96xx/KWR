@@ -273,5 +273,41 @@ namespace KalendarzWydarzenRodzinnych.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Wyswietl_Wydarzenia_Archiwum_Result>("Wyswietl_Wydarzenia_Archiwum", par_IdUzytkownikParameter);
         }
+    
+        public virtual int Archiwizacja_Cancel(Nullable<int> par_IdWydarzenie)
+        {
+            var par_IdWydarzenieParameter = par_IdWydarzenie.HasValue ?
+                new ObjectParameter("Par_IdWydarzenie", par_IdWydarzenie) :
+                new ObjectParameter("Par_IdWydarzenie", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Archiwizacja_Cancel", par_IdWydarzenieParameter);
+        }
+    
+        public virtual int Archiwizacja_Wydarzenia(Nullable<int> par_IdWydarzenie)
+        {
+            var par_IdWydarzenieParameter = par_IdWydarzenie.HasValue ?
+                new ObjectParameter("Par_IdWydarzenie", par_IdWydarzenie) :
+                new ObjectParameter("Par_IdWydarzenie", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Archiwizacja_Wydarzenia", par_IdWydarzenieParameter);
+        }
+    
+        public virtual int Przebieg_Delete(Nullable<int> par_IdPrzebieg)
+        {
+            var par_IdPrzebiegParameter = par_IdPrzebieg.HasValue ?
+                new ObjectParameter("Par_IdPrzebieg", par_IdPrzebieg) :
+                new ObjectParameter("Par_IdPrzebieg", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Przebieg_Delete", par_IdPrzebiegParameter);
+        }
+    
+        public virtual int Wpis_Delete(Nullable<int> par_IdWpis)
+        {
+            var par_IdWpisParameter = par_IdWpis.HasValue ?
+                new ObjectParameter("Par_IdWpis", par_IdWpis) :
+                new ObjectParameter("Par_IdWpis", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Wpis_Delete", par_IdWpisParameter);
+        }
     }
 }

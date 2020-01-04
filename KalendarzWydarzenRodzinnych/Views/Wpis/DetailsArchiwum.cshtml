@@ -21,20 +21,20 @@
         {
             <div class="alert alert-danger">@TempData["message"]</div>
         }
-        @if ( Model.id_uzytkownik == Convert.ToInt32(User.Identity.GetUzytkownikId()))
+        @if (ViewBag.czyArchiwumDetails)
         {
+
             <p align="right" class="marnav">
-                @Html.ActionLink("Edytuj wpis", "Edit", new { id = Model.id }, new { @class = "btn btn-warning btn-sm edit-button" })
                 @Html.ActionLink("Pobierz wszystkie zdjęcia wpisu", "Download", new { id = Model.id }, new { @class = "btn btn-primary btn-sm add-button" })
             </p>
+
         }
         else
         {
             <p align="right" class="marnav">
-                @Html.ActionLink("Pobierz wszystkie zdjęcia wpisu", "Download", new { id = Model.id }, new { @class = "btn btn-primary btn-sm add-button" })
+                
             </p>
         }
-
         <div class="col-md-12 container">
             <div class="dwpismargin">
                 @Html.DisplayFor(model => model.Uzytkownik.Imie) @Html.DisplayFor(model => model.Uzytkownik.Nazwisko) @Html.DisplayFor(model => model.data_dodania)
@@ -49,12 +49,17 @@
             <div class="gallery">
                 @foreach (var item in ViewBag.zdjecia)
                 {
+                    if (ViewBag.czyArchiwumDetails)
+                    {
 
-
-                    <a href="~/Image/orginal/@item.zdjecie" data-toggle="lightbox" data-gallery="gallery">
+                        <a href="~/Image/orginal/@item.zdjecie" data-toggle="lightbox" data-gallery="gallery">
+                            <img class="imgmargin" src="~/Image/thumb/@item.zdjecie" />
+                        </a>
+                    }
+                    else
+                    {
                         <img class="imgmargin" src="~/Image/thumb/@item.zdjecie" />
-                    </a>
-
+                    }
 
                 }
             </div>

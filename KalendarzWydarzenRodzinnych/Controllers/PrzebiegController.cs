@@ -31,10 +31,20 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 TempData["message"] = string.Format("Błąd dostępu. Brak wybranego wydarzenia");
                 return RedirectToAction("List", "Wydarzenie");
             }
+            
             var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
             if (dbo.Wydarzenie.Find(id).id_organizator == id_user || dbo.Uczestnicy.Where(u => u.id_wydarzenie == id && u.id_uzytkownik == id_user && u.decyzja == true).FirstOrDefault() != null)
             {
                 IEnumerable<Przebieg> przebieg = dbo.Przebieg.Where(z => z.id_wydarzenie == id);
+                if (dbo.Wydarzenie.Find(id).DataArchiwizacji != null)
+                {
+                    
+                    ViewBag.id_wydarzenie = id;
+                    ViewBag.id_organizator = dbo.Wydarzenie.Find(id).id_organizator;
+                    return View("ListArchiwum", przebieg.ToList());
+
+                }
+               
                 ViewBag.id_wydarzenie = id;
                 ViewBag.id_organizator = dbo.Wydarzenie.Find(id).id_organizator;
                 return View(przebieg.ToList());
@@ -63,6 +73,11 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
             if (dbo.Wydarzenie.Find(przebieg.id_wydarzenie).id_organizator == id_user)
             {
+                if (dbo.Wydarzenie.Find(przebieg.id_wydarzenie).DataArchiwizacji != null)
+                {
+                    TempData["message"] = string.Format("Brak dostępu");
+                    return RedirectToAction("List", new { id = przebieg.id_wydarzenie });
+                }
                 return View(przebieg);
             }
             else
@@ -121,6 +136,11 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
             if (dbo.Wydarzenie.Find(id_wydarzenie).id_organizator == id_user)
             {
+                if (dbo.Wydarzenie.Find(id_wydarzenie).DataArchiwizacji != null)
+                {
+                    TempData["message"] = string.Format("Brak dostępu");
+                    return RedirectToAction("List", new { id = id_wydarzenie });
+                }
                 ViewBag.id_wydarzenie = id_wydarzenie;
 
                 return View("Edit", new Przebieg());
@@ -152,6 +172,11 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
             if (dbo.Wydarzenie.Find(przebieg.id_wydarzenie).id_organizator == id_user)
             {
+                if (dbo.Wydarzenie.Find(przebieg.id_wydarzenie).DataArchiwizacji != null)
+                {
+                    TempData["message"] = string.Format("Brak dostępu");
+                    return RedirectToAction("List", new { id = id });
+                }
 
                 return View(przebieg);
             }
@@ -167,8 +192,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         public ActionResult Delete(int id)
         {
             Przebieg przebieg = dbo.Przebieg.Find(id);
-            dbo.Przebieg.Remove(przebieg);
-            dbo.SaveChanges();
+            dbo.Przebieg_Delete(id);
             return RedirectToAction("List", new { id = przebieg.id_wydarzenie });
         }
         protected override void Dispose(bool disposing)

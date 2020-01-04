@@ -35,37 +35,42 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         {
             var idUzytkownik = Convert.ToInt32(User.Identity.GetUzytkownikId());
             Message message = new Message();
-            if (dbo.Wydarzenie.Find(idW) != null)
+            if (idW != null)
             {
-                message.DoGroup = (int)idW;
-                ViewBag.wydarzenie = "Uczestnicy wydarzenia " + dbo.Wydarzenie.Find(idW).Tytul;
-                return View(message);
+                if (dbo.Wydarzenie.Find(idW) != null)
+                {
+                    message.DoGroup = (int)idW;
+                    ViewBag.wydarzenie = "Uczestnicy wydarzenia " + dbo.Wydarzenie.Find(idW).Tytul;
+                    return View(message);
+                }
             }
-            if (dbo.Uzytkownik.Find(id) != null)
+            if (id != null)
             {
-               
-                    
+                if (dbo.Uzytkownik.Find(id) != null)
+                {
+
+
                     message.Do = (int)id;
                     ViewBag.uzytkownik = dbo.Uzytkownik.Find(id).Imie + " " + dbo.Uzytkownik.Find(id).Nazwisko;
                     return View(message);
-                
-            }
-            else
-            {
+
+                }
 
 
-                
-                
-                message.UserColection = dbo.Uzytkownik.Where(u => u.id != idUzytkownik).ToList();
-                var users = dbo.Uzytkownik
-                    .Select(u => new
-                    {
-                        id = u.id,
-                        user = u.Imie + " " + u.Nazwisko
-                    }).Where(u => u.id != idUzytkownik).ToList();
-                ViewBag.Do = users;
-                return View(message);
             }
+            message.UserColection = dbo.Uzytkownik.Where(u => u.id != idUzytkownik).ToList();
+            var users = dbo.Uzytkownik
+                .Select(u => new
+                {
+                    id = u.id,
+                    user = u.Imie + " " + u.Nazwisko
+                }).Where(u => u.id != idUzytkownik).ToList();
+            ViewBag.Do = users;
+            return View(message);
+
+
+
+
         }
 
         [HttpPost]
@@ -126,7 +131,8 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         {
             if (id == null)
             {
-                return HttpNotFound();
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("ListReceived", "Wiadomosci");
             }
             if(r == "s")
             {
@@ -134,9 +140,19 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                
                 if (send_message == null)
                 {
-                    return HttpNotFound();
+                    TempData["message"] = string.Format("Błąd dostępu");
+                    return RedirectToAction("ListSend", "Wiadomosci");
                 }
-                return View("DetailsSend",send_message);
+                if(send_message.Od == Convert.ToInt32(User.Identity.GetUzytkownikId()))
+                {
+                    return View("DetailsSend", send_message);
+                }
+                else
+                {
+                    TempData["message"] = string.Format("Błąd dostępu");
+                    return RedirectToAction("ListSend", "Wiadomosci");
+                }
+                
             }
             else
             {
@@ -144,13 +160,22 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 Odebrane_Wiadomosc received_message = dbo.Odebrane_Wiadomosc.Include(s => s.Wiadomosc).Include(s => s.Uzytkownik1).Include(s => s.Uzytkownik).Where(s => s.id == id).FirstOrDefault();
                 if (received_message == null)
                 {
-                    return HttpNotFound();
+                    TempData["message"] = string.Format("Błąd dostępu");
+                    return RedirectToAction("ListReceived", "Wiadomosci");
                 }
-                if (!(bool)received_message.Przeczytana)
+                if (received_message.Do == Convert.ToInt32(User.Identity.GetUzytkownikId()))
                 {
-                    dbo.Wiadomosc_Przeczytana(received_message.id);
+                    if (!(bool)received_message.Przeczytana)
+                    {
+                        dbo.Wiadomosc_Przeczytana(received_message.id);
+                    }
+                    return View("DetailsReceived", received_message);
                 }
-                return View("DetailsReceived",received_message);
+                else
+                {
+                    TempData["message"] = string.Format("Błąd dostępu");
+                    return RedirectToAction("ListReceived", "Wiadomosci");
+                }
             }
         }
 
@@ -159,26 +184,43 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("ListReceived", "Wiadomosci");
             }
             if(r == "s") {
                 Wyslane_Wiadomosc send_message = dbo.Wyslane_Wiadomosc.Find(id);
                 if (send_message == null)
                 {
-                    return HttpNotFound();
+                    TempData["message"] = string.Format("Błąd dostępu");
+                    return RedirectToAction("ListSend", "Wiadomosci");
                 }
-            
-            return View("DeleteMessageSend",send_message);
+                if (send_message.Od == Convert.ToInt32(User.Identity.GetUzytkownikId()))
+                {
+                    return View("DeleteMessageSend", send_message);
+                }
+                else
+                {
+                    TempData["message"] = string.Format("Błąd dostępu");
+                    return RedirectToAction("ListSend", "Wiadomosci");
+                }
             }
             else
             {
                 Odebrane_Wiadomosc received_message = dbo.Odebrane_Wiadomosc.Find(id);
                 if (received_message == null)
                 {
-                    return HttpNotFound();
+                    TempData["message"] = string.Format("Błąd dostępu");
+                    return RedirectToAction("ListReceived", "Wiadomosci");
                 }
-
-            return View("DeleteMessageReceived", received_message);
+                if (received_message.Do == Convert.ToInt32(User.Identity.GetUzytkownikId()))
+                {
+                    return View("DeleteMessageReceived", received_message);
+                }
+                else
+                {
+                    TempData["message"] = string.Format("Błąd dostępu");
+                    return RedirectToAction("ListReceived", "Wiadomosci");
+                }
             }
 
 

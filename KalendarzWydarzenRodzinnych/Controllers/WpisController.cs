@@ -32,10 +32,29 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 TempData["message"] = string.Format("Błąd dostępu. Brak wybranego wydarzenia");
                 return RedirectToAction("List", "Wydarzenie");
             }
+            
             var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
             if (dbo.Wydarzenie.Find(id).id_organizator == id_user || dbo.Uczestnicy.Where(u => u.id_wydarzenie == id && u.id_uzytkownik == id_user && u.decyzja == true).FirstOrDefault() != null)
             {
                 IEnumerable<Wpis> wpis = dbo.Wpis.Include(w => w.Uzytkownik).Where(w => w.id_wydarzenie == id);
+                if (dbo.Wydarzenie.Find(id).DataArchiwizacji != null)
+                {
+                    
+                    ViewBag.id_wydarzenie = id;
+                    if (dbo.Wydarzenie.Find(id).DataArchiwizacji > DateTime.Now)
+                    {
+                        ViewBag.czyArchiwum = true;
+                    }
+                    else
+                    {
+                        ViewBag.czyArchiwum = false;
+                    }
+                    ViewBag.id_organizator = dbo.Wydarzenie.Find(id).id_organizator;
+                    ViewBag.zdjecia = dbo.WpisZdjecia.Include(wz => wz.Wpis).Where(wz => wz.Wpis.id_wydarzenie == id);
+
+                    return View("ListArchiwum", wpis.ToList());
+                }
+                
                 ViewBag.id_wydarzenie = id;
                 ViewBag.id_organizator = dbo.Wydarzenie.Find(id).id_organizator;
                 ViewBag.zdjecia = dbo.WpisZdjecia.Include(wz => wz.Wpis).Where(wz => wz.Wpis.id_wydarzenie == id);
@@ -62,9 +81,15 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 TempData["message"] = string.Format("Błąd dostępu do formularza");
                 return RedirectToAction("List", "Wydarzenie");
             }
+           
             var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
             if (dbo.Wydarzenie.Find(id_wydarzenie).id_organizator == id_user || dbo.Uczestnicy.Where(u => u.id_wydarzenie == id_wydarzenie && u.id_uzytkownik == id_user && u.decyzja == true).FirstOrDefault() != null)
             {
+                if (dbo.Wydarzenie.Find(id_wydarzenie).DataArchiwizacji != null)
+                {
+                    TempData["message"] = string.Format("Błąd dostępu do formularza");
+                    return RedirectToAction("List", new { id = id_wydarzenie });
+                }
                 ViewBag.id_wydarzenie = id_wydarzenie;
                 WpisWpisZdjecia wpisWpisZdjecia = new WpisWpisZdjecia();
                 return PartialView("_PartialCreate", wpisWpisZdjecia);
@@ -94,6 +119,11 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             }
             if (wpis.id_uzytkownik == Convert.ToInt32(User.Identity.GetUzytkownikId()))
             {
+                if (dbo.Wydarzenie.Find(wpis.id_wydarzenie).DataArchiwizacji != null)
+                {
+                    TempData["message"] = string.Format("Brak dostępu");
+                    return RedirectToAction("List", new { id = wpis.id_wydarzenie });
+                }
                 WpisWpisZdjecia wpisWpisZdjecia = new WpisWpisZdjecia();
                 wpisWpisZdjecia.Wpis = wpis;
                 ViewBag.zdjecia = dbo.WpisZdjecia.Where(wz => wz.id_wpis == wpis.id);
@@ -172,8 +202,14 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 TempData["message"] = string.Format("Błąd dostępu do formularza");
                 return RedirectToAction("List", "Wydarzenie");
             }
+
             var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
-            if (dbo.Wydarzenie.Find(id_wydarzenie).id_organizator == id_user || dbo.Uczestnicy.Where(u => u.id_wydarzenie == id_wydarzenie && u.id_uzytkownik == id_user && u.decyzja == true).FirstOrDefault() != null) { 
+            if (dbo.Wydarzenie.Find(id_wydarzenie).id_organizator == id_user || dbo.Uczestnicy.Where(u => u.id_wydarzenie == id_wydarzenie && u.id_uzytkownik == id_user && u.decyzja == true).FirstOrDefault() != null) {
+                if (dbo.Wydarzenie.Find(id_wydarzenie).DataArchiwizacji != null)
+                {
+                    TempData["message"] = string.Format("Brak dostępu");
+                    return RedirectToAction("List", new { id = id_wydarzenie });
+                }
                 ViewBag.id_wydarzenie = id_wydarzenie;
                 ViewBag.id_przebieg = id_przebieg;
 
@@ -258,7 +294,11 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             //List<int> checkBox = new List<int>();
             if (dbo.Wpis.Find(id).id_uzytkownik == Convert.ToInt32(User.Identity.GetUzytkownikId()))
             {
-
+                if (dbo.Wydarzenie.Find(dbo.Wpis.Find(id).id_wydarzenie).DataArchiwizacji != null)
+                {
+                    TempData["message"] = string.Format("Brak dostępu");
+                    return RedirectToAction("List", new { id = dbo.Wpis.Find(id).id_wydarzenie });
+                }
                 ViewBag.id_wpis = id;
                 ViewBag.zdjecia = dbo.WpisZdjecia.Where(wz => wz.id_wpis == id);
                 return PartialView();
@@ -298,6 +338,11 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             }
             if (dbo.Wpis.Find(id_wpis).id_uzytkownik == Convert.ToInt32(User.Identity.GetUzytkownikId()))
             {
+                if (dbo.Wydarzenie.Find(dbo.Wpis.Find(id_wpis).id_wydarzenie).DataArchiwizacji != null)
+                {
+                    TempData["message"] = string.Format("Brak dostępu");
+                    return RedirectToAction("List", new { id = dbo.Wpis.Find(id_wpis).id_wydarzenie });
+                }
                 if (checkbox == null)
                 {
                     TempData["message"] = string.Format("Musisz wybrać co najmniej jedno zdjęcie do usunięcia");
@@ -395,9 +440,23 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 TempData["message"] = string.Format("Brak dostępu do relacji");
                 return RedirectToAction("List", "Wydarzenie");
             }
-            var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            
+                var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
             if (dbo.Wydarzenie.Find(wpis.id_wydarzenie).id_organizator == id_user || dbo.Uczestnicy.Where(u => u.id_wydarzenie == wpis.id_wydarzenie && u.id_uzytkownik == id_user && u.decyzja == true).FirstOrDefault() != null)
             {
+                if (dbo.Wydarzenie.Find(wpis.id_wydarzenie).DataArchiwizacji != null)
+                {
+                    if (dbo.Wydarzenie.Find(wpis.id_wydarzenie).DataArchiwizacji > DateTime.Now)
+                    {
+                        ViewBag.czyArchiwumDetails = true;
+                    }
+                    else
+                    {
+                        ViewBag.czyArchiwumDetails = false;
+                    }
+                    return View("DetailsArchiwum", wpis);
+                }
+
                 return View(wpis);
             }
             else
@@ -423,6 +482,11 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
             if (dbo.Wydarzenie.Find(wpis.id_wydarzenie).id_organizator == id_user || dbo.Uczestnicy.Where(u => u.id_wydarzenie == wpis.id_wydarzenie && u.id_uzytkownik == id_user && u.decyzja == true).FirstOrDefault() != null)
             {
+                if (dbo.Wydarzenie.Find(wpis.id_wydarzenie).DataArchiwizacji < DateTime.Now)
+                {
+                    TempData["message"] = string.Format("Brak zdjęć do pobrania");
+                    return RedirectToAction("List", new { id = wpis.id_wydarzenie });
+                }
                 IEnumerable<WpisZdjecia> lista = dbo.WpisZdjecia.Include(wz=>wz.Wpis).Where(wz => wz.id_wpis == id);
             if(!lista.Any())
             {
@@ -437,6 +501,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                     {
                         foreach (var item in lista)
                         {
+
                             string orginalPath = Path.Combine(Server.MapPath("~/Image/orginal/" + item.zdjecie));
                             zip.CreateEntryFromFile(orginalPath, item.zdjecie);
                             nazwa = item.Wpis.Wydarzenie.Tytul + "(" + item.Wpis.Uzytkownik.Imie + "_" + item.Wpis.Uzytkownik.Nazwisko + "_" + item.Wpis.data_dodania + ").zip";

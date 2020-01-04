@@ -92,6 +92,11 @@ namespace KalendarzWydarzenRodzinnych.Controllers
            
             if(wydarzenie.id_organizator == Convert.ToInt32(User.Identity.GetUzytkownikId()))
             {
+                if (wydarzenie.DataArchiwizacji != null)
+                {
+                    TempData["message"] = string.Format("Brak dostępu");
+                    return RedirectToAction("ListArchium");
+                }
                 return View(wydarzenie);
             }
             else
@@ -150,13 +155,14 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 TempData["message"] = string.Format("Brak wybranego wydarzenia");
                 return RedirectToAction("List");
             }
-            if(wydarzenie.DataArchiwizacji != null)
-            {
-                return View("GetOpisArchiwum", wydarzenie);
-            }
+            
             var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
             if (wydarzenie.id_organizator == id_user || dbo.Uczestnicy.Where(u=>u.id_wydarzenie == wydarzenie.id && u.id_uzytkownik == id_user && u.decyzja == true).FirstOrDefault() !=null)
             {
+                if (wydarzenie.DataArchiwizacji != null)
+                {
+                    return View("GetOpisArchiwum", wydarzenie);
+                }
                 return View(wydarzenie);
             }
             else
@@ -226,17 +232,52 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             if (wydarzenie == null)
             {
                 TempData["message"] = string.Format("Brak wybranego wydarzenia");
-                return RedirectToAction("GetOpis", new { id = wydarzenie.id });
+                return RedirectToAction("ListAll");
             }
             if (wydarzenie.id_organizator == Convert.ToInt32(User.Identity.GetUzytkownikId()))
             {
-                dbo.Archiwizacja(id);
-                return RedirectToAction("ListArchwium");
+                if (wydarzenie.DataArchiwizacji != null)
+                {
+                    TempData["message"] = string.Format("Brak dostępu");
+                    return RedirectToAction("ListArchiwum");
+                }
+                dbo.Archiwizacja_Wydarzenia(id);
+                return RedirectToAction("ListArchiwum");
             }
             else
             {
                 TempData["message"] = string.Format("Brak dostępu");
-                return RedirectToAction("GetOpis", new { id = wydarzenie.id });
+                return RedirectToAction("ListAll");
+            }
+        }
+        public ActionResult CancelArchiwizacja(int? id)
+        {
+            if (id == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu do wydarzenia");
+                return RedirectToAction("List");
+            }
+            Wydarzenie wydarzenie = dbo.Wydarzenie.Find(id);
+            if (wydarzenie == null)
+            {
+                TempData["message"] = string.Format("Brak wybranego wydarzenia");
+                return RedirectToAction("ListAll");
+            }
+            if (wydarzenie.id_organizator == Convert.ToInt32(User.Identity.GetUzytkownikId()))
+            {
+                if (wydarzenie.DataArchiwizacji == null)
+                {
+                    TempData["message"] = string.Format("Brak dostępu");
+                    return RedirectToAction("ListAll");
+                }
+                dbo.Archiwizacja_Cancel(id);
+
+                return RedirectToAction("ListAll");
+            }
+            else
+            {
+                TempData["message"] = string.Format("Brak dostępu");
+                return RedirectToAction("ListAll");
             }
         }
         protected override void Dispose(bool disposing)
