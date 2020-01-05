@@ -627,6 +627,7 @@
     <Content Include="Views\Wpis\DetailsArchiwum.cshtml" />
     <Content Include="Views\Uczestnicy\_PartialUczestnicyArchiwum.cshtml" />
     <Content Include="Views\Wpis\Delete.cshtml" />
+    <Content Include="Views\Wpis\ListPrzebieg.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

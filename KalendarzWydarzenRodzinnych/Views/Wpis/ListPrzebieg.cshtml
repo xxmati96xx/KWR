@@ -18,8 +18,8 @@
 
     </div>
     <div class="col-md-9 opis panel panel-default">
-        
-        @Html.Action("form", new { id_wydarzenie = ViewBag.id_wydarzenie})
+
+        @Html.Action("form", new { id_wydarzenie = ViewBag.id_wydarzenie, id_przebieg = ViewBag.id_przebieg})
         @if (ViewBag.id_organizator == Convert.ToInt32(User.Identity.GetUzytkownikId()))
         {
 
@@ -34,7 +34,7 @@
         {
             <div class="alert alert-danger">@TempData["message"]</div>
         }
-        <h2 class="h3Przebieg">Relacja z wydarzenia</h2>
+        <h2 class="h3Przebieg">Relacja z przebiegu</h2>
         <table id="table" class="table">
             <thead>
                 <tr>
@@ -58,7 +58,7 @@
                             }
                             @if (item.id_uzytkownik == Convert.ToInt32(User.Identity.GetUzytkownikId()))
                             {
-                                
+
                                 <a href="@Url.Action("Edit", "Wpis", new { id = item.id })" class="btn btn-warning btn-sm edit-button pull-right buttonmargin">
                                     <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                                 </a>

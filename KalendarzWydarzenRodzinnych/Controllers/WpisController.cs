@@ -68,15 +68,65 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             }
         }
 
-        public ActionResult form(int? id_wydarzenie)
+        public ActionResult ListPrzebieg(int? id, int? idP)
         {
-            if (id_wydarzenie == null)
+            if (id == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu do relacji");
+                return RedirectToAction("List", "Wydarzenie");
+            }
+            if (dbo.Wydarzenie.Find(id) == null || dbo.Przebieg.Find(idP) == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu. Brak wybranego wydarzenia");
+                return RedirectToAction("List", "Wydarzenie");
+            }
+
+            var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            if (dbo.Wydarzenie.Find(id).id_organizator == id_user || dbo.Uczestnicy.Where(u => u.id_wydarzenie == id && u.id_uzytkownik == id_user && u.decyzja == true).FirstOrDefault() != null)
+            {
+                IEnumerable<Wpis> wpis = dbo.Wpis.Include(w => w.Uzytkownik).Where(w => w.id_wydarzenie == id).Where(w=>w.id_przebieg == idP).OrderByDescending(w => w.id);
+                if (dbo.Wydarzenie.Find(id).DataArchiwizacji != null)
+                {
+
+                    ViewBag.id_wydarzenie = id;
+                    ViewBag.id_przebieg = idP;
+                    if (dbo.Wydarzenie.Find(id).DataArchiwizacji > DateTime.Now)
+                    {
+                        ViewBag.czyArchiwum = true;
+                    }
+                    else
+                    {
+                        ViewBag.czyArchiwum = false;
+                    }
+                    ViewBag.id_organizator = dbo.Wydarzenie.Find(id).id_organizator;
+                    ViewBag.zdjecia = dbo.WpisZdjecia.Include(wz => wz.Wpis).Where(wz => wz.Wpis.id_wydarzenie == id);
+
+                    return View("ListArchiwum", wpis.ToList());
+                }
+
+                ViewBag.id_przebieg = idP;
+                ViewBag.id_wydarzenie = id;
+                ViewBag.id_organizator = dbo.Wydarzenie.Find(id).id_organizator;
+                ViewBag.zdjecia = dbo.WpisZdjecia.Include(wz => wz.Wpis).Where(wz => wz.Wpis.id_wydarzenie == id);
+                // ViewBag.wpisWpisZdjecia = new WpisWpisZdjecia();
+                return View(wpis.ToList());
+            }
+            else
+            {
+                TempData["message"] = string.Format("Błąd dostępu do relacji");
+                return RedirectToAction("List", "Wydarzenie");
+            }
+        }
+
+        public ActionResult form(int? id_wydarzenie, int? id_przebieg)
+        {
+            if (id_wydarzenie == null )
             {
                 TempData["message"] = string.Format("Błąd dostępu do formularza");
                 return RedirectToAction("List", "Wydarzenie");
             }
 
-            if (dbo.Wydarzenie.Find(id_wydarzenie) == null)
+            if (dbo.Wydarzenie.Find(id_wydarzenie) == null )
             {
                 TempData["message"] = string.Format("Błąd dostępu do formularza");
                 return RedirectToAction("List", "Wydarzenie");
@@ -91,6 +141,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                     return RedirectToAction("List", new { id = id_wydarzenie });
                 }
                 ViewBag.id_wydarzenie = id_wydarzenie;
+                ViewBag.id_przebieg = id_przebieg;
                 WpisWpisZdjecia wpisWpisZdjecia = new WpisWpisZdjecia();
                 return PartialView("_PartialCreate", wpisWpisZdjecia);
             }
@@ -283,8 +334,14 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                     TempData["message"] = string.Format("Dodanie zdjęć nie powiodło się. Spróbuj ponownie lub skontaktuj się z administratorem aplikacji Błąd:" + e.ToString());
                     dbo.Wpis_Delete(id);
                 }
-
+                if (wpis.id_przebieg != null)
+                {
+                    return RedirectToAction("ListPrzebieg", new { id = wpis.id_wydarzenie, idP = wpis.id_przebieg });
+                }
+                else 
+                {
                 return RedirectToAction("List", new { id = wpis.id_wydarzenie });
+                }
             }
             else
             {

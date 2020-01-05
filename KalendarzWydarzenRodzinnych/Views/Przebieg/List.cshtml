@@ -65,7 +65,7 @@
 
 
                             }
-                            <a href="@Url.Action("Create", "Wpis", new { @id_wydarzenie = item.id_wydarzenie, @id_przebieg = item.id })" class="btn btn-primary btn-sm success pull-right buttonmargin">
+                            <a href="@Url.Action("ListPrzebieg", "Wpis", new { id = item.id_wydarzenie, @idP = item.id })" class="btn btn-primary btn-sm success pull-right buttonmargin">
                                 <span class="glyphicon  glyphicon glyphicon-list-alt" aria-hidden="true"></span>
                             </a>
                             <a href="@Url.Action("Create", "Wpis", new { @id_wydarzenie = item.id_wydarzenie, @id_przebieg = item.id })" class="btn btn-success btn-sm success pull-right buttonmargin">
