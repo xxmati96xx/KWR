@@ -11,7 +11,8 @@ namespace KalendarzWydarzenRodzinnych.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Zaproszenie
     {
         public int id { get; set; }

@@ -10,12 +10,15 @@
 namespace KalendarzWydarzenRodzinnych.Models
 {
     using System;
-    
+    using System.ComponentModel.DataAnnotations;
     public partial class Powiadomienia_Wyswietl_Result
     {
         public Nullable<int> id { get; set; }
         public string Tytul { get; set; }
         public Nullable<int> rodzaj { get; set; }
+        [Display(Name = "Data powiadomienia")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> Data { get; set; }
         public bool Przeczytana { get; set; }
         public string Imie { get; set; }

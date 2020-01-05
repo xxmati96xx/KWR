@@ -13,7 +13,7 @@
                 Powiadomienia
             </th>
             <th>
-                Data powiadomienia
+                @Html.DisplayNameFor(model => model.Data)
             </th>
             <th>
 
@@ -63,6 +63,16 @@
                                 Użytkownik
                                 @Html.DisplayFor(itemmodel => item.Imie1) @Html.DisplayFor(itemmodel => item.Nazwisko1)
                                 dodał relację do wydarzenia "
+                                @Html.DisplayFor(itemmodel => item.Tytul)
+                                "
+                            </p>
+                        }
+                        @if (item.rodzaj == (int)5)
+                        {
+                            <p>
+                                Organizator
+                                @Html.DisplayFor(itemmodel => item.Imie) @Html.DisplayFor(itemmodel => item.Nazwisko)
+                                zlecił archiwizacjie wydarzenia "
                                 @Html.DisplayFor(itemmodel => item.Tytul)
                                 "
                             </p>
@@ -119,6 +129,16 @@
                                 Użytkownik
                                 @Html.DisplayFor(itemmodel => item.Imie1) @Html.DisplayFor(itemmodel => item.Nazwisko1)
                                 dodał relację do wydarzenia "
+                                @Html.DisplayFor(itemmodel => item.Tytul)
+                                "
+                            </p>
+                        }
+                        @if (item.rodzaj == (int)5)
+                        {
+                            <p>
+                                Organizator
+                                @Html.DisplayFor(itemmodel => item.Imie) @Html.DisplayFor(itemmodel => item.Nazwisko)
+                                zlecił archiwizacjie wydarzenia "
                                 @Html.DisplayFor(itemmodel => item.Tytul)
                                 "
                             </p>

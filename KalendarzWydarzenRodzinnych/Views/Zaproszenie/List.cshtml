@@ -37,12 +37,13 @@
                     @Html.DisplayFor(itemmodel => item.Uzytkownik1.Imie) @Html.DisplayFor(itemmodel => item.Uzytkownik1.Nazwisko)
                 </td>
                 <td>
-                    <a href="@Url.Action("Accept", "Zaproszenie",new { id = item.id_wydarzenie })" class="btn btn-success btn-sm">
-                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                    </a>
-                    <a href="@Url.Action("Cancel", "Zaproszenie",new { id = item.id_wydarzenie })" class="btn btn-danger btn-sm">
+                    <a href="@Url.Action("Cancel", "Zaproszenie",new { id = item.id_wydarzenie })" class="btn btn-danger pull-right buttonmargin btn-sm">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     </a>
+                    <a href="@Url.Action("Accept", "Zaproszenie",new { id = item.id_wydarzenie })" class="btn btn-success pull-right btn-sm">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                    </a>
+
 
 
 

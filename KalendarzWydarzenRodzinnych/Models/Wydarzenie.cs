@@ -40,6 +40,9 @@ namespace KalendarzWydarzenRodzinnych.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
         public System.DateTime DataZakonczenia { get; set; }
         public int id_organizator { get; set; }
+        [Display(Name = "Data archiwizacji")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> DataArchiwizacji { get; set; }
         public string Status_Archwizacji { get; set; }
     

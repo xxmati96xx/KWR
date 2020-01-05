@@ -26,7 +26,7 @@
                         @Html.DisplayFor(modelItem => item.Uzytkownik.DataUrodzenia)
                     </td>
                     <td>
-                        <a href="@Url.Action("DeleteUser", "Grupa", new { id_uzytkownik = item.id_uzytkownik, id_grupa = item.id_grupa })" class="btn btn-danger btn-sm delete-button">
+                        <a href="@Url.Action("DeleteUser", "Grupa", new { id_uzytkownik = item.id_uzytkownik, id_grupa = item.id_grupa })" class="btn btn-danger btn-sm pull-right delete-button">
                             <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                         </a>
                     </td>

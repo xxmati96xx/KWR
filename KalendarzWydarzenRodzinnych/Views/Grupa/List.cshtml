@@ -5,7 +5,10 @@
 }
 
 <h2>Grupy</h2>
-
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-danger">@TempData["message"]</div>
+}
 
 <p align="right">
     @Html.ActionLink("Dodaj nową grupę", "Create", null, new { @class = "btn btn-primary add-button" })
@@ -25,30 +28,30 @@
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nazwa)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Opis)
-            </td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nazwa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Opis)
+                </td>
 
-            <td>
-                <a href="@Url.Action("Delete", "Grupa", new { id = item.id })" class="btn btn-danger btn-sm delete-button pull-right buttonmargin">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                </a>
-                <a href="@Url.Action("Edit", "Grupa", new { id = item.id })" class="btn btn-warning btn-sm edit-button pull-right buttonmargin">
-                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                </a>
-                <a href="@Url.Action("Details", "Grupa", new { id = item.id })" class="btn btn-primary btn-sm  pull-right buttonmargin">
-                    <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
-                </a>
-            </td>
-        </tr>
-    }
-        </tbody>
+                <td>
+                    <a href="@Url.Action("Delete", "Grupa", new { id = item.id })" class="btn btn-danger btn-sm delete-button pull-right buttonmargin">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </a>
+                    <a href="@Url.Action("Edit", "Grupa", new { id = item.id })" class="btn btn-warning btn-sm edit-button pull-right buttonmargin">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                    </a>
+                    <a href="@Url.Action("Details", "Grupa", new { id = item.id })" class="btn btn-primary btn-sm  pull-right buttonmargin">
+                        <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
 
 @section Scripts {

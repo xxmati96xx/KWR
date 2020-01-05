@@ -11,13 +11,17 @@ namespace KalendarzWydarzenRodzinnych.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Powiadomienia
     {
         public int id { get; set; }
         public int id_uzytkownik { get; set; }
         public Nullable<int> id_wydarzenie { get; set; }
         public Nullable<int> rodzaj { get; set; }
+        [Display(Name = "Data powiadomienia")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> Data { get; set; }
         public bool Przeczytana { get; set; }
         public Nullable<int> tmp { get; set; }

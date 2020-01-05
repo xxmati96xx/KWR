@@ -11,7 +11,7 @@
             <thead>
                 <tr>
                     <th>
-                        Imie i Nazwisko
+                        Imię i Nazwisko
                     </th>
                     <th>
                         Data urodzenia
@@ -32,7 +32,7 @@
                             @Html.DisplayFor(itemmodel => item.DataUrodzenia)
                         </td>
                         <td>
-                            <a href="@Url.Action("addUser", "Uczestnicy", new { @id = item.id,@idW=ViewBag.id_wydarzenie })" class="btn btn-success btn-sm success">
+                            <a href="@Url.Action("addUser", "Uczestnicy", new { @id = item.id,@idW=ViewBag.id_wydarzenie })" class="btn btn-success pull-right btn-sm success">
                                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                             </a>
                         </td>

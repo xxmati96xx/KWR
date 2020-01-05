@@ -36,7 +36,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
             if (dbo.Wydarzenie.Find(id).id_organizator == id_user || dbo.Uczestnicy.Where(u => u.id_wydarzenie == id && u.id_uzytkownik == id_user && u.decyzja == true).FirstOrDefault() != null)
             {
-                IEnumerable<Wpis> wpis = dbo.Wpis.Include(w => w.Uzytkownik).Where(w => w.id_wydarzenie == id);
+                IEnumerable<Wpis> wpis = dbo.Wpis.Include(w => w.Uzytkownik).Where(w => w.id_wydarzenie == id).OrderByDescending(w=>w.id);
                 if (dbo.Wydarzenie.Find(id).DataArchiwizacji != null)
                 {
                     
@@ -229,18 +229,30 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             if (dbo.Wydarzenie.Find(wpisWpisZdjecia.Wpis.id_wydarzenie).id_organizator == id_user || dbo.Uczestnicy.Where(u => u.id_wydarzenie == wpisWpisZdjecia.Wpis.id_wydarzenie && u.id_uzytkownik == id_user && u.decyzja == true).FirstOrDefault() != null)
             {
                 Wpis wpis = wpisWpisZdjecia.Wpis;
-
+                if(wpis.Relacja == null && wpisWpisZdjecia.files[0] == null)
+                {
+                    if(wpisWpisZdjecia.Wpis.id_przebieg == null)
+                    {
+                        TempData["message"] = string.Format("Musisz dodać wpis lub przynajmniej jedno zdjęcie");
+                        return RedirectToAction("List", "Wpis", new { id = wpis.id_wydarzenie });
+                    }
+                    else
+                    {
+                        TempData["message"] = string.Format("Musisz dodać wpis lub przynajmniej jedno zdjęcie");
+                        return RedirectToAction("List", "Przebieg", new { id = wpis.id_wydarzenie });
+                    }
+                }
                 wpis.id_uzytkownik = Convert.ToInt32(User.Identity.GetUzytkownikId());
-
-
                 dbo.Wpis.Add(wpis);
                 dbo.SaveChanges();
-                
+                dbo.Powiadomienia_Add_Wpis(wpis.id_wydarzenie, wpis.id, wpis.id_uzytkownik);
                 int id = wpis.id;
-                foreach (HttpPostedFileBase image in wpisWpisZdjecia.files)
+                try
                 {
-                    try
+                    
+                    foreach (HttpPostedFileBase image in wpisWpisZdjecia.files)
                     {
+                    
                         if (image != null)
                         {
                             var InputFileName = Guid.NewGuid().ToString() + Path.GetExtension(image.FileName);
@@ -259,15 +271,17 @@ namespace KalendarzWydarzenRodzinnych.Controllers
 
 
                         }
+                    
+
+
+
+
                     }
+                }
                     catch (Exception e)
-                    {
-                        TempData["message"] = string.Format("Dodanie zdjęć nie powiodło się. Spróbuj ponownie lub skontaktuj się z administratorem aplikacji Błąd:" + e.ToString());
-                    }
-
-
-
-
+                {
+                    TempData["message"] = string.Format("Dodanie zdjęć nie powiodło się. Spróbuj ponownie lub skontaktuj się z administratorem aplikacji Błąd:" + e.ToString());
+                    dbo.Wpis_Delete(id);
                 }
 
                 return RedirectToAction("List", new { id = wpis.id_wydarzenie });
@@ -584,6 +598,46 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 TempData["message"] = string.Format("Brak dostępu");
                 return RedirectToAction("List", new { id = id });
             }
+        }
+        [HttpGet]
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu");
+                return RedirectToAction("List", "Wydarzenie");
+            }
+            Wpis wpis = dbo.Wpis.Find(id);
+            if (wpis == null)
+            {
+                TempData["message"] = string.Format("Błąd dostępu. Brak wybranego wpisu");
+                return RedirectToAction("List", "Wydarzenie");
+            }
+            var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            if (dbo.Wydarzenie.Find(wpis.id_wydarzenie).id_organizator == id_user)
+            {
+                if (dbo.Wydarzenie.Find(wpis.id_wydarzenie).DataArchiwizacji != null)
+                {
+                    TempData["message"] = string.Format("Brak dostępu");
+                    return RedirectToAction("List", new { id = id });
+                }
+
+                return View(wpis);
+            }
+            else
+            {
+                TempData["message"] = string.Format("Brak dostępu");
+                return RedirectToAction("List", "Przebieg", new { id = wpis.id_wydarzenie });
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            Wpis wpis = dbo.Wpis.Find(id);
+            dbo.Wpis_Delete(id);
+            return RedirectToAction("List", new { id = wpis.id_wydarzenie });
         }
         protected override void Dispose(bool disposing)
         {

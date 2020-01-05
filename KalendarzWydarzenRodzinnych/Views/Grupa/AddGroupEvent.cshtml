@@ -11,10 +11,10 @@
             <thead>
                 <tr>
                     <th>
-                        Nazwa
+                        @Html.DisplayNameFor(model => model.Nazwa)
                     </th>
                     <th>
-                        Opis
+                        @Html.DisplayNameFor(model => model.Opis)
                     </th>
                     <th>
 
@@ -32,7 +32,7 @@
                             @Html.DisplayFor(itemmodel => item.Opis)
                         </td>
                         <td>
-                            <a href="@Url.Action("AddGroupEvent", "Uczestnicy", new { id = item.id, idW=ViewBag.id_wydarzenie })" class="btn btn-success btn-sm success">
+                            <a href="@Url.Action("AddGroupEvent", "Uczestnicy", new { id = item.id, idW=ViewBag.id_wydarzenie })" class="btn btn-success pull-right btn-sm success">
                                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                             </a>
                         </td>

@@ -1,10 +1,10 @@
 ﻿@model KalendarzWydarzenRodzinnych.Models.WpisWpisZdjecia
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Dodaj relacje do przebiegu";
 }
 
-<h2>Create</h2>
+<h2>Dodaj relacje do przebiegu</h2>
 
 
 @using (Html.BeginForm("Create", "Wpis", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>WpisWpisZdjecia</h4>
+
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Wpis.id)
@@ -65,8 +65,25 @@
 
 
 @section Scripts {
- 
+
     @Scripts.Render("~/bundles/img")
     @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $("textarea").height($("textarea")[0].scrollHeight);
 
+    var textarea = document.querySelector('textarea');
+
+
+    textarea.addEventListener('keydown', autosize);
+
+    function autosize() {
+    var el = this;
+    setTimeout(function () {
+
+    el.style.cssText = 'height:auto; padding-bottom:0';
+
+    el.style.cssText = 'height:' + el.scrollHeight + 'px';
+    }, 0);
+    }
+</script>
 }

@@ -46,7 +46,7 @@
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Dodaj" class="btn btn-primary" />
-            @Html.ActionLink("Anuluj", "List", null, new { @class = "btn btn-default" })
+            @Html.ActionLink("Anuluj", "GetOpis", "Wydarzenie", new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default" })
         </div>
     </div>
 </div>
@@ -63,5 +63,21 @@
 
             });
         });
+        $("textarea").height($("textarea")[0].scrollHeight);
+
+        var textarea = document.querySelector('textarea');
+
+
+        textarea.addEventListener('keydown', autosize);
+
+        function autosize() {
+            var el = this;
+            setTimeout(function () {
+
+                el.style.cssText = 'height:auto; padding-bottom:0';
+
+                el.style.cssText = 'height:' + el.scrollHeight + 'px';
+            }, 0);
+        }
     </script>
 }

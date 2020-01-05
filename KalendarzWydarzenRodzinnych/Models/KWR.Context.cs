@@ -88,6 +88,23 @@ namespace KalendarzWydarzenRodzinnych.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Grupa_Usun", par_IdGrupaParameter);
         }
     
+        public virtual int Powiadomienia_Add_Wpis(Nullable<int> par_IdWydarzenie, Nullable<int> par_IdWpis, Nullable<int> par_IdUzytkownik)
+        {
+            var par_IdWydarzenieParameter = par_IdWydarzenie.HasValue ?
+                new ObjectParameter("Par_IdWydarzenie", par_IdWydarzenie) :
+                new ObjectParameter("Par_IdWydarzenie", typeof(int));
+    
+            var par_IdWpisParameter = par_IdWpis.HasValue ?
+                new ObjectParameter("Par_IdWpis", par_IdWpis) :
+                new ObjectParameter("Par_IdWpis", typeof(int));
+    
+            var par_IdUzytkownikParameter = par_IdUzytkownik.HasValue ?
+                new ObjectParameter("Par_IdUzytkownik", par_IdUzytkownik) :
+                new ObjectParameter("Par_IdUzytkownik", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Powiadomienia_Add_Wpis", par_IdWydarzenieParameter, par_IdWpisParameter, par_IdUzytkownikParameter);
+        }
+    
         public virtual int Powiadomienia_Edit(Nullable<int> par_IdWydarzenie)
         {
             var par_IdWydarzenieParameter = par_IdWydarzenie.HasValue ?
@@ -95,6 +112,15 @@ namespace KalendarzWydarzenRodzinnych.Models
                 new ObjectParameter("Par_IdWydarzenie", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Powiadomienia_Edit", par_IdWydarzenieParameter);
+        }
+    
+        public virtual int Powiadomienia_Usun(Nullable<int> par_IdPowiadomienia)
+        {
+            var par_IdPowiadomieniaParameter = par_IdPowiadomienia.HasValue ?
+                new ObjectParameter("Par_IdPowiadomienia", par_IdPowiadomienia) :
+                new ObjectParameter("Par_IdPowiadomienia", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Powiadomienia_Usun", par_IdPowiadomieniaParameter);
         }
     
         public virtual ObjectResult<Powiadomienia_Wyswietl_Result> Powiadomienia_Wyswietl(Nullable<int> par_IdUzytkownik)
@@ -302,24 +328,6 @@ namespace KalendarzWydarzenRodzinnych.Models
                 new ObjectParameter("Par_id_uzytkownik", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Zaproszenie_Potwierdz", par_id_wydarzenieParameter, par_id_uzytkownikParameter);
-        }
-    
-        public virtual int Powiadomienia_Usun(Nullable<int> par_IdPowiadomienia)
-        {
-            var par_IdPowiadomieniaParameter = par_IdPowiadomienia.HasValue ?
-                new ObjectParameter("Par_IdPowiadomienia", par_IdPowiadomienia) :
-                new ObjectParameter("Par_IdPowiadomienia", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Powiadomienia_Usun", par_IdPowiadomieniaParameter);
-        }
-    
-        public virtual int Powiadomienia_Add_Wpis(Nullable<int> par_IdWydarzenie)
-        {
-            var par_IdWydarzenieParameter = par_IdWydarzenie.HasValue ?
-                new ObjectParameter("Par_IdWydarzenie", par_IdWydarzenie) :
-                new ObjectParameter("Par_IdWydarzenie", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Powiadomienia_Add_Wpis", par_IdWydarzenieParameter);
         }
     }
 }

@@ -1,18 +1,18 @@
-﻿@model KalendarzWydarzenRodzinnych.Models.Przebieg
+﻿@model KalendarzWydarzenRodzinnych.Models.Wpis
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Usuń wpis";
 }
 
-<h2>Usuń</h2>
+<h2>Usuń wpis</h2>
 
 <h3>Czy napewno chcesz usunąć element?</h3>
 <div>
 
     <hr />
 
-    <h4>Czy napewno chcesz usunąć element: @Model.Tytul, który należy do wydarzenia: @Model.Wydarzenie.Tytul.</h4>
-    <h5>Usunięie przebiegu spowoduje utratę wszystkich relacji, które go dotyczyły.</h5>
+    <h4>Czy napewno chcesz usunąć relacje, która należy do wydarzenia: @Model.Wydarzenie.Tytul.</h4>
+    <h5>Usunięie relacji spowoduje utratę wszystkich zdjęć, które do niej należą.</h5>
 
     @using (Html.BeginForm())
     {

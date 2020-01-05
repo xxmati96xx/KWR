@@ -1,10 +1,10 @@
 ﻿@model KalendarzWydarzenRodzinnych.Models.WpisWpisZdjecia
 
 @{
-    ViewBag.Title = "Edycja wpisu";
+    ViewBag.Title = "Edycja relacji";
 }
 
-<h2>Edytuj wpis</h2>
+<h2>Edytuj relacje</h2>
 @using (Html.BeginForm("Edit", "Wpis", FormMethod.Post, new { enctype = "multipart/form-data", nameof = "form1" }))
 {
     @Html.AntiForgeryToken()
@@ -45,12 +45,12 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10 pull-right">
-                <input type="submit" value="Dodaj" class="btn btn-primary" />
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
 
 
 
-                <button type="reset" class="btn btn-default" onclick="goBack()">Anuluj i powrót</button>
-
+                
+                @Html.ActionLink("Powrót", "List", "Wpis",new { id = Model.Wpis.id_wydarzenie }, new { @class = "btn btn-default" })
 
             </div>
         </div>
