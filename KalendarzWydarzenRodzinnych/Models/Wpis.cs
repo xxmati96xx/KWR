@@ -19,21 +19,24 @@ namespace KalendarzWydarzenRodzinnych.Models
         public Wpis()
         {
             this.WpisZdjecia = new HashSet<WpisZdjecia>();
+            this.Powiadomienia = new HashSet<Powiadomienia>();
         }
     
         public int id { get; set; }
         [DataType(DataType.MultilineText)]
         public string Relacja { get; set; }
         public Nullable<int> id_wydarzenie { get; set; }
-        public string Tytul { get; set; }
         public Nullable<int> id_przebieg { get; set; }
         public int id_uzytkownik { get; set; }
+        public string Tytul { get; set; }
         public Nullable<System.DateTime> data_dodania { get; set; }
     
+        public virtual Przebieg Przebieg { get; set; }
+        public virtual Uzytkownik Uzytkownik { get; set; }
         public virtual Wydarzenie Wydarzenie { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WpisZdjecia> WpisZdjecia { get; set; }
-        public virtual Uzytkownik Uzytkownik { get; set; }
-        public virtual Przebieg Przebieg { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Powiadomienia> Powiadomienia { get; set; }
     }
 }

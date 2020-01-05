@@ -88,6 +88,7 @@
           <Property Name="Data" Type="date" />
           <Property Name="Przeczytana" Type="bit" Nullable="false" />
           <Property Name="tmp" Type="int" />
+          <Property Name="id_wpis" Type="int" />
         </EntityType>
         <EntityType Name="Powiadomienie">
           <Key>
@@ -330,6 +331,18 @@
             </Principal>
             <Dependent Role="Powiadomienia">
               <PropertyRef Name="id_uzytkownik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Powiadomienia_Wpis">
+          <End Role="Wpis" Type="Self.Wpis" Multiplicity="0..1" />
+          <End Role="Powiadomienia" Type="Self.Powiadomienia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wpis">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Powiadomienia">
+              <PropertyRef Name="id_wpis" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -622,6 +635,9 @@
         <Function Name="Grupa_Usun" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdGrupa" Type="int" Mode="In" />
         </Function>
+        <Function Name="Powiadomienia_Add_Wpis" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_IdWydarzenie" Type="int" Mode="In" />
+        </Function>
         <Function Name="Powiadomienia_Edit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdWydarzenie" Type="int" Mode="In" />
         </Function>
@@ -750,6 +766,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Powiadomienia_Uzytkownik" Association="Self.FK_Powiadomienia_Uzytkownik">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Powiadomienia" EntitySet="Powiadomienia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Powiadomienia_Wpis" Association="Self.FK_Powiadomienia_Wpis">
+            <End Role="Wpis" EntitySet="Wpis" />
             <End Role="Powiadomienia" EntitySet="Powiadomienia" />
           </AssociationSet>
           <AssociationSet Name="FK_Powiadomienia_Wydarzenie" Association="Self.FK_Powiadomienia_Wydarzenie">
@@ -937,6 +957,8 @@
           <Property Name="tmp" Type="Int32" />
           <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Powiadomienia_Uzytkownik" FromRole="Powiadomienia" ToRole="Uzytkownik" />
           <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Powiadomienia_Wydarzenie" FromRole="Powiadomienia" ToRole="Wydarzenie" />
+          <Property Name="id_wpis" Type="Int32" />
+          <NavigationProperty Name="Wpis" Relationship="KWRModel.FK_Powiadomienia_Wpis" FromRole="Powiadomienia" ToRole="Wpis" />
         </EntityType>
         <EntityType Name="Powiadomienie">
           <Key>
@@ -1038,6 +1060,7 @@
           <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Wpis_Uzytkownik" FromRole="Wpis" ToRole="Uzytkownik" />
           <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Wpis_Wydarzenie" FromRole="Wpis" ToRole="Wydarzenie" />
           <NavigationProperty Name="WpisZdjecia" Relationship="Self.FK_WpisZdjecia_Wpis" FromRole="Wpis" ToRole="WpisZdjecia" />
+          <NavigationProperty Name="Powiadomienia" Relationship="KWRModel.FK_Powiadomienia_Wpis" FromRole="Wpis" ToRole="Powiadomienia" />
         </EntityType>
         <EntityType Name="WpisZdjecia">
           <Key>
@@ -1711,7 +1734,14 @@
             <Parameter Name="Par_id_uzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Powiadomienia_Usun">
-            <Parameter Name="Par_IdPowiadomienia" Mode="In" Type="Int32" />
+          <Parameter Name="Par_IdPowiadomienia" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <AssociationSet Name="FK_Powiadomienia_Wpis" Association="KWRModel.FK_Powiadomienia_Wpis">
+            <End Role="Wpis" EntitySet="Wpis" />
+            <End Role="Powiadomienia" EntitySet="Powiadomienia" />
+          </AssociationSet>
+          <FunctionImport Name="Powiadomienia_Add_Wpis">
+          <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="Powiadomienia_Wyswietl_Result">
@@ -1779,6 +1809,18 @@
           <Property Type="DateTime" Name="DataArchiwizacji" Nullable="true" />
           <Property Type="String" Name="Status_Archwizacji" Nullable="true" MaxLength="100" />
         </ComplexType>
+        <Association Name="FK_Powiadomienia_Wpis">
+          <End Type="KWRModel.Wpis" Role="Wpis" Multiplicity="0..1" />
+          <End Type="KWRModel.Powiadomienia" Role="Powiadomienia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wpis">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Powiadomienia">
+              <PropertyRef Name="id_wpis" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1856,6 +1898,7 @@
           <EntitySetMapping Name="Powiadomienia">
             <EntityTypeMapping TypeName="KWRModel.Powiadomienia">
               <MappingFragment StoreEntitySet="Powiadomienia">
+                <ScalarProperty Name="id_wpis" ColumnName="id_wpis" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="id_uzytkownik" ColumnName="id_uzytkownik" />
                 <ScalarProperty Name="id_wydarzenie" ColumnName="id_wydarzenie" />
@@ -2126,6 +2169,7 @@
           <FunctionImportMapping FunctionImportName="Zaproszenie_Anuluj" FunctionName="KWRModel.Store.Zaproszenie_Anuluj" />
           <FunctionImportMapping FunctionImportName="Zaproszenie_Potwierdz" FunctionName="KWRModel.Store.Zaproszenie_Potwierdz" />
           <FunctionImportMapping FunctionImportName="Powiadomienia_Usun" FunctionName="KWRModel.Store.Powiadomienia_Usun" />
+          <FunctionImportMapping FunctionImportName="Powiadomienia_Add_Wpis" FunctionName="KWRModel.Store.Powiadomienia_Add_Wpis" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

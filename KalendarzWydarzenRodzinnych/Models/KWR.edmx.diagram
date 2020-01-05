@@ -56,6 +56,7 @@
         <AssociationConnector Association="KWRModel.FK_Zaproszenie_Wydarzenie" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_ZadanieUczestnik_Zadanie" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.AspNetUserRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="KWRModel.FK_Powiadomienia_Wpis" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

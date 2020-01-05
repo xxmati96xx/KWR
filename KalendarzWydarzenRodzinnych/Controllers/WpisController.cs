@@ -235,6 +235,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
 
                 dbo.Wpis.Add(wpis);
                 dbo.SaveChanges();
+                
                 int id = wpis.id;
                 foreach (HttpPostedFileBase image in wpisWpisZdjecia.files)
                 {

@@ -23,32 +23,118 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @if (item.rodzaj == (int)1)
-                {
-                <p>
-                    Organizator
-                    @Html.DisplayFor(itemmodel => item.Imie) @Html.DisplayFor(itemmodel => item.Nazwisko)
-                    edytował wydarzenie "
-                    @Html.DisplayFor(itemmodel => item.Tytul)
-                    " do którego należysz
+            if (item.Przeczytana)
+            {
+                <tr>
+                    <td>
+                        @if (item.rodzaj == (int)1)
+                        {
+                            <p>
+                                Organizator
+                                @Html.DisplayFor(itemmodel => item.Imie) @Html.DisplayFor(itemmodel => item.Nazwisko)
+                                edytował wydarzenie "
+                                @Html.DisplayFor(itemmodel => item.Tytul)
+                                " do którego należysz
+                            </p>
+                        }
+                        @if (item.rodzaj == (int)2)
+                        {
+                            <p>
+                                Organizator
+                                @Html.DisplayFor(itemmodel => item.Imie) @Html.DisplayFor(itemmodel => item.Nazwisko)
+                                dodał Cię jako uczestnika do wydarzenia "
+                                @Html.DisplayFor(itemmodel => item.Tytul)
+                                "
+                            </p>
+                        }
+                        @if (item.rodzaj == (int)3)
+                        {
+                            <p>
+                                Organizator
+                                @Html.DisplayFor(itemmodel => item.Imie) @Html.DisplayFor(itemmodel => item.Nazwisko)
+                                usunął Cię z wydarzenia  "
+                                @Html.DisplayFor(itemmodel => item.Tytul)
+                                "
+                            </p>
+                        }
+                        @if (item.rodzaj == (int)4)
+                        {
+                            <p>
+                                Użytkownik
+                                @Html.DisplayFor(itemmodel => item.Imie1) @Html.DisplayFor(itemmodel => item.Nazwisko1)
+                                dodał relację do wydarzenia "
+                                @Html.DisplayFor(itemmodel => item.Tytul)
+                                "
+                            </p>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(itemmodel => item.Data)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Delete", "Powiadomienia", new { id = item.id })" class="btn btn-danger btn-sm delete-button pull-right buttonmargin">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </a>
+                    </td>
 
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td id="bold">
+                        @if (item.rodzaj == (int)1)
+                        {
+                            <p>
+                                Organizator
+                                @Html.DisplayFor(itemmodel => item.Imie) @Html.DisplayFor(itemmodel => item.Nazwisko)
+                                edytował wydarzenie "
+                                @Html.DisplayFor(itemmodel => item.Tytul)
+                                " do którego należysz
+                            </p>
+                        }
+                        @if (item.rodzaj == (int)2)
+                        {
+                            <p>
+                                Organizator
+                                @Html.DisplayFor(itemmodel => item.Imie) @Html.DisplayFor(itemmodel => item.Nazwisko)
+                                dodał Cię jako uczestnika do wydarzenia "
+                                @Html.DisplayFor(itemmodel => item.Tytul)
+                                "
+                            </p>
+                        }
+                        @if (item.rodzaj == (int)3)
+                        {
+                            <p>
+                                Organizator
+                                @Html.DisplayFor(itemmodel => item.Imie) @Html.DisplayFor(itemmodel => item.Nazwisko)
+                                usunął Cię z wydarzenia  "
+                                @Html.DisplayFor(itemmodel => item.Tytul)
+                                "
+                            </p>
+                        }
+                        @if (item.rodzaj == (int)4)
+                        {
+                            <p>
+                                Użytkownik
+                                @Html.DisplayFor(itemmodel => item.Imie1) @Html.DisplayFor(itemmodel => item.Nazwisko1)
+                                dodał relację do wydarzenia "
+                                @Html.DisplayFor(itemmodel => item.Tytul)
+                                "
+                            </p>
+                        }
+                    </td>
+                    <td id="bold">
+                        @Html.DisplayFor(itemmodel => item.Data)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Delete", "Powiadomienia", new { id = item.id })" class="btn btn-danger btn-sm delete-button pull-right buttonmargin">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </a>
+                    </td>
 
-
-                </p>
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(itemmodel => item.Data)
-            </td>
-            <td>
-                <a href="@Url.Action("Delete", "Powiadomienia", new { id = item.id })" class="btn btn-danger btn-sm delete-button pull-right buttonmargin">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                </a>
-            </td>
-
-        </tr>
+                </tr>
+            }
         }
     </tbody>
 </table>

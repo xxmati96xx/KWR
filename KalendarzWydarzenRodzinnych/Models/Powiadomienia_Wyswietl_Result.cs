@@ -20,5 +20,7 @@ namespace KalendarzWydarzenRodzinnych.Models
         public bool Przeczytana { get; set; }
         public string Imie { get; set; }
         public string Nazwisko { get; set; }
+        public string Imie1 { get; set; }
+        public string Nazwisko1 { get; set; }
     }
 }

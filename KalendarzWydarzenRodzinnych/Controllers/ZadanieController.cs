@@ -196,6 +196,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 {
                     dbo.Entry(zadanie).State = EntityState.Modified;
                     dbo.SaveChanges();
+                    dbo.Powiadomienia_Edit(zadanie.id_wydarzenie);
                     return RedirectToAction("List", new { id = zadanie.id_wydarzenie });
                 }
                 else
