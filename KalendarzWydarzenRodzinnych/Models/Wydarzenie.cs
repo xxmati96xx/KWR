@@ -17,9 +17,9 @@ namespace KalendarzWydarzenRodzinnych.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Wydarzenie()
         {
-            this.Powiadomienia = new HashSet<Powiadomienia>();
             this.Powiadomienie = new HashSet<Powiadomienie>();
             this.Przebieg = new HashSet<Przebieg>();
+            this.Przypomnienie = new HashSet<Przypomnienie>();
             this.Uczestnicy = new HashSet<Uczestnicy>();
             this.Wpis = new HashSet<Wpis>();
             this.Zadanie = new HashSet<Zadanie>();
@@ -47,11 +47,11 @@ namespace KalendarzWydarzenRodzinnych.Models
         public string Status_Archwizacji { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Powiadomienia> Powiadomienia { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Powiadomienie> Powiadomienie { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Przebieg> Przebieg { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Przypomnienie> Przypomnienie { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Uczestnicy> Uczestnicy { get; set; }
         public virtual Uzytkownik Uzytkownik { get; set; }

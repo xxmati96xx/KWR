@@ -209,8 +209,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\GrupaController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\PowiadomieniaController.cs" />
     <Compile Include="Controllers\PowiadomienieController.cs" />
+    <Compile Include="Controllers\PrzypomnienieController.cs" />
     <Compile Include="Controllers\PrzebiegController.cs" />
     <Compile Include="Controllers\UczestnicyController.cs" />
     <Compile Include="Controllers\UzytkownikController.cs" />
@@ -260,12 +260,6 @@
     <Compile Include="Models\Odebrane_Wiadomosc.cs">
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Powiadomienia.cs">
-      <DependentUpon>KWR.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Powiadomienia_Wyswietl_Result.cs">
-      <DependentUpon>KWR.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Powiadomienie.cs">
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
@@ -273,6 +267,12 @@
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Przebieg.cs">
+      <DependentUpon>KWR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Przypomnienie.cs">
+      <DependentUpon>KWR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Przypomnienie_Wyswietl_Result.cs">
       <DependentUpon>KWR.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Uczestnicy.cs">
@@ -579,7 +579,7 @@
     <Content Include="Views\Wydarzenie\GetOpis.cshtml" />
     <Content Include="Views\Uzytkownik\addUser.cshtml" />
     <Content Include="Views\Zaproszenie\List.cshtml" />
-    <Content Include="Views\Powiadomienia\List.cshtml" />
+    <Content Include="Views\Powiadomienie\List.cshtml" />
     <Content Include="Views\Zadanie\List.cshtml" />
     <Content Include="Views\Zadanie\Edit.cshtml" />
     <Content Include="Views\Zadanie\Delete.cshtml" />
@@ -613,10 +613,10 @@
     <Content Include="Views\Wiadomosc\DeleteMessageReceived.cshtml" />
     <Content Include="Views\Wiadomosc\DeleteMessageReceivedConfirm.cshtml" />
     <Content Include="Views\Uzytkownik\UserProfile.cshtml" />
-    <Content Include="Views\Powiadomienie\List.cshtml" />
-    <Content Include="Views\Powiadomienie\Edit.cshtml" />
-    <Content Include="Views\Powiadomienie\AddNotification.cshtml" />
-    <Content Include="Views\Powiadomienie\AddNotificationUsers.cshtml" />
+    <Content Include="Views\Przypomnienie\List.cshtml" />
+    <Content Include="Views\Przypomnienie\Edit.cshtml" />
+    <Content Include="Views\Przypomnienie\AddNotification.cshtml" />
+    <Content Include="Views\Przypomnienie\AddNotificationUsers.cshtml" />
     <Content Include="Views\Wydarzenie\Create.cshtml" />
     <Content Include="Views\Wydarzenie\ListAll.cshtml" />
     <Content Include="Views\Wydarzenie\ListArchiwum.cshtml" />

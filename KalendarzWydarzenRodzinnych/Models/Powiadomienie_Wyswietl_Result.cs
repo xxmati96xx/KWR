@@ -14,16 +14,16 @@ namespace KalendarzWydarzenRodzinnych.Models
     public partial class Powiadomienie_Wyswietl_Result
     {
         public Nullable<int> id { get; set; }
-        [Display(Name = "Data przypomnienia")]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
-        public System.DateTime DataPowiadomienia { get; set; }
-        [Display(Name = "Treœæ")]
-        public string Tresc { get; set; }
-        [Display(Name = "Nazwa wydarzenia")]
         public string Tytul { get; set; }
-        public string identyfier { get; set; }
-        [Display(Name = "Rodzaj przypomnienia")]
-        public string rodzaj { get; set; }
+        public Nullable<int> rodzaj { get; set; }
+        [Display(Name = "Data powiadomienia")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public Nullable<System.DateTime> Data { get; set; }
+        public bool Przeczytana { get; set; }
+        public string Imie { get; set; }
+        public string Nazwisko { get; set; }
+        public string Imie1 { get; set; }
+        public string Nazwisko1 { get; set; }
     }
 }

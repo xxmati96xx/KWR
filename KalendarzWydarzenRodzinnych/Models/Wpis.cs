@@ -18,8 +18,8 @@ namespace KalendarzWydarzenRodzinnych.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Wpis()
         {
+            this.Powiadomienie = new HashSet<Powiadomienie>();
             this.WpisZdjecia = new HashSet<WpisZdjecia>();
-            this.Powiadomienia = new HashSet<Powiadomienia>();
         }
     
         public int id { get; set; }
@@ -31,12 +31,12 @@ namespace KalendarzWydarzenRodzinnych.Models
         public string Tytul { get; set; }
         public Nullable<System.DateTime> data_dodania { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Powiadomienie> Powiadomienie { get; set; }
         public virtual Przebieg Przebieg { get; set; }
         public virtual Uzytkownik Uzytkownik { get; set; }
         public virtual Wydarzenie Wydarzenie { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WpisZdjecia> WpisZdjecia { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Powiadomienia> Powiadomienia { get; set; }
     }
 }

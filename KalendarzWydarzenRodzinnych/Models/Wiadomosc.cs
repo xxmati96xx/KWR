@@ -19,7 +19,6 @@ namespace KalendarzWydarzenRodzinnych.Models
         public Wiadomosc()
         {
             this.Odebrane_Wiadomosc = new HashSet<Odebrane_Wiadomosc>();
-            this.Powiadomienia = new HashSet<Powiadomienia>();
             this.Wyslane_Wiadomosc = new HashSet<Wyslane_Wiadomosc>();
         }
     
@@ -31,8 +30,6 @@ namespace KalendarzWydarzenRodzinnych.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Odebrane_Wiadomosc> Odebrane_Wiadomosc { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Powiadomienia> Powiadomienia { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Wyslane_Wiadomosc> Wyslane_Wiadomosc { get; set; }
     }

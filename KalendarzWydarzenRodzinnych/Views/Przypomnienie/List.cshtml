@@ -1,0 +1,72 @@
+﻿@model IEnumerable<KalendarzWydarzenRodzinnych.Models.Przypomnienie_Wyswietl_Result>
+
+@{
+    ViewBag.Title = "Przypomnienia";
+}
+
+<h2>Przypomnienia</h2>
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-danger">@TempData["message"]</div>
+}
+
+<table id="table" class="table">
+    <thead>
+        <tr>
+            <th>
+
+                @Html.DisplayNameFor(model => model.Data)
+            </th>
+
+
+            <th>
+
+                @Html.DisplayNameFor(model => model.Tresc)
+            </th>
+
+
+            <th>
+
+                @Html.DisplayNameFor(model => model.Tytul)
+            </th>
+            <th>
+
+                @Html.DisplayNameFor(model => model.rodzaj)
+            </th>
+
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+
+                @Html.DisplayFor(itemmodel => item.Data)
+            </td>
+
+
+            <td>
+                @Html.DisplayFor(itemmodel => item.Tresc)
+            </td>
+            <td>
+                @Html.DisplayFor(itemmodel => item.Tytul)
+            </td>
+            <td>
+                @Html.DisplayFor(itemmodel => item.rodzaj)
+            </td>
+
+            <td>
+                <a href="@Url.Action("Delete", "Przypomnienie", new { id = item.id })" class="btn btn-danger btn-sm delete-button pull-right buttonmargin">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </a>
+                <a href="@Url.Action("Edit", "Przypomnienie", new { id = item.id })" class="btn btn-warning btn-sm edit-button pull-right buttonmargin">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                </a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

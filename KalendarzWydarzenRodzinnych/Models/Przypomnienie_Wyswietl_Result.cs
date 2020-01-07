@@ -11,19 +11,16 @@ namespace KalendarzWydarzenRodzinnych.Models
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    public partial class Powiadomienia_Wyswietl_Result
+    public partial class Przypomnienie_Wyswietl_Result
     {
         public Nullable<int> id { get; set; }
-        public string Tytul { get; set; }
-        public Nullable<int> rodzaj { get; set; }
-        [Display(Name = "Data powiadomienia")]
+        [Display(Name = "Data przypomnienia")]
         [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public Nullable<System.DateTime> Data { get; set; }
-        public bool Przeczytana { get; set; }
-        public string Imie { get; set; }
-        public string Nazwisko { get; set; }
-        public string Imie1 { get; set; }
-        public string Nazwisko1 { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
+        public System.DateTime Data { get; set; }
+        public string Tresc { get; set; }
+        public string Tytul { get; set; }
+        public string identyfier { get; set; }
+        public string rodzaj { get; set; }
     }
 }

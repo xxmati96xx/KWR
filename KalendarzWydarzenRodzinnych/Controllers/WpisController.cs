@@ -296,7 +296,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 wpis.id_uzytkownik = Convert.ToInt32(User.Identity.GetUzytkownikId());
                 dbo.Wpis.Add(wpis);
                 dbo.SaveChanges();
-                dbo.Powiadomienia_Add_Wpis(wpis.id_wydarzenie, wpis.id, wpis.id_uzytkownik);
+                dbo.Powiadomienie_Add_Wpis(wpis.id_wydarzenie, wpis.id, wpis.id_uzytkownik);
                 int id = wpis.id;
                 try
                 {

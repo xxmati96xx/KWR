@@ -4,16 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d2bd2d3d8d374e9e986d28f0643e499b" Name="Diagram1">
+      <Diagram DiagramId="d7fb9a37ee5841b9ac3c186105976816" Name="Diagram1">
         <EntityTypeShape EntityType="KWRModel.AspNetRoles" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
         <EntityTypeShape EntityType="KWRModel.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="KWRModel.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="KWRModel.AspNetUsers" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
         <EntityTypeShape EntityType="KWRModel.Grupa" Width="1.5" PointX="3" PointY="14.75" IsExpanded="true" />
         <EntityTypeShape EntityType="KWRModel.Odebrane_Wiadomosc" Width="1.5" PointX="3" PointY="18.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Powiadomienia" Width="1.5" PointX="5.25" PointY="26.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="KWRModel.Powiadomienie" Width="1.5" PointX="8.25" PointY="26.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Powiadomienie" Width="1.5" PointX="5.25" PointY="26.875" IsExpanded="true" />
         <EntityTypeShape EntityType="KWRModel.Przebieg" Width="1.5" PointX="5.25" PointY="36" IsExpanded="true" />
+        <EntityTypeShape EntityType="KWRModel.Przypomnienie" Width="1.5" PointX="8.25" PointY="26.875" IsExpanded="true" />
         <EntityTypeShape EntityType="KWRModel.Uczestnicy" Width="1.5" PointX="5.25" PointY="31.25" IsExpanded="true" />
         <EntityTypeShape EntityType="KWRModel.UzytkownicyWGrupie" Width="1.5" PointX="5.25" PointY="17.125" IsExpanded="true" />
         <EntityTypeShape EntityType="KWRModel.Uzytkownik" Width="1.5" PointX="0.75" PointY="16.25" IsExpanded="true" />
@@ -32,14 +32,14 @@
         <AssociationConnector Association="KWRModel.FK_Odebrane_Wiadomosc_Do" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Odebrane_Wiadomosc_Od" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Odebrane_Wiadomosc_Wiadomosc" ManuallyRouted="false" />
-        <AssociationConnector Association="KWRModel.FK_Powiadomienia_Uzytkownik" ManuallyRouted="false" />
-        <AssociationConnector Association="KWRModel.FK_Powiadomienia_Wpis" ManuallyRouted="false" />
-        <AssociationConnector Association="KWRModel.FK_Powiadomienia_Wydarzenie" ManuallyRouted="false" />
-        <AssociationConnector Association="KWRModel.FK_Powiadomienie_Organizator" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Powiadomienie_Uzytkownik" ManuallyRouted="false" />
+        <AssociationConnector Association="KWRModel.FK_Powiadomienie_Wpis" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Powiadomienie_Wydarzenie" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Przebieg_Wydarzenie" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Wpis_Przebieg" ManuallyRouted="false" />
+        <AssociationConnector Association="KWRModel.FK_Przypomnienie_Organizator" ManuallyRouted="false" />
+        <AssociationConnector Association="KWRModel.FK_Przypomnienie_Uzytkownik" ManuallyRouted="false" />
+        <AssociationConnector Association="KWRModel.FK_Przypomnienie_Wydarzenie" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Uczestnicy_Uzytkownik" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_Uczestnicy_Wydarzenie" ManuallyRouted="false" />
         <AssociationConnector Association="KWRModel.FK_UzytkownicyWGrupie_Uzytkownik" ManuallyRouted="false" />

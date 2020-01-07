@@ -15,22 +15,19 @@ namespace KalendarzWydarzenRodzinnych.Models
     public partial class Powiadomienie
     {
         public int id { get; set; }
-        [Display(Name = "Data przypomnienia")]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
-        public System.DateTime DataPowiadomienia { get; set; }
-        public int id_wydarzenie { get; set; }
         public int id_uzytkownik { get; set; }
-        [Display(Name = "Treœæ")]
-        [DataType(DataType.MultilineText)]
-        public string Tresc { get; set; }
-        public string identyfier { get; set; }
-        public Nullable<int> id_organizator { get; set; }
-        [Display(Name = "Rodzaj przypomnienia")]
-        public string rodzaj { get; set; }
+        public Nullable<int> id_wydarzenie { get; set; }
+        public Nullable<int> rodzaj { get; set; }
+        [Display(Name = "Data powiadomienia")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public Nullable<System.DateTime> Data { get; set; }
+        public bool Przeczytana { get; set; }
+        public Nullable<int> tmp { get; set; }
+        public Nullable<int> id_wpis { get; set; }
     
         public virtual Uzytkownik Uzytkownik { get; set; }
-        public virtual Uzytkownik Uzytkownik1 { get; set; }
+        public virtual Wpis Wpis { get; set; }
         public virtual Wydarzenie Wydarzenie { get; set; }
     }
 }

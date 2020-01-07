@@ -1,4 +1,4 @@
-﻿@model KalendarzWydarzenRodzinnych.Models.Powiadomienie
+﻿@model KalendarzWydarzenRodzinnych.Models.Przypomnienie
 
 @{
     ViewBag.Title = "Edycja przypomnienia";
@@ -22,10 +22,10 @@
     @Html.HiddenFor(model => model.rodzaj)
 
     <div class="form-group">
-        @Html.LabelFor(model => model.DataPowiadomienia, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Data, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.DataPowiadomienia, new { htmlAttributes = new { @class = "form-control datapicker" } })
-            @Html.ValidationMessageFor(model => model.DataPowiadomienia, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Data, new { htmlAttributes = new { @class = "form-control datapicker" } })
+            @Html.ValidationMessageFor(model => model.Data, "", new { @class = "text-danger" })
         </div>
     </div>
 

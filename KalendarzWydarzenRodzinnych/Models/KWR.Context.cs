@@ -33,9 +33,9 @@ namespace KalendarzWydarzenRodzinnych.Models
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<Grupa> Grupa { get; set; }
         public virtual DbSet<Odebrane_Wiadomosc> Odebrane_Wiadomosc { get; set; }
-        public virtual DbSet<Powiadomienia> Powiadomienia { get; set; }
         public virtual DbSet<Powiadomienie> Powiadomienie { get; set; }
         public virtual DbSet<Przebieg> Przebieg { get; set; }
+        public virtual DbSet<Przypomnienie> Przypomnienie { get; set; }
         public virtual DbSet<Uczestnicy> Uczestnicy { get; set; }
         public virtual DbSet<UzytkownicyWGrupie> UzytkownicyWGrupie { get; set; }
         public virtual DbSet<Uzytkownik> Uzytkownik { get; set; }
@@ -88,7 +88,7 @@ namespace KalendarzWydarzenRodzinnych.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Grupa_Usun", par_IdGrupaParameter);
         }
     
-        public virtual int Powiadomienia_Add_Wpis(Nullable<int> par_IdWydarzenie, Nullable<int> par_IdWpis, Nullable<int> par_IdUzytkownik)
+        public virtual int Powiadomienie_Add_Wpis(Nullable<int> par_IdWydarzenie, Nullable<int> par_IdWpis, Nullable<int> par_IdUzytkownik)
         {
             var par_IdWydarzenieParameter = par_IdWydarzenie.HasValue ?
                 new ObjectParameter("Par_IdWydarzenie", par_IdWydarzenie) :
@@ -102,43 +102,25 @@ namespace KalendarzWydarzenRodzinnych.Models
                 new ObjectParameter("Par_IdUzytkownik", par_IdUzytkownik) :
                 new ObjectParameter("Par_IdUzytkownik", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Powiadomienia_Add_Wpis", par_IdWydarzenieParameter, par_IdWpisParameter, par_IdUzytkownikParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Powiadomienie_Add_Wpis", par_IdWydarzenieParameter, par_IdWpisParameter, par_IdUzytkownikParameter);
         }
     
-        public virtual int Powiadomienia_Edit(Nullable<int> par_IdWydarzenie)
+        public virtual int Powiadomienie_Edit(Nullable<int> par_IdWydarzenie)
         {
             var par_IdWydarzenieParameter = par_IdWydarzenie.HasValue ?
                 new ObjectParameter("Par_IdWydarzenie", par_IdWydarzenie) :
                 new ObjectParameter("Par_IdWydarzenie", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Powiadomienia_Edit", par_IdWydarzenieParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Powiadomienie_Edit", par_IdWydarzenieParameter);
         }
     
-        public virtual int Powiadomienia_Usun(Nullable<int> par_IdPowiadomienia)
+        public virtual int Powiadomienie_Usun(Nullable<int> par_IdPowiadomienie)
         {
-            var par_IdPowiadomieniaParameter = par_IdPowiadomienia.HasValue ?
-                new ObjectParameter("Par_IdPowiadomienia", par_IdPowiadomienia) :
-                new ObjectParameter("Par_IdPowiadomienia", typeof(int));
+            var par_IdPowiadomienieParameter = par_IdPowiadomienie.HasValue ?
+                new ObjectParameter("Par_IdPowiadomienie", par_IdPowiadomienie) :
+                new ObjectParameter("Par_IdPowiadomienie", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Powiadomienia_Usun", par_IdPowiadomieniaParameter);
-        }
-    
-        public virtual ObjectResult<Powiadomienia_Wyswietl_Result> Powiadomienia_Wyswietl(Nullable<int> par_IdUzytkownik)
-        {
-            var par_IdUzytkownikParameter = par_IdUzytkownik.HasValue ?
-                new ObjectParameter("Par_IdUzytkownik", par_IdUzytkownik) :
-                new ObjectParameter("Par_IdUzytkownik", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Powiadomienia_Wyswietl_Result>("Powiadomienia_Wyswietl", par_IdUzytkownikParameter);
-        }
-    
-        public virtual int Powiadomienie_Usun(string par_identyfier)
-        {
-            var par_identyfierParameter = par_identyfier != null ?
-                new ObjectParameter("Par_identyfier", par_identyfier) :
-                new ObjectParameter("Par_identyfier", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Powiadomienie_Usun", par_identyfierParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Powiadomienie_Usun", par_IdPowiadomienieParameter);
         }
     
         public virtual ObjectResult<Powiadomienie_Wyswietl_Result> Powiadomienie_Wyswietl(Nullable<int> par_IdUzytkownik)
@@ -150,11 +132,38 @@ namespace KalendarzWydarzenRodzinnych.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Powiadomienie_Wyswietl_Result>("Powiadomienie_Wyswietl", par_IdUzytkownikParameter);
         }
     
-        public virtual int Powiadomienie_Zmiana(Nullable<System.DateTime> par_DataPowiadomienia, string par_Tresc, string par_identyfier)
+        public virtual int Przebieg_Delete(Nullable<int> par_IdPrzebieg)
         {
-            var par_DataPowiadomieniaParameter = par_DataPowiadomienia.HasValue ?
-                new ObjectParameter("Par_DataPowiadomienia", par_DataPowiadomienia) :
-                new ObjectParameter("Par_DataPowiadomienia", typeof(System.DateTime));
+            var par_IdPrzebiegParameter = par_IdPrzebieg.HasValue ?
+                new ObjectParameter("Par_IdPrzebieg", par_IdPrzebieg) :
+                new ObjectParameter("Par_IdPrzebieg", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Przebieg_Delete", par_IdPrzebiegParameter);
+        }
+    
+        public virtual int Przypomnienie_Usun(string par_identyfier)
+        {
+            var par_identyfierParameter = par_identyfier != null ?
+                new ObjectParameter("Par_identyfier", par_identyfier) :
+                new ObjectParameter("Par_identyfier", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Przypomnienie_Usun", par_identyfierParameter);
+        }
+    
+        public virtual ObjectResult<Przypomnienie_Wyswietl_Result> Przypomnienie_Wyswietl(Nullable<int> par_IdUzytkownik)
+        {
+            var par_IdUzytkownikParameter = par_IdUzytkownik.HasValue ?
+                new ObjectParameter("Par_IdUzytkownik", par_IdUzytkownik) :
+                new ObjectParameter("Par_IdUzytkownik", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Przypomnienie_Wyswietl_Result>("Przypomnienie_Wyswietl", par_IdUzytkownikParameter);
+        }
+    
+        public virtual int Przypomnienie_Zmiana(Nullable<System.DateTime> par_Data, string par_Tresc, string par_identyfier)
+        {
+            var par_DataParameter = par_Data.HasValue ?
+                new ObjectParameter("Par_Data", par_Data) :
+                new ObjectParameter("Par_Data", typeof(System.DateTime));
     
             var par_TrescParameter = par_Tresc != null ?
                 new ObjectParameter("Par_Tresc", par_Tresc) :
@@ -164,16 +173,7 @@ namespace KalendarzWydarzenRodzinnych.Models
                 new ObjectParameter("Par_identyfier", par_identyfier) :
                 new ObjectParameter("Par_identyfier", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Powiadomienie_Zmiana", par_DataPowiadomieniaParameter, par_TrescParameter, par_identyfierParameter);
-        }
-    
-        public virtual int Przebieg_Delete(Nullable<int> par_IdPrzebieg)
-        {
-            var par_IdPrzebiegParameter = par_IdPrzebieg.HasValue ?
-                new ObjectParameter("Par_IdPrzebieg", par_IdPrzebieg) :
-                new ObjectParameter("Par_IdPrzebieg", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Przebieg_Delete", par_IdPrzebiegParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("Przypomnienie_Zmiana", par_DataParameter, par_TrescParameter, par_identyfierParameter);
         }
     
         public virtual int Wiadomosc_Przeczytana(Nullable<int> par_IdWiadomoscOdebrana)

@@ -77,7 +77,7 @@
           <Property Name="Data" Type="datetime" />
           <Property Name="Przeczytana" Type="bit" />
         </EntityType>
-        <EntityType Name="Powiadomienia">
+        <EntityType Name="Powiadomienie">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -90,19 +90,6 @@
           <Property Name="tmp" Type="int" />
           <Property Name="id_wpis" Type="int" />
         </EntityType>
-        <EntityType Name="Powiadomienie">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="DataPowiadomienia" Type="datetime" Nullable="false" />
-          <Property Name="id_wydarzenie" Type="int" Nullable="false" />
-          <Property Name="id_uzytkownik" Type="int" Nullable="false" />
-          <Property Name="Tresc" Type="varchar" MaxLength="400" />
-          <Property Name="identyfier" Type="varchar" MaxLength="500" />
-          <Property Name="id_organizator" Type="int" />
-          <Property Name="rodzaj" Type="varchar" MaxLength="30" Nullable="false" />
-        </EntityType>
         <EntityType Name="Przebieg">
           <Key>
             <PropertyRef Name="id" />
@@ -111,6 +98,19 @@
           <Property Name="Opis" Type="varchar" MaxLength="8000" />
           <Property Name="id_wydarzenie" Type="int" Nullable="false" />
           <Property Name="Tytul" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Przypomnienie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Data" Type="datetime" Nullable="false" />
+          <Property Name="id_wydarzenie" Type="int" Nullable="false" />
+          <Property Name="id_uzytkownik" Type="int" Nullable="false" />
+          <Property Name="Tresc" Type="varchar" MaxLength="400" />
+          <Property Name="identyfier" Type="varchar" MaxLength="500" />
+          <Property Name="id_organizator" Type="int" />
+          <Property Name="rodzaj" Type="varchar" MaxLength="30" Nullable="false" />
         </EntityType>
         <EntityType Name="Uczestnicy">
           <Key>
@@ -322,54 +322,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Powiadomienia_Uzytkownik">
-          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
-          <End Role="Powiadomienia" Type="Self.Powiadomienia" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Uzytkownik">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Powiadomienia">
-              <PropertyRef Name="id_uzytkownik" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Powiadomienia_Wpis">
-          <End Role="Wpis" Type="Self.Wpis" Multiplicity="0..1" />
-          <End Role="Powiadomienia" Type="Self.Powiadomienia" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Wpis">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Powiadomienia">
-              <PropertyRef Name="id_wpis" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Powiadomienia_Wydarzenie">
-          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="0..1" />
-          <End Role="Powiadomienia" Type="Self.Powiadomienia" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Wydarzenie">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Powiadomienia">
-              <PropertyRef Name="id_wydarzenie" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Powiadomienie_Organizator">
-          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="0..1" />
-          <End Role="Powiadomienie" Type="Self.Powiadomienie" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Uzytkownik">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Powiadomienie">
-              <PropertyRef Name="id_organizator" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Powiadomienie_Uzytkownik">
           <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
           <End Role="Powiadomienie" Type="Self.Powiadomienie" Multiplicity="*" />
@@ -382,8 +334,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Powiadomienie_Wpis">
+          <End Role="Wpis" Type="Self.Wpis" Multiplicity="0..1" />
+          <End Role="Powiadomienie" Type="Self.Powiadomienie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wpis">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Powiadomienie">
+              <PropertyRef Name="id_wpis" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Powiadomienie_Wydarzenie">
-          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="1" />
+          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="0..1" />
           <End Role="Powiadomienie" Type="Self.Powiadomienie" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Wydarzenie">
@@ -402,6 +366,42 @@
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Przebieg">
+              <PropertyRef Name="id_wydarzenie" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Przypomnienie_Organizator">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="0..1" />
+          <End Role="Przypomnienie" Type="Self.Przypomnienie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Przypomnienie">
+              <PropertyRef Name="id_organizator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Przypomnienie_Uzytkownik">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Przypomnienie" Type="Self.Przypomnienie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Przypomnienie">
+              <PropertyRef Name="id_uzytkownik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Przypomnienie_Wydarzenie">
+          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="1" />
+          <End Role="Przypomnienie" Type="Self.Przypomnienie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wydarzenie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Przypomnienie">
               <PropertyRef Name="id_wydarzenie" />
             </Dependent>
           </ReferentialConstraint>
@@ -635,33 +635,33 @@
         <Function Name="Grupa_Usun" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdGrupa" Type="int" Mode="In" />
         </Function>
-        <Function Name="Powiadomienia_Add_Wpis" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="Powiadomienie_Add_Wpis" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdWydarzenie" Type="int" Mode="In" />
           <Parameter Name="Par_IdWpis" Type="int" Mode="In" />
           <Parameter Name="Par_IdUzytkownik" Type="int" Mode="In" />
         </Function>
-        <Function Name="Powiadomienia_Edit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="Powiadomienie_Edit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdWydarzenie" Type="int" Mode="In" />
         </Function>
-        <Function Name="Powiadomienia_Usun" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Par_IdPowiadomienia" Type="int" Mode="In" />
-        </Function>
-        <Function Name="Powiadomienia_Wyswietl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Par_IdUzytkownik" Type="int" Mode="In" />
-        </Function>
         <Function Name="Powiadomienie_Usun" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Par_identyfier" Type="varchar" Mode="In" />
+          <Parameter Name="Par_IdPowiadomienie" Type="int" Mode="In" />
         </Function>
         <Function Name="Powiadomienie_Wyswietl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdUzytkownik" Type="int" Mode="In" />
         </Function>
-        <Function Name="Powiadomienie_Zmiana" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="Par_DataPowiadomienia" Type="datetime" Mode="In" />
-          <Parameter Name="Par_Tresc" Type="varchar" Mode="In" />
-          <Parameter Name="Par_identyfier" Type="varchar" Mode="In" />
-        </Function>
         <Function Name="Przebieg_Delete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdPrzebieg" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Przypomnienie_Usun" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_identyfier" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Przypomnienie_Wyswietl" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_IdUzytkownik" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Przypomnienie_Zmiana" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Par_Data" Type="datetime" Mode="In" />
+          <Parameter Name="Par_Tresc" Type="varchar" Mode="In" />
+          <Parameter Name="Par_identyfier" Type="varchar" Mode="In" />
         </Function>
         <Function Name="Wiadomosc_Przeczytana" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Par_IdWiadomoscOdebrana" Type="int" Mode="In" />
@@ -720,9 +720,9 @@
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Grupa" EntityType="Self.Grupa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Odebrane_Wiadomosc" EntityType="Self.Odebrane_Wiadomosc" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Powiadomienia" EntityType="Self.Powiadomienia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Powiadomienie" EntityType="Self.Powiadomienie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Przebieg" EntityType="Self.Przebieg" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Przypomnienie" EntityType="Self.Przypomnienie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Uczestnicy" EntityType="Self.Uczestnicy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UzytkownicyWGrupie" EntityType="Self.UzytkownicyWGrupie" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Uzytkownik" EntityType="Self.Uzytkownik" Schema="dbo" store:Type="Tables" />
@@ -766,24 +766,12 @@
             <End Role="Wiadomosc" EntitySet="Wiadomosc" />
             <End Role="Odebrane_Wiadomosc" EntitySet="Odebrane_Wiadomosc" />
           </AssociationSet>
-          <AssociationSet Name="FK_Powiadomienia_Uzytkownik" Association="Self.FK_Powiadomienia_Uzytkownik">
-            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
-            <End Role="Powiadomienia" EntitySet="Powiadomienia" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Powiadomienia_Wpis" Association="Self.FK_Powiadomienia_Wpis">
-            <End Role="Wpis" EntitySet="Wpis" />
-            <End Role="Powiadomienia" EntitySet="Powiadomienia" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Powiadomienia_Wydarzenie" Association="Self.FK_Powiadomienia_Wydarzenie">
-            <End Role="Wydarzenie" EntitySet="Wydarzenie" />
-            <End Role="Powiadomienia" EntitySet="Powiadomienia" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Powiadomienie_Organizator" Association="Self.FK_Powiadomienie_Organizator">
+          <AssociationSet Name="FK_Powiadomienie_Uzytkownik" Association="Self.FK_Powiadomienie_Uzytkownik">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
             <End Role="Powiadomienie" EntitySet="Powiadomienie" />
           </AssociationSet>
-          <AssociationSet Name="FK_Powiadomienie_Uzytkownik" Association="Self.FK_Powiadomienie_Uzytkownik">
-            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+          <AssociationSet Name="FK_Powiadomienie_Wpis" Association="Self.FK_Powiadomienie_Wpis">
+            <End Role="Wpis" EntitySet="Wpis" />
             <End Role="Powiadomienie" EntitySet="Powiadomienie" />
           </AssociationSet>
           <AssociationSet Name="FK_Powiadomienie_Wydarzenie" Association="Self.FK_Powiadomienie_Wydarzenie">
@@ -793,6 +781,18 @@
           <AssociationSet Name="FK_Przebieg_Wydarzenie" Association="Self.FK_Przebieg_Wydarzenie">
             <End Role="Wydarzenie" EntitySet="Wydarzenie" />
             <End Role="Przebieg" EntitySet="Przebieg" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Przypomnienie_Organizator" Association="Self.FK_Przypomnienie_Organizator">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Przypomnienie" EntitySet="Przypomnienie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Przypomnienie_Uzytkownik" Association="Self.FK_Przypomnienie_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Przypomnienie" EntitySet="Przypomnienie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Przypomnienie_Wydarzenie" Association="Self.FK_Przypomnienie_Wydarzenie">
+            <End Role="Wydarzenie" EntitySet="Wydarzenie" />
+            <End Role="Przypomnienie" EntitySet="Przypomnienie" />
           </AssociationSet>
           <AssociationSet Name="FK_Uczestnicy_Uzytkownik" Association="Self.FK_Uczestnicy_Uzytkownik">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
@@ -947,7 +947,7 @@
           <NavigationProperty Name="Uzytkownik1" Relationship="Self.FK_Odebrane_Wiadomosc_Od" FromRole="Odebrane_Wiadomosc" ToRole="Uzytkownik" />
           <NavigationProperty Name="Wiadomosc" Relationship="Self.FK_Odebrane_Wiadomosc_Wiadomosc" FromRole="Odebrane_Wiadomosc" ToRole="Wiadomosc" />
         </EntityType>
-        <EntityType Name="Powiadomienia">
+        <EntityType Name="Powiadomienie">
           <Key>
             <PropertyRef Name="id" />
           </Key>
@@ -959,24 +959,8 @@
           <Property Name="Przeczytana" Type="Boolean" Nullable="false" />
           <Property Name="tmp" Type="Int32" />
           <Property Name="id_wpis" Type="Int32" />
-          <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Powiadomienia_Uzytkownik" FromRole="Powiadomienia" ToRole="Uzytkownik" />
-          <NavigationProperty Name="Wpis" Relationship="Self.FK_Powiadomienia_Wpis" FromRole="Powiadomienia" ToRole="Wpis" />
-          <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Powiadomienia_Wydarzenie" FromRole="Powiadomienia" ToRole="Wydarzenie" />
-        </EntityType>
-        <EntityType Name="Powiadomienie">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DataPowiadomienia" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="id_wydarzenie" Type="Int32" Nullable="false" />
-          <Property Name="id_uzytkownik" Type="Int32" Nullable="false" />
-          <Property Name="Tresc" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
-          <Property Name="identyfier" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="id_organizator" Type="Int32" />
-          <Property Name="rodzaj" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Powiadomienie_Organizator" FromRole="Powiadomienie" ToRole="Uzytkownik" />
-          <NavigationProperty Name="Uzytkownik1" Relationship="Self.FK_Powiadomienie_Uzytkownik" FromRole="Powiadomienie" ToRole="Uzytkownik" />
+          <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Powiadomienie_Uzytkownik" FromRole="Powiadomienie" ToRole="Uzytkownik" />
+          <NavigationProperty Name="Wpis" Relationship="Self.FK_Powiadomienie_Wpis" FromRole="Powiadomienie" ToRole="Wpis" />
           <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Powiadomienie_Wydarzenie" FromRole="Powiadomienie" ToRole="Wydarzenie" />
         </EntityType>
         <EntityType Name="Przebieg">
@@ -989,6 +973,22 @@
           <Property Name="Tytul" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Przebieg_Wydarzenie" FromRole="Przebieg" ToRole="Wydarzenie" />
           <NavigationProperty Name="Wpis" Relationship="Self.FK_Wpis_Przebieg" FromRole="Przebieg" ToRole="Wpis" />
+        </EntityType>
+        <EntityType Name="Przypomnienie">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="id_wydarzenie" Type="Int32" Nullable="false" />
+          <Property Name="id_uzytkownik" Type="Int32" Nullable="false" />
+          <Property Name="Tresc" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
+          <Property Name="identyfier" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="id_organizator" Type="Int32" />
+          <Property Name="rodzaj" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Przypomnienie_Organizator" FromRole="Przypomnienie" ToRole="Uzytkownik" />
+          <NavigationProperty Name="Uzytkownik1" Relationship="Self.FK_Przypomnienie_Uzytkownik" FromRole="Przypomnienie" ToRole="Uzytkownik" />
+          <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Przypomnienie_Wydarzenie" FromRole="Przypomnienie" ToRole="Wydarzenie" />
         </EntityType>
         <EntityType Name="Uczestnicy">
           <Key>
@@ -1025,9 +1025,9 @@
           <NavigationProperty Name="Grupa" Relationship="Self.FK_Grupa_Uzytkownik" FromRole="Uzytkownik" ToRole="Grupa" />
           <NavigationProperty Name="Odebrane_Wiadomosc" Relationship="Self.FK_Odebrane_Wiadomosc_Do" FromRole="Uzytkownik" ToRole="Odebrane_Wiadomosc" />
           <NavigationProperty Name="Odebrane_Wiadomosc1" Relationship="Self.FK_Odebrane_Wiadomosc_Od" FromRole="Uzytkownik" ToRole="Odebrane_Wiadomosc" />
-          <NavigationProperty Name="Powiadomienia" Relationship="Self.FK_Powiadomienia_Uzytkownik" FromRole="Uzytkownik" ToRole="Powiadomienia" />
-          <NavigationProperty Name="Powiadomienie" Relationship="Self.FK_Powiadomienie_Organizator" FromRole="Uzytkownik" ToRole="Powiadomienie" />
-          <NavigationProperty Name="Powiadomienie1" Relationship="Self.FK_Powiadomienie_Uzytkownik" FromRole="Uzytkownik" ToRole="Powiadomienie" />
+          <NavigationProperty Name="Powiadomienie" Relationship="Self.FK_Powiadomienie_Uzytkownik" FromRole="Uzytkownik" ToRole="Powiadomienie" />
+          <NavigationProperty Name="Przypomnienie" Relationship="Self.FK_Przypomnienie_Organizator" FromRole="Uzytkownik" ToRole="Przypomnienie" />
+          <NavigationProperty Name="Przypomnienie1" Relationship="Self.FK_Przypomnienie_Uzytkownik" FromRole="Uzytkownik" ToRole="Przypomnienie" />
           <NavigationProperty Name="Uczestnicy" Relationship="Self.FK_Uczestnicy_Uzytkownik" FromRole="Uzytkownik" ToRole="Uczestnicy" />
           <NavigationProperty Name="UzytkownicyWGrupie" Relationship="Self.FK_UzytkownicyWGrupie_Uzytkownik" FromRole="Uzytkownik" ToRole="UzytkownicyWGrupie" />
           <NavigationProperty Name="Wpis" Relationship="Self.FK_Wpis_Uzytkownik" FromRole="Uzytkownik" ToRole="Wpis" />
@@ -1059,7 +1059,7 @@
           <Property Name="id_uzytkownik" Type="Int32" Nullable="false" />
           <Property Name="Tytul" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="data_dodania" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Powiadomienia" Relationship="Self.FK_Powiadomienia_Wpis" FromRole="Wpis" ToRole="Powiadomienia" />
+          <NavigationProperty Name="Powiadomienie" Relationship="Self.FK_Powiadomienie_Wpis" FromRole="Wpis" ToRole="Powiadomienie" />
           <NavigationProperty Name="Przebieg" Relationship="Self.FK_Wpis_Przebieg" FromRole="Wpis" ToRole="Przebieg" />
           <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Wpis_Uzytkownik" FromRole="Wpis" ToRole="Uzytkownik" />
           <NavigationProperty Name="Wydarzenie" Relationship="Self.FK_Wpis_Wydarzenie" FromRole="Wpis" ToRole="Wydarzenie" />
@@ -1086,9 +1086,9 @@
           <Property Name="id_organizator" Type="Int32" Nullable="false" />
           <Property Name="DataArchiwizacji" Type="DateTime" Precision="0" />
           <Property Name="Status_Archwizacji" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Powiadomienia" Relationship="Self.FK_Powiadomienia_Wydarzenie" FromRole="Wydarzenie" ToRole="Powiadomienia" />
           <NavigationProperty Name="Powiadomienie" Relationship="Self.FK_Powiadomienie_Wydarzenie" FromRole="Wydarzenie" ToRole="Powiadomienie" />
           <NavigationProperty Name="Przebieg" Relationship="Self.FK_Przebieg_Wydarzenie" FromRole="Wydarzenie" ToRole="Przebieg" />
+          <NavigationProperty Name="Przypomnienie" Relationship="Self.FK_Przypomnienie_Wydarzenie" FromRole="Wydarzenie" ToRole="Przypomnienie" />
           <NavigationProperty Name="Uczestnicy" Relationship="Self.FK_Uczestnicy_Wydarzenie" FromRole="Wydarzenie" ToRole="Uczestnicy" />
           <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Wydarzenie_Uzytkownik" FromRole="Wydarzenie" ToRole="Uzytkownik" />
           <NavigationProperty Name="Wpis" Relationship="Self.FK_Wpis_Wydarzenie" FromRole="Wydarzenie" ToRole="Wpis" />
@@ -1229,54 +1229,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Powiadomienia_Uzytkownik">
-          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
-          <End Role="Powiadomienia" Type="Self.Powiadomienia" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Uzytkownik">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Powiadomienia">
-              <PropertyRef Name="id_uzytkownik" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Powiadomienia_Wpis">
-          <End Role="Wpis" Type="Self.Wpis" Multiplicity="0..1" />
-          <End Role="Powiadomienia" Type="Self.Powiadomienia" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Wpis">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Powiadomienia">
-              <PropertyRef Name="id_wpis" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Powiadomienia_Wydarzenie">
-          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="0..1" />
-          <End Role="Powiadomienia" Type="Self.Powiadomienia" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Wydarzenie">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Powiadomienia">
-              <PropertyRef Name="id_wydarzenie" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Powiadomienie_Organizator">
-          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="0..1" />
-          <End Role="Powiadomienie" Type="Self.Powiadomienie" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Uzytkownik">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Powiadomienie">
-              <PropertyRef Name="id_organizator" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Powiadomienie_Uzytkownik">
           <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
           <End Role="Powiadomienie" Type="Self.Powiadomienie" Multiplicity="*" />
@@ -1289,8 +1241,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Powiadomienie_Wpis">
+          <End Role="Wpis" Type="Self.Wpis" Multiplicity="0..1" />
+          <End Role="Powiadomienie" Type="Self.Powiadomienie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wpis">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Powiadomienie">
+              <PropertyRef Name="id_wpis" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Powiadomienie_Wydarzenie">
-          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="1" />
+          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="0..1" />
           <End Role="Powiadomienie" Type="Self.Powiadomienie" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Wydarzenie">
@@ -1322,6 +1286,42 @@
             </Principal>
             <Dependent Role="Wpis">
               <PropertyRef Name="id_przebieg" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Przypomnienie_Organizator">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="0..1" />
+          <End Role="Przypomnienie" Type="Self.Przypomnienie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Przypomnienie">
+              <PropertyRef Name="id_organizator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Przypomnienie_Uzytkownik">
+          <End Role="Uzytkownik" Type="Self.Uzytkownik" Multiplicity="1" />
+          <End Role="Przypomnienie" Type="Self.Przypomnienie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uzytkownik">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Przypomnienie">
+              <PropertyRef Name="id_uzytkownik" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Przypomnienie_Wydarzenie">
+          <End Role="Wydarzenie" Type="Self.Wydarzenie" Multiplicity="1" />
+          <End Role="Przypomnienie" Type="Self.Przypomnienie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wydarzenie">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Przypomnienie">
+              <PropertyRef Name="id_wydarzenie" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1528,9 +1528,9 @@
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
           <EntitySet Name="Grupa" EntityType="Self.Grupa" />
           <EntitySet Name="Odebrane_Wiadomosc" EntityType="Self.Odebrane_Wiadomosc" />
-          <EntitySet Name="Powiadomienia" EntityType="Self.Powiadomienia" />
           <EntitySet Name="Powiadomienie" EntityType="Self.Powiadomienie" />
           <EntitySet Name="Przebieg" EntityType="Self.Przebieg" />
+          <EntitySet Name="Przypomnienie" EntityType="Self.Przypomnienie" />
           <EntitySet Name="Uczestnicy" EntityType="Self.Uczestnicy" />
           <EntitySet Name="UzytkownicyWGrupie" EntityType="Self.UzytkownicyWGrupie" />
           <EntitySet Name="Uzytkownik" EntityType="Self.Uzytkownik" />
@@ -1570,24 +1570,12 @@
             <End Role="Wiadomosc" EntitySet="Wiadomosc" />
             <End Role="Odebrane_Wiadomosc" EntitySet="Odebrane_Wiadomosc" />
           </AssociationSet>
-          <AssociationSet Name="FK_Powiadomienia_Uzytkownik" Association="Self.FK_Powiadomienia_Uzytkownik">
-            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
-            <End Role="Powiadomienia" EntitySet="Powiadomienia" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Powiadomienia_Wpis" Association="Self.FK_Powiadomienia_Wpis">
-            <End Role="Wpis" EntitySet="Wpis" />
-            <End Role="Powiadomienia" EntitySet="Powiadomienia" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Powiadomienia_Wydarzenie" Association="Self.FK_Powiadomienia_Wydarzenie">
-            <End Role="Wydarzenie" EntitySet="Wydarzenie" />
-            <End Role="Powiadomienia" EntitySet="Powiadomienia" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Powiadomienie_Organizator" Association="Self.FK_Powiadomienie_Organizator">
+          <AssociationSet Name="FK_Powiadomienie_Uzytkownik" Association="Self.FK_Powiadomienie_Uzytkownik">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
             <End Role="Powiadomienie" EntitySet="Powiadomienie" />
           </AssociationSet>
-          <AssociationSet Name="FK_Powiadomienie_Uzytkownik" Association="Self.FK_Powiadomienie_Uzytkownik">
-            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+          <AssociationSet Name="FK_Powiadomienie_Wpis" Association="Self.FK_Powiadomienie_Wpis">
+            <End Role="Wpis" EntitySet="Wpis" />
             <End Role="Powiadomienie" EntitySet="Powiadomienie" />
           </AssociationSet>
           <AssociationSet Name="FK_Powiadomienie_Wydarzenie" Association="Self.FK_Powiadomienie_Wydarzenie">
@@ -1601,6 +1589,18 @@
           <AssociationSet Name="FK_Wpis_Przebieg" Association="Self.FK_Wpis_Przebieg">
             <End Role="Przebieg" EntitySet="Przebieg" />
             <End Role="Wpis" EntitySet="Wpis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Przypomnienie_Organizator" Association="Self.FK_Przypomnienie_Organizator">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Przypomnienie" EntitySet="Przypomnienie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Przypomnienie_Uzytkownik" Association="Self.FK_Przypomnienie_Uzytkownik">
+            <End Role="Uzytkownik" EntitySet="Uzytkownik" />
+            <End Role="Przypomnienie" EntitySet="Przypomnienie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Przypomnienie_Wydarzenie" Association="Self.FK_Przypomnienie_Wydarzenie">
+            <End Role="Wydarzenie" EntitySet="Wydarzenie" />
+            <End Role="Przypomnienie" EntitySet="Przypomnienie" />
           </AssociationSet>
           <AssociationSet Name="FK_Uczestnicy_Uzytkownik" Association="Self.FK_Uczestnicy_Uzytkownik">
             <End Role="Uzytkownik" EntitySet="Uzytkownik" />
@@ -1683,33 +1683,33 @@
           <FunctionImport Name="Grupa_Usun">
             <Parameter Name="Par_IdGrupa" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="Powiadomienia_Add_Wpis">
+          <FunctionImport Name="Powiadomienie_Add_Wpis">
             <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
             <Parameter Name="Par_IdWpis" Mode="In" Type="Int32" />
             <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="Powiadomienia_Edit">
+          <FunctionImport Name="Powiadomienie_Edit">
             <Parameter Name="Par_IdWydarzenie" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="Powiadomienia_Usun">
-            <Parameter Name="Par_IdPowiadomienia" Mode="In" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="Powiadomienia_Wyswietl" ReturnType="Collection(KWRModel.Powiadomienia_Wyswietl_Result)">
-            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
-          </FunctionImport>
           <FunctionImport Name="Powiadomienie_Usun">
-            <Parameter Name="Par_identyfier" Mode="In" Type="String" />
+            <Parameter Name="Par_IdPowiadomienie" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="Powiadomienie_Wyswietl" ReturnType="Collection(KWRModel.Powiadomienie_Wyswietl_Result)">
             <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="Powiadomienie_Zmiana">
-            <Parameter Name="Par_DataPowiadomienia" Mode="In" Type="DateTime" />
-            <Parameter Name="Par_Tresc" Mode="In" Type="String" />
-            <Parameter Name="Par_identyfier" Mode="In" Type="String" />
-          </FunctionImport>
           <FunctionImport Name="Przebieg_Delete">
             <Parameter Name="Par_IdPrzebieg" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Przypomnienie_Usun">
+            <Parameter Name="Par_identyfier" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Przypomnienie_Wyswietl" ReturnType="Collection(KWRModel.Przypomnienie_Wyswietl_Result)">
+            <Parameter Name="Par_IdUzytkownik" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Przypomnienie_Zmiana">
+            <Parameter Name="Par_Data" Mode="In" Type="DateTime" />
+            <Parameter Name="Par_Tresc" Mode="In" Type="String" />
+            <Parameter Name="Par_identyfier" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="Wiadomosc_Przeczytana">
             <Parameter Name="Par_IdWiadomoscOdebrana" Mode="In" Type="Int32" />
@@ -1761,7 +1761,7 @@
             <Parameter Name="Par_id_uzytkownik" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
-        <ComplexType Name="Powiadomienia_Wyswietl_Result">
+        <ComplexType Name="Powiadomienie_Wyswietl_Result">
           <Property Type="Int32" Name="id" Nullable="true" />
           <Property Type="String" Name="Tytul" Nullable="true" MaxLength="100" />
           <Property Type="Int32" Name="rodzaj" Nullable="true" />
@@ -1772,9 +1772,9 @@
           <Property Type="String" Name="Imie1" Nullable="true" MaxLength="30" />
           <Property Type="String" Name="Nazwisko1" Nullable="true" MaxLength="50" />
         </ComplexType>
-        <ComplexType Name="Powiadomienie_Wyswietl_Result">
+        <ComplexType Name="Przypomnienie_Wyswietl_Result">
           <Property Type="Int32" Name="id" Nullable="true" />
-          <Property Type="DateTime" Name="DataPowiadomienia" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="Data" Nullable="false" Precision="23" />
           <Property Type="String" Name="Tresc" Nullable="true" MaxLength="400" />
           <Property Type="String" Name="Tytul" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="identyfier" Nullable="true" MaxLength="500" />
@@ -1902,9 +1902,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Powiadomienia">
-            <EntityTypeMapping TypeName="KWRModel.Powiadomienia">
-              <MappingFragment StoreEntitySet="Powiadomienia">
+          <EntitySetMapping Name="Powiadomienie">
+            <EntityTypeMapping TypeName="KWRModel.Powiadomienie">
+              <MappingFragment StoreEntitySet="Powiadomienie">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="id_uzytkownik" ColumnName="id_uzytkownik" />
                 <ScalarProperty Name="id_wydarzenie" ColumnName="id_wydarzenie" />
@@ -1916,20 +1916,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Powiadomienie">
-            <EntityTypeMapping TypeName="KWRModel.Powiadomienie">
-              <MappingFragment StoreEntitySet="Powiadomienie">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="DataPowiadomienia" ColumnName="DataPowiadomienia" />
-                <ScalarProperty Name="id_wydarzenie" ColumnName="id_wydarzenie" />
-                <ScalarProperty Name="id_uzytkownik" ColumnName="id_uzytkownik" />
-                <ScalarProperty Name="Tresc" ColumnName="Tresc" />
-                <ScalarProperty Name="identyfier" ColumnName="identyfier" />
-                <ScalarProperty Name="id_organizator" ColumnName="id_organizator" />
-                <ScalarProperty Name="rodzaj" ColumnName="rodzaj" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Przebieg">
             <EntityTypeMapping TypeName="KWRModel.Przebieg">
               <MappingFragment StoreEntitySet="Przebieg">
@@ -1937,6 +1923,20 @@
                 <ScalarProperty Name="Opis" ColumnName="Opis" />
                 <ScalarProperty Name="id_wydarzenie" ColumnName="id_wydarzenie" />
                 <ScalarProperty Name="Tytul" ColumnName="Tytul" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Przypomnienie">
+            <EntityTypeMapping TypeName="KWRModel.Przypomnienie">
+              <MappingFragment StoreEntitySet="Przypomnienie">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="id_wydarzenie" ColumnName="id_wydarzenie" />
+                <ScalarProperty Name="id_uzytkownik" ColumnName="id_uzytkownik" />
+                <ScalarProperty Name="Tresc" ColumnName="Tresc" />
+                <ScalarProperty Name="identyfier" ColumnName="identyfier" />
+                <ScalarProperty Name="id_organizator" ColumnName="id_organizator" />
+                <ScalarProperty Name="rodzaj" ColumnName="rodzaj" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2069,12 +2069,12 @@
           <FunctionImportMapping FunctionImportName="Archiwizacja_Wydarzenia" FunctionName="KWRModel.Store.Archiwizacja_Wydarzenia" />
           <FunctionImportMapping FunctionImportName="Dodaj_Uzytkownikow_Grupa" FunctionName="KWRModel.Store.Dodaj_Uzytkownikow_Grupa" />
           <FunctionImportMapping FunctionImportName="Grupa_Usun" FunctionName="KWRModel.Store.Grupa_Usun" />
-          <FunctionImportMapping FunctionImportName="Powiadomienia_Add_Wpis" FunctionName="KWRModel.Store.Powiadomienia_Add_Wpis" />
-          <FunctionImportMapping FunctionImportName="Powiadomienia_Edit" FunctionName="KWRModel.Store.Powiadomienia_Edit" />
-          <FunctionImportMapping FunctionImportName="Powiadomienia_Usun" FunctionName="KWRModel.Store.Powiadomienia_Usun" />
-          <FunctionImportMapping FunctionImportName="Powiadomienia_Wyswietl" FunctionName="KWRModel.Store.Powiadomienia_Wyswietl">
+          <FunctionImportMapping FunctionImportName="Powiadomienie_Add_Wpis" FunctionName="KWRModel.Store.Powiadomienie_Add_Wpis" />
+          <FunctionImportMapping FunctionImportName="Powiadomienie_Edit" FunctionName="KWRModel.Store.Powiadomienie_Edit" />
+          <FunctionImportMapping FunctionImportName="Powiadomienie_Usun" FunctionName="KWRModel.Store.Powiadomienie_Usun" />
+          <FunctionImportMapping FunctionImportName="Powiadomienie_Wyswietl" FunctionName="KWRModel.Store.Powiadomienie_Wyswietl">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="KWRModel.Powiadomienia_Wyswietl_Result">
+              <ComplexTypeMapping TypeName="KWRModel.Powiadomienie_Wyswietl_Result">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="Tytul" ColumnName="Tytul" />
                 <ScalarProperty Name="rodzaj" ColumnName="rodzaj" />
@@ -2087,12 +2087,13 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="Powiadomienie_Usun" FunctionName="KWRModel.Store.Powiadomienie_Usun" />
-          <FunctionImportMapping FunctionImportName="Powiadomienie_Wyswietl" FunctionName="KWRModel.Store.Powiadomienie_Wyswietl">
+          <FunctionImportMapping FunctionImportName="Przebieg_Delete" FunctionName="KWRModel.Store.Przebieg_Delete" />
+          <FunctionImportMapping FunctionImportName="Przypomnienie_Usun" FunctionName="KWRModel.Store.Przypomnienie_Usun" />
+          <FunctionImportMapping FunctionImportName="Przypomnienie_Wyswietl" FunctionName="KWRModel.Store.Przypomnienie_Wyswietl">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="KWRModel.Powiadomienie_Wyswietl_Result">
+              <ComplexTypeMapping TypeName="KWRModel.Przypomnienie_Wyswietl_Result">
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="DataPowiadomienia" ColumnName="DataPowiadomienia" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
                 <ScalarProperty Name="Tresc" ColumnName="Tresc" />
                 <ScalarProperty Name="Tytul" ColumnName="Tytul" />
                 <ScalarProperty Name="identyfier" ColumnName="identyfier" />
@@ -2100,8 +2101,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="Powiadomienie_Zmiana" FunctionName="KWRModel.Store.Powiadomienie_Zmiana" />
-          <FunctionImportMapping FunctionImportName="Przebieg_Delete" FunctionName="KWRModel.Store.Przebieg_Delete" />
+          <FunctionImportMapping FunctionImportName="Przypomnienie_Zmiana" FunctionName="KWRModel.Store.Przypomnienie_Zmiana" />
           <FunctionImportMapping FunctionImportName="Wiadomosc_Przeczytana" FunctionName="KWRModel.Store.Wiadomosc_Przeczytana" />
           <FunctionImportMapping FunctionImportName="Wpis_Delete" FunctionName="KWRModel.Store.Wpis_Delete" />
           <FunctionImportMapping FunctionImportName="Wydarzenie_Uczestnik" FunctionName="KWRModel.Store.Wydarzenie_Uczestnik" />
