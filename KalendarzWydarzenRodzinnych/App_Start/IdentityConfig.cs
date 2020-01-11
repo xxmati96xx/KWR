@@ -37,7 +37,7 @@ namespace KalendarzWydarzenRodzinnych
             // Send the email.
             if (client != null)
             {
-                //await client.SendEmailAsync(msg);
+                await client.SendEmailAsync(msg);
             }
             else
             {
