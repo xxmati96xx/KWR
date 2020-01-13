@@ -112,18 +112,38 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         {
             if (wydarzenie.id == 0)
             {
-                
-                
-                    wydarzenie.id_organizator = Convert.ToInt32(User.Identity.GetUzytkownikId());
-                    dbo.Wydarzenie.Add(wydarzenie);
-                    dbo.SaveChanges();
-                    return RedirectToAction("List");
+
+                if(wydarzenie.DataRozpoczencia < DateTime.Now || wydarzenie.DataZakonczenia < DateTime.Now)
+                {
+                    TempData["message"] = string.Format("Wybrana data nie może być wcześniejsza niż obecna data");
+                    return View("Create",wydarzenie);
+                }
+                if (wydarzenie.DataRozpoczencia > wydarzenie.DataZakonczenia)
+                {
+                    TempData["message"] = string.Format("Data rozpoczęcia wydarzenia musi być wcześniejsza niż data zakończenia");
+                    return View("Create", wydarzenie);
+                }
+
+                wydarzenie.id_organizator = Convert.ToInt32(User.Identity.GetUzytkownikId());
+                dbo.Wydarzenie.Add(wydarzenie);
+                dbo.SaveChanges();
+                return RedirectToAction("List");
                 
             }
             else
             {
                 if (ModelState.IsValid)
                 {
+                    if (wydarzenie.DataRozpoczencia < DateTime.Now || wydarzenie.DataZakonczenia < DateTime.Now)
+                    {
+                        TempData["message"] = string.Format("Wybrana data nie może być wcześniejsza niż obecna data");
+                        return View("Edit", wydarzenie);
+                    }
+                    if (wydarzenie.DataRozpoczencia > wydarzenie.DataZakonczenia)
+                    {
+                        TempData["message"] = string.Format("Data rozpoczęcia wydarzenia musi być wcześniejsza niż data zakończenia");
+                        return View("Edit", wydarzenie);
+                    }
                     dbo.Entry(wydarzenie).State = EntityState.Modified;
                     dbo.SaveChanges();
                     dbo.Powiadomienie_Edit(wydarzenie.id);

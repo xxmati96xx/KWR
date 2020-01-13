@@ -58,13 +58,14 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 TempData["message"] = string.Format("Błąd dostępu");
                 return RedirectToAction("List");
             }
-            Zaproszenie zaproszenie = dbo.Zaproszenie.Find(id);
+            var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
+            Zaproszenie zaproszenie = dbo.Zaproszenie.Where(z => z.id_wydarzenie == id).Where(z => z.Do == id_user).SingleOrDefault();
             if (zaproszenie == null)
             {
                 TempData["message"] = string.Format("Błąd dostępu");
                 return RedirectToAction("List");
             }
-            var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
+           
             if (zaproszenie.Do == id_user)
             {
                 dbo.Zaproszenie_Anuluj(id, id_user);

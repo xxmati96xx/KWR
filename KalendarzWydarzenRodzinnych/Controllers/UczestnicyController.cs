@@ -130,7 +130,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 TempData["message"] = string.Format("Błąd dostępu");
                 return RedirectToAction("List", "Wydarzenie");
             }
-            if (dbo.Uzytkownik.Find(id) == null || dbo.Wydarzenie.Find(idW) == null)
+            if (dbo.Grupa.Find(id) == null || dbo.Wydarzenie.Find(idW) == null)
             {
                 TempData["message"] = string.Format("Błąd dostępu");
                 return RedirectToAction("List", "Wydarzenie");

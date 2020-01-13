@@ -4,7 +4,10 @@
 }
 
 <h2>Dodaj przypomnienie</h2>
-
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-danger">@TempData["message"]</div>
+}
 @using (Html.BeginForm("AddNotificationUsers", "Przypomnienie", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
@@ -45,7 +48,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Dodaj" class="btn btn-primary" />
-                @Html.ActionLink("Anuluj", "GetOpis", "Wydarzenie",new { id = ViewBag.id_wydarzenie}, new { @class = "btn btn-default" })
+                @Html.ActionLink("Anuluj", "GetOpis", "Wydarzenie", new { id = ViewBag.id_wydarzenie }, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>

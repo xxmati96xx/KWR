@@ -81,13 +81,24 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 {
                     if(notification.identyfier == null)
                     {
-                        dbo.Entry(notification).State = EntityState.Modified;
+                    if (notification.Data < DateTime.Now)
+                    {
+                        TempData["message"] = string.Format("Wybrana data nie może być wcześniejsza niż obecna data");
+                        return View(notification);
+                    }
+                    
+                    dbo.Entry(notification).State = EntityState.Modified;
                         dbo.SaveChanges();
                         return RedirectToAction("List");
                     }
                     else
                     {
-                        dbo.Przypomnienie_Zmiana(notification.Data, notification.Tresc, notification.identyfier);
+                    if (notification.Data < DateTime.Now)
+                    {
+                        TempData["message"] = string.Format("Wybrana data nie może być wcześniejsza niż obecna data");
+                        return View(notification);
+                    }
+                    dbo.Przypomnienie_Zmiana(notification.Data, notification.Tresc, notification.identyfier);
                         dbo.SaveChanges();
                         return RedirectToAction("List");
                 }
@@ -185,6 +196,13 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         public ActionResult AddNotification(Przypomnienie notification)
         {
             
+            if(notification.Data < DateTime.Now)
+            {
+                
+                    TempData["message"] = string.Format("Wybrana data nie może być wcześniejsza niż obecna data");
+                    return View("AddNotification", notification);
+                
+            }
             notification.id_uzytkownik = Convert.ToInt32(User.Identity.GetUzytkownikId());
             notification.rodzaj = "Użytkownika";
             
@@ -199,6 +217,13 @@ namespace KalendarzWydarzenRodzinnych.Controllers
         [HttpPost]
         public ActionResult AddNotificationUsers(Przypomnienie notification)
         {
+            if (notification.Data < DateTime.Now)
+            {
+
+                TempData["message"] = string.Format("Wybrana data nie może być wcześniejsza niż obecna data");
+                return View("AddNotificationUsers", notification);
+
+            }
             notification.rodzaj = "Wydarzenia";
             notification.id_organizator = dbo.Wydarzenie.Find(notification.id_wydarzenie).id_organizator;
             string identyfier = Guid.NewGuid().ToString();

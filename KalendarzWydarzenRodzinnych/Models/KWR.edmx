@@ -63,7 +63,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nazwa" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="Opis" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Opis" Type="varchar" MaxLength="200" />
           <Property Name="id_uzytkownik" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Odebrane_Wiadomosc">
@@ -158,7 +158,6 @@
           <Property Name="id_wydarzenie" Type="int" />
           <Property Name="id_przebieg" Type="int" />
           <Property Name="id_uzytkownik" Type="int" Nullable="false" />
-          <Property Name="Tytul" Type="varchar" MaxLength="100" />
           <Property Name="data_dodania" Type="datetime" />
         </EntityType>
         <EntityType Name="WpisZdjecia">
@@ -928,7 +927,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nazwa" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Opis" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Opis" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Name="id_uzytkownik" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Uzytkownik" Relationship="Self.FK_Grupa_Uzytkownik" FromRole="Grupa" ToRole="Uzytkownik" />
           <NavigationProperty Name="UzytkownicyWGrupie" Relationship="Self.FK_UzytkownicyWGrupie_Grupa" FromRole="Grupa" ToRole="UzytkownicyWGrupie" />
@@ -1057,7 +1056,6 @@
           <Property Name="id_wydarzenie" Type="Int32" />
           <Property Name="id_przebieg" Type="Int32" />
           <Property Name="id_uzytkownik" Type="Int32" Nullable="false" />
-          <Property Name="Tytul" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="data_dodania" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Powiadomienie" Relationship="Self.FK_Powiadomienie_Wpis" FromRole="Wpis" ToRole="Powiadomienie" />
           <NavigationProperty Name="Przebieg" Relationship="Self.FK_Wpis_Przebieg" FromRole="Wpis" ToRole="Przebieg" />
@@ -1989,7 +1987,6 @@
                 <ScalarProperty Name="id_wydarzenie" ColumnName="id_wydarzenie" />
                 <ScalarProperty Name="id_przebieg" ColumnName="id_przebieg" />
                 <ScalarProperty Name="id_uzytkownik" ColumnName="id_uzytkownik" />
-                <ScalarProperty Name="Tytul" ColumnName="Tytul" />
                 <ScalarProperty Name="data_dodania" ColumnName="data_dodania" />
               </MappingFragment>
             </EntityTypeMapping>

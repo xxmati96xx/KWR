@@ -28,7 +28,6 @@ namespace KalendarzWydarzenRodzinnych.Models
         public Nullable<int> id_wydarzenie { get; set; }
         public Nullable<int> id_przebieg { get; set; }
         public int id_uzytkownik { get; set; }
-        public string Tytul { get; set; }
         public Nullable<System.DateTime> data_dodania { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

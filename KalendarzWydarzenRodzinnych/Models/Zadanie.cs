@@ -21,6 +21,8 @@ namespace KalendarzWydarzenRodzinnych.Models
         }
     
         public int id { get; set; }
+        [Required]
+        [StringLength(50)]
         [Display(Name = "Nazwa")]
         public string Zadanie1 { get; set; }
         public int id_wydarzenie { get; set; }

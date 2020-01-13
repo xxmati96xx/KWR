@@ -180,7 +180,11 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    
+                    if (zadanie.liczba_uczestnikow < 0)
+                    {
+                        TempData["message"] = string.Format("Wybrana liczba uczestników nie może być mniejsza od 0");
+                        return View(zadanie);
+                    }
                     dbo.Zadanie.Add(zadanie);
                     dbo.SaveChanges();
                     return RedirectToAction("List",new { id = zadanie.id_wydarzenie });
@@ -194,6 +198,11 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    if (zadanie.liczba_uczestnikow < 0)
+                    {
+                        TempData["message"] = string.Format("Wybrana liczba uczestników nie może być mniejsza od 0");
+                        return View(zadanie);
+                    }
                     dbo.Entry(zadanie).State = EntityState.Modified;
                     dbo.SaveChanges();
                     dbo.Powiadomienie_Edit(zadanie.id_wydarzenie);

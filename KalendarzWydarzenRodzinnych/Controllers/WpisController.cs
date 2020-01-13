@@ -671,7 +671,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 return RedirectToAction("List", "Wydarzenie");
             }
             var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
-            if (dbo.Wydarzenie.Find(wpis.id_wydarzenie).id_organizator == id_user)
+            if (dbo.Wydarzenie.Find(wpis.id_wydarzenie).id_organizator == id_user || wpis.id_uzytkownik == id_user)
             {
                 if (dbo.Wydarzenie.Find(wpis.id_wydarzenie).DataArchiwizacji != null)
                 {
@@ -684,7 +684,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             else
             {
                 TempData["message"] = string.Format("Brak dostępu");
-                return RedirectToAction("List", "Przebieg", new { id = wpis.id_wydarzenie });
+                return RedirectToAction("List", "Wpis", new { id = wpis.id_wydarzenie });
             }
 
         }
