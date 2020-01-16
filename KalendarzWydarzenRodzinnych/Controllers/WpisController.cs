@@ -58,7 +58,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 ViewBag.id_wydarzenie = id;
                 ViewBag.id_organizator = dbo.Wydarzenie.Find(id).id_organizator;
                 ViewBag.zdjecia = dbo.WpisZdjecia.Include(wz => wz.Wpis).Where(wz => wz.Wpis.id_wydarzenie == id);
-                // ViewBag.wpisWpisZdjecia = new WpisWpisZdjecia();
+                
                 return View(wpis.ToList());
             }
             else
@@ -108,7 +108,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 ViewBag.id_wydarzenie = id;
                 ViewBag.id_organizator = dbo.Wydarzenie.Find(id).id_organizator;
                 ViewBag.zdjecia = dbo.WpisZdjecia.Include(wz => wz.Wpis).Where(wz => wz.Wpis.id_wydarzenie == id);
-                // ViewBag.wpisWpisZdjecia = new WpisWpisZdjecia();
+                
                 return View(wpis.ToList());
             }
             else
@@ -381,19 +381,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 return RedirectToAction("List", "Wpis", new { id = id });
             }
         }
-       // [HttpPost]
-       // public ActionResult DeleteFotoForm(List<int> checkbox)
-       // {
-            //ViewBag.zdjecia = dbo.WpisZdjecia;
-         //   List<WpisZdjecia> wpisZdjecia = new List<WpisZdjecia>();
-        //    foreach(int idZ in checkbox)
-        //    {
-        //        WpisZdjecia wpis = new WpisZdjecia();
-        //        wpis = dbo.WpisZdjecia.Find(idZ);
-        //        wpisZdjecia.Add(wpis);
-        //    }
-//      return DeleteFoto(wpisZdjecia);
-      //  }
+       
 
         [HttpPost]
         public ActionResult DeleteFotoConfirm(List<int> checkbox, int? id_wpis)
@@ -503,7 +491,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             }
            
 
-            //var id_wydarzenie = dbo.Wpis.Find(id).id_wydarzenie;
+            
            
             Wpis wpis = dbo.Wpis.Include(w=>w.Uzytkownik).Include(w=>w.Wydarzenie).SingleOrDefault(x => x.id == id); ;            
             ViewBag.zdjecia = dbo.WpisZdjecia.Where(wz => wz.id_wpis == id);      
@@ -585,10 +573,10 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             else
             {
                 TempData["message"] = string.Format("Brak dostępu");
-                return RedirectToAction("List", new { id = id });
+                return RedirectToAction("List", new { id = wpis.id_wydarzenie });
             }
         }
-
+/*
         public ActionResult DownloadAll(int? id) //Poprawić
         {
             if (id == null)
@@ -656,6 +644,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 return RedirectToAction("List", new { id = id });
             }
         }
+        */
         [HttpGet]
         public ActionResult Delete(int? id)
         {

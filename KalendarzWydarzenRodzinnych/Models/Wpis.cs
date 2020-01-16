@@ -24,6 +24,7 @@ namespace KalendarzWydarzenRodzinnych.Models
     
         public int id { get; set; }
         [DataType(DataType.MultilineText)]
+        [StringLength(4000)]
         public string Relacja { get; set; }
         public Nullable<int> id_wydarzenie { get; set; }
         public Nullable<int> id_przebieg { get; set; }

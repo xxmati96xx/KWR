@@ -23,8 +23,12 @@ namespace KalendarzWydarzenRodzinnych.Models
     
         public int id { get; set; }
         [DataType(DataType.MultilineText)]
+        [Required]
+        [StringLength(8000)]
         public string Opis { get; set; }
         public int id_wydarzenie { get; set; }
+        [Required]
+        [StringLength(50)]
         [Display(Name = "Tytu³")]
         public string Tytul { get; set; }
     

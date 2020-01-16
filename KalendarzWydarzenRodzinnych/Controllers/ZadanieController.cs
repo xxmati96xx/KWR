@@ -266,7 +266,7 @@ namespace KalendarzWydarzenRodzinnych.Controllers
             var id_user = Convert.ToInt32(User.Identity.GetUzytkownikId());
             if (dbo.Wydarzenie.Find(zadanie.id_wydarzenie).id_organizator == id_user)
             {
-                if (dbo.Wydarzenie.Find(id).DataArchiwizacji != null)
+                if (dbo.Wydarzenie.Find(zadanie.id_wydarzenie).DataArchiwizacji != null)
                 {
                     TempData["message"] = string.Format("Brak dostępu");
                     return RedirectToAction("List",new { id = id });

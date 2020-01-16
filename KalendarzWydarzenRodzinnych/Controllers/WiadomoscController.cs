@@ -88,8 +88,24 @@ namespace KalendarzWydarzenRodzinnych.Controllers
                 Wiadomosc wiadomosc = message.wiadomosc;
                 dbo.Wiadomosc.Add(wiadomosc);
                 dbo.SaveChanges();
-                
-                    foreach (var item in message.SelectedID)
+                Wyslane_Wiadomosc send_messageU = new Wyslane_Wiadomosc();
+                Odebrane_Wiadomosc received_messageU = new Odebrane_Wiadomosc();
+                if(message.Do != 0)
+                {
+                    send_messageU.id_wiadomosc = wiadomosc.id;
+                    send_messageU.Od = Convert.ToInt32(User.Identity.GetUzytkownikId());
+                    send_messageU.Do = message.Do;
+                    dbo.Wyslane_Wiadomosc.Add(send_messageU);
+                    dbo.SaveChanges();
+                    received_messageU.id_wiadomosc = wiadomosc.id;
+                    received_messageU.id = send_messageU.id;
+                    received_messageU.Od = Convert.ToInt32(User.Identity.GetUzytkownikId());
+                    received_messageU.Do = message.Do;
+                    dbo.Odebrane_Wiadomosc.Add(received_messageU);
+                    dbo.SaveChanges();
+                }
+            
+                foreach (var item in message.SelectedID)
                     {
                         Wyslane_Wiadomosc send_message = new Wyslane_Wiadomosc();
                         send_message.id_wiadomosc = wiadomosc.id;

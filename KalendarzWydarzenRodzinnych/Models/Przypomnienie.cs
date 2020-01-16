@@ -23,6 +23,7 @@ namespace KalendarzWydarzenRodzinnych.Models
         public int id_uzytkownik { get; set; }
         [Display(Name = "Treœæ")]
         [DataType(DataType.MultilineText)]
+        [StringLength(400)]
         public string Tresc { get; set; }
         
         public string identyfier { get; set; }

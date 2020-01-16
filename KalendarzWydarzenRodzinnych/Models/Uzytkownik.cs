@@ -38,7 +38,12 @@ namespace KalendarzWydarzenRodzinnych.Models
         }
     
         public int id { get; set; }
+        [Required]
+        [StringLength(30)]
+        [Display(Name = "Imiê")]
         public string Imie { get; set; }
+        [Required]
+        [StringLength(50)]
         public string Nazwisko { get; set; }
         [Display(Name = "Data urodzenia")]
         [DataType(DataType.DateTime)]
@@ -46,8 +51,11 @@ namespace KalendarzWydarzenRodzinnych.Models
         public System.DateTime DataUrodzenia { get; set; }
         [Display(Name = "Zdjêcie")]
         public string Zdjcie { get; set; }
+        [StringLength(12)]
         [Display(Name = "Numer telefonu")]
         public string NrTelefonu { get; set; }
+        [Required]
+        [StringLength(50)]
         [Display(Name = "Adres e-mail")]
         public string AdresEmail { get; set; }
         [NotMapped]
